@@ -12,6 +12,7 @@ dependencies = [
 dev = [
     "pytest>=8.4.1",
     "ruff>=0.12.4",
+    "pytest-approval",
 ]
 
 [tool.ruff]
@@ -45,3 +46,6 @@ select = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.uv.sources]
+pytest-approval = { git = "https://git.sr.ht/~talfus-laddus/pytest-approval" }
