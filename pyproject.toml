@@ -30,7 +30,18 @@ select = [
     "Q",    # flake8-quotes
     "W",    # pycodestyle Warning
     "C90",  # mccabe
+    "TRY",  # tryceratops
+    "RUF",  # ruff-specific rules
+    "FURB", # refurb
+    "PERF", # perflint
+    "S",    # bandit
+    "B",    # bugbear
+    "SIM",  # simplify
 ]
+
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = ["S101"]  # ignore usage of asserts in tests
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
