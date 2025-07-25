@@ -7,7 +7,7 @@
     - cd $CI_PROJECT_DIR
     - ruff --version
 
-Ruff Check:
+ruff-check:
   extends: .base_ruff
   script:
     - ruff check --output-format=gitlab > code-quality-report.json
@@ -15,7 +15,28 @@ Ruff Check:
     reports:
       codequality: $CI_PROJECT_DIR/code-quality-report.json
 
-Ruff Format:
+ruff-format:
   extends: .base_ruff
   script:
     - ruff format --diff --check
+
+uv:
+  # https://docs.astral.sh/uv/guides/integration/gitlab/
+  variables:
+    UV_VERSION: "0.5"
+    PYTHON_VERSION: "3.13"
+    BASE_LAYER: bookworm-slim
+    UV_LINK_MODE: copy
+    UV_CACHE_DIR: .uv-cache
+  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  cache:
+    - key:
+        files:
+          - uv.lock
+      paths:
+        - $UV_CACHE_DIR
+  before_script:
+    - apt-get update && apt-get install -y git
+  script:
+    - uv run pytest
+    - uv cache prune --ci
