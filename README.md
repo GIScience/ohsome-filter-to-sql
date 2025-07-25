@@ -1,6 +1,7 @@
 ## Development Setup
 
 ```sh
+uv run pre-commit install
 uv run pytest
 ```
 
