@@ -1,7 +1,18 @@
+import sqlite3
+
 import pytest
 from pytest_approval import verify
 
 from ohsome_filter_to_sql.main import build_tree, main
+
+
+def validate(query: str):
+    con = sqlite3.connect(":memory:")
+    try:
+        con.execute(query)
+    except sqlite3.OperationalError as error:
+        if "syntax error" in str(error):
+            raise AssertionError("Syntax error in SQL query") from error
 
 
 @pytest.mark.parametrize(
@@ -19,7 +30,17 @@ def test_build_tree(filter):
 
 @pytest.mark.parametrize(
     "filter",
-    ("natural=tree",),
+    (
+        "natural=tree",  #             tagMatch
+        '"type"=boundary',  #          tagMatch w/ keyword as key
+        'name="other"',  #             tagMatch w/ keyword as value
+        "natural=*",  #                tagWildcardMatch
+        "natural!=tree",  #            tagNotMatch
+        "natural!=*",  #               tagNotWildcardMatch
+        # "natural in (tree, water)",  # tagListMatch  # TODO
+    ),
 )
 def test_main(filter):
-    assert verify(main(filter))
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
