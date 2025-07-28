@@ -1,3 +1,5 @@
+# README
+
 ## Development Setup
 
 ```sh
@@ -29,3 +31,8 @@ mv *.py ohsome_filter_to_sql/
 - [ohsome filter language - grammar](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsome-now/ohsome-now-app/-/blob/main/backend/src/main/antlr/org/heigit/ohsome/filter/OFL.g4) by Matthias Merdes
 - [ohsome filter language - grammar](https://gitlab.heigit.org/-/snippets/62) by Martin Raifer (based upon above grammar)
 - [ohsome filter to SQL in Java](https://gitlab.heigit.org/martin/ohsome-filter-language-example/-/blob/main/src/main/java/org/heigit/ohsome/OhsomeFilterToSql.java?ref_type=heads) by Martin Raifer (uses above grammar)
+
+## Resources
+
+- [ANTLR with Python - Introduction](https://yetanotherprogrammingblog.medium.com/antlr-with-python-974c756bdb1b)
+- [ANTLR Listeners](https://github.com/antlr/antlr4/blob/master/doc/listeners.md)
