@@ -3,6 +3,7 @@ name = "ohsome-filter-to-sql"
 version = "0.1.0"
 description = ""
 readme = "README.md"
+authors = [{email="ohsome@heigit.org"}, {email="martin.raifer@heigit.org"}]
 requires-python = ">=3.13"
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
