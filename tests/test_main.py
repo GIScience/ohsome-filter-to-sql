@@ -12,6 +12,6 @@ from ohsome_filter_to_sql.main import build_tree
         "id:(node/1, way/2) and type:way",
     ),
 )
-def test_tag(filter):
+def test_build_tree(filter):
     tree = build_tree(filter).toStringTree()
     assert verify(tree)
