@@ -44,10 +44,14 @@ select = [
 
 
 [tool.ruff.lint.extend-per-file-ignores]
-"tests/*" = ["S101"]  # ignore usage of asserts in tests
+"tests/*" = ["S101", "S608"]  # #S101 usage of asserts; S608 possible SQL injection
+
+[tool.pytest]
+addopts = ["-s"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.uv.sources]
 pytest-approval = { git = "https://git.sr.ht/~talfus-laddus/pytest-approval" }
+

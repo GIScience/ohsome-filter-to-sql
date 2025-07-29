@@ -12,7 +12,7 @@ def validate(query: str):
         con.execute(query)
     except sqlite3.OperationalError as error:
         if "syntax error" in str(error):
-            raise AssertionError("Syntax error in SQL query") from error
+            raise AssertionError("Syntax error in SQL query") from error  # noqa: TRY003
 
 
 @pytest.mark.parametrize(
