@@ -46,22 +46,20 @@ class OFLToSql(OFLListener):
 
     def exitTagListMatch(self, ctx):  # noqa
         # TODO: does not work as expected
-        values = parse_list(ctx)
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "key in (" as well as last part closing list with ")"
+        for child in children[3:-1]:
+            if child == ",":  # skip comma in list in between brackets
+                continue
+            self.stack.pop()  # remove STRING from stack wich are part of TagListMatch
+            values.append(child)
         key = self.stack.pop()
-        self.stack.append(key + f" IN ({''.join(values)})")
+        self.stack.append(key + f" IN ({', '.join(values)})")
 
 
 def unescape(string: str):
     return string.replace('"', "")
-
-
-def parse_list(ctx):
-    values = []
-    children = list(ctx.getChildren())
-    #  for i in range(3, len(children), 2):
-    for child in children[3:-1]:
-        values.append(child.getText())
-    return values
 
 
 def main(filter: str):

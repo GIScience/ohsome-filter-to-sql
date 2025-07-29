@@ -31,13 +31,15 @@ def test_build_tree(filter):
 @pytest.mark.parametrize(
     "filter",
     (
-        "natural=tree",  #             tagMatch
-        '"type"=boundary',  #          tagMatch w/ keyword as key
-        'name="other"',  #             tagMatch w/ keyword as value
-        "natural=*",  #                tagWildcardMatch
-        "natural!=tree",  #            tagNotMatch
-        "natural!=*",  #               tagNotWildcardMatch
-        # "natural in (tree, water)",  # tagListMatch  # TODO
+        "natural=tree",  #                tagMatch
+        '"type"=boundary',  #             tagMatch w/ keyword as key
+        'name="other"',  #                tagMatch w/ keyword as value
+        "natural=*",  #                   tagWildcardMatch
+        "natural!=tree",  #               tagNotMatch
+        "natural!=*",  #                  tagNotWildcardMatch
+        "natural in (tree, water)",  #    tagListMatch
+        '"type" in (boundary, route)',  # tagListMatch w/keyword as key
+        "natural in (tree, other)",  #    tagListMatch w/keyword unquoted as value
     ),
 )
 def test_main(filter):
