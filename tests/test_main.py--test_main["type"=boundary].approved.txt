@@ -1,1 +1,1 @@
-type = boundary
+tags->>'type' = 'boundary'

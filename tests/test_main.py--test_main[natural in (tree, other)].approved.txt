@@ -1,1 +1,1 @@
-natural IN (tree, other)
+tags->>'natural' IN ('tree', 'other')

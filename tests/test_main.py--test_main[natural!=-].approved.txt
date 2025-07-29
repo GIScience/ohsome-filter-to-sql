@@ -1,1 +1,1 @@
-natural IS NULL
+tags->>'natural' IS NULL

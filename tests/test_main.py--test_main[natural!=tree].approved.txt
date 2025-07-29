@@ -1,1 +1,1 @@
-natural != tree
+tags->>'natural' != 'tree'

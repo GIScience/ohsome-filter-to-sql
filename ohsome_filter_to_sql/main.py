@@ -29,20 +29,20 @@ class OFLToSql(OFLListener):
     def exitTagMatch(self, ctx):  # noqa
         value = self.stack.pop()
         key = self.stack.pop()
-        self.stack.append(key + " = " + value)
+        self.stack.append(f"tags->>'{key}' = '{value}'")
 
     def exitTagWildcardMatch(self, ctx):  # noqa
         key = self.stack.pop()
-        self.stack.append(key + " IS NOT NULL")
+        self.stack.append(f"tags->>'{key}' IS NOT NULL")
 
     def exitTagNotMatch(self, ctx):  # noqa
         value = self.stack.pop()
         key = self.stack.pop()
-        self.stack.append(key + " != " + value)
+        self.stack.append(f"tags->>'{key}' != '{value}'")
 
     def exitTagNotWildcardMatch(self, ctx):  # noqa
         key = self.stack.pop()
-        self.stack.append(key + " IS NULL")
+        self.stack.append(f"tags->>'{key}' IS NULL")
 
     def exitTagListMatch(self, ctx):  # noqa
         # TODO: does not work as expected
@@ -57,7 +57,8 @@ class OFLToSql(OFLListener):
             self.stack.pop()
             values.append(child)
         key = self.stack.pop()
-        self.stack.append(key + f" IN ({', '.join(values)})")
+        values_as_string = "', '".join(values)
+        self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
 
 
 def unescape(string: str):
