@@ -1,0 +1,1 @@
+tags->>'natural' = 'tree' AND tags->>'power' = 'plant'

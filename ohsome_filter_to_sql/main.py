@@ -13,6 +13,13 @@ class OFLToSql(OFLListener):
         self.stack: deque = deque()
 
     def exitExpression(self, ctx):  # noqa
+        """Handle expression compositions.
+
+        '(' expression ')'
+        NOT expression
+        expression AND expression
+        expression OR expression
+        """
         if ctx.getChildCount() == 3:
             if ctx.getChild(0).getText() == ("(") and ctx.getChild(2).getText() == ")":
                 expression = self.stack.pop()
@@ -20,8 +27,8 @@ class OFLToSql(OFLListener):
             else:
                 right = self.stack.pop()
                 left = self.stack.pop()
-                operator = ctx.getChild(1).getText()
-                self.stack.append(left + " " + operator.toUpperCase() + " " + right)
+                operator = ctx.getChild(1).getText().upper()  # AND, OR, NOT
+                self.stack.append(f"{left} {operator} {right}")
 
     def exitString(self, ctx):  # noqa
         self.stack.append(unescape(ctx.getChild(0).getText()))

@@ -1,0 +1,1 @@
+(tags->>'type' = 'boundary' OR tags->>'name' = 'other') AND tags->>'natural' = 'tree'

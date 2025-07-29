@@ -42,7 +42,34 @@ def test_build_tree(filter):
         "natural in (tree, other)",  #    tagListMatch w/keyword unquoted as value
     ),
 )
-def test_main(filter):
+def test_tag_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+def test_expression_and_expression():
+    filter = "natural=tree and power=plant"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+def test_expression_or_expression():
+    filter = "natural=tree or power=plant"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "(natural=tree)",
+        '("type"=boundary or name="other") and natural=tree',
+    ),
+)
+def test_expression_in_brakets(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
