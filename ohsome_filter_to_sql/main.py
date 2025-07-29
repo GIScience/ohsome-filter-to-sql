@@ -50,9 +50,11 @@ class OFLToSql(OFLListener):
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "key in (" as well as last part closing list with ")"
         for child in children[3:-1]:
-            if child == ",":  # skip comma in list in between brackets
+            # skip comma in list in between brackets
+            if child == ",":
                 continue
-            self.stack.pop()  # remove STRING from stack wich are part of TagListMatch
+            # remove STRING from stack wich are part of TagListMatch
+            self.stack.pop()
             values.append(child)
         key = self.stack.pop()
         self.stack.append(key + f" IN ({', '.join(values)})")
