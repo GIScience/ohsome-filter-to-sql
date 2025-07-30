@@ -108,6 +108,10 @@ class OFLToSql(OFLListener):
         values_as_string = " OR ".join(values)
         self.stack.append(values_as_string)
 
+    def exitHashtagMatch(self, ctx):
+        hashtag = self.stack.pop()
+        self.stack.append(f"'{hashtag}' = any(hashtags) ")
+
 
 def unescape(string: str):
     return string.replace('"', "")

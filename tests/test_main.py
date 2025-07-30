@@ -149,3 +149,10 @@ def test_type_id_list_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+def test_hashtag_match():
+    filter = "hashtag:missingmaps"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
