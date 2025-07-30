@@ -61,8 +61,8 @@ class OFLToSql(OFLListener):
         self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
 
     def exitTypeMatch(self, ctx):
-        type_ = ctx.getChild(2).getText().upper()  # NODE, WAY, RELATION
-        self.stack.append(f"osmType = '{type_}'")
+        type_ = ctx.getChild(2).getText()  # NODE, WAY, RELATION
+        self.stack.append(f"osmType = '{type_.upper()}'")
 
     def exitIdMatch(self, ctx):
         id = ctx.getChild(2).getText()
@@ -70,7 +70,7 @@ class OFLToSql(OFLListener):
 
     def exitTypeIdMatch(self, ctx):
         type_, id = ctx.getChild(2).getText().split("/")
-        self.stack.append(f"osmType = '{type_}' AND osmId = '{id}'")
+        self.stack.append(f"osmType = '{type_.upper()}' AND osmId = '{id}'")
 
     def exitIdRangeMatch(self, ctx):
         child = ctx.getChild(3).getText()
@@ -95,19 +95,18 @@ class OFLToSql(OFLListener):
         values_as_string = "', '".join(values)
         self.stack.append(f"osmId IN ('{values_as_string}')")
 
-    def parse_list(self, children) -> str:
+    def exitTypeIdListMatch(self, ctx):
         values = []
-        children = list(child.getText() for child in children)
-        # skip first part denoting "key in (" or "id:("
-        # as well as last part closing list with ")"
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "id:(" as well as last part closing list with ")"
         for child in children[3:-1]:
             # skip comma in list in between brackets
             if child == ",":
                 continue
-            # remove STRING from stack wich are part of *ListMatch
-            self.stack.pop()
-            values.append(child)
-        return "', '".join(values)
+            type_, id = child.split("/")
+            values.append(f"(osmId = '{id}' AND osmType = '{type_.upper()}')")
+        values_as_string = " OR ".join(values)
+        self.stack.append(values_as_string)
 
 
 def unescape(string: str):

@@ -1,1 +1,1 @@
-osmType = 'relation' AND osmId = '3644187633'
+osmType = 'RELATION' AND osmId = '3644187633'

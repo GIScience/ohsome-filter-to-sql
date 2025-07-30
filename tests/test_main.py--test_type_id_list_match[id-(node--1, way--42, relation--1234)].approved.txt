@@ -1,0 +1,1 @@
+(osmId = '1' AND osmType = 'NODE') OR (osmId = '42' AND osmType = 'WAY') OR (osmId = '1234' AND osmType = 'RELATION')

@@ -136,3 +136,16 @@ def test_id_list_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "id:(node/1)",
+        "id:(node/1, way/42, relation/1234)",
+    ),
+)
+def test_type_id_list_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
