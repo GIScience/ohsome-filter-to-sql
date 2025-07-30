@@ -79,6 +79,16 @@ class OFLToSql(OFLListener):
         type_, id = ctx.getChild(2).getText().split("/")
         self.stack.append(f"osmType = '{type_}' AND osmId = '{id}'")
 
+    def exitIdRangeMatch(self, ctx):  # noqa
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(f"osmID >= '{lower_bound}' AND osmID <= '{upper_bound}'")
+        elif lower_bound:
+            self.stack.append(f"osmID >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"osmID <= '{upper_bound}'")
+
 
 def unescape(string: str):
     return string.replace('"', "")

@@ -108,3 +108,18 @@ def test_type_id_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "id:(1..9999)",
+        "id:(..9999)",
+        "id:(1..)",
+    ),
+)
+def test_id_range_match(filter):
+    # TODO: should operator (..) and operands separated by space be valid?
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)

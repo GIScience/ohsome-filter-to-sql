@@ -1,0 +1,1 @@
+osmID >= '1' AND osmID <= '9999'
