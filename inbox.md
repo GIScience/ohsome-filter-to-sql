@@ -1,0 +1,3 @@
+- [ ] idRange: Should operator (..) and operands separated by space be valid?
+  - Examples given by the docs have spaces
+- [ ] Feature: How could we du substring queries in ohsome filter language like SQL substring
