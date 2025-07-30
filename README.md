@@ -45,6 +45,10 @@ uv run antlr4 -Dlanguage=Python3 OFL.g4
 mv *.py ohsome_filter_to_sql/
 ```
 
+## Inbox
+
+For open tasks, please take a look at [inbox.md](inbox.md)
+
 ## Previous Work
 
 - [ohsome filter language - grammar](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsome-now/ohsome-now-app/-/blob/main/backend/src/main/antlr/org/heigit/ohsome/filter/OFL.g4) by Matthias Merdes
