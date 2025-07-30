@@ -30,20 +30,23 @@ class OFLToSql(OFLListener):
     def exitTagMatch(self, ctx):
         value = self.stack.pop()
         key = self.stack.pop()
-        self.stack.append(f"tags->>'{key}' = '{value}'")
+        # @> Does the first JSON value contain the second?
+        self.stack.append("tags @> '{\"" + key + '": "' + value + "\"}'")
 
     def exitTagWildcardMatch(self, ctx):
         key = self.stack.pop()
-        self.stack.append(f"tags->>'{key}' IS NOT NULL")
+        self.stack.append(f"tags ? '{key}'")
 
     def exitTagNotMatch(self, ctx):
         value = self.stack.pop()
         key = self.stack.pop()
-        self.stack.append(f"tags->>'{key}' != '{value}'")
+        self.stack.append(
+            f"tags ? '{key}' AND NOT " + "tags @> '{\"" + key + '": "' + value + "\"}'"
+        )
 
     def exitTagNotWildcardMatch(self, ctx):
         key = self.stack.pop()
-        self.stack.append(f"tags->>'{key}' IS NULL")
+        self.stack.append(f"NOT tags?'{key}'")
 
     def exitTagListMatch(self, ctx):
         values = []

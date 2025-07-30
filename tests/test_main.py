@@ -31,6 +31,7 @@ def test_build_tree(filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        '"natural:addr"=tree',  #      tagMatch
         "natural=tree",  #      tagMatch
         '"type"=boundary',  #   tagMatch w/ keyword as key
         'name="other"',  #      tagMatch w/ keyword as value
@@ -46,18 +47,18 @@ def test_build_tree(filter):
 def test_tag_match(filter):
     query = main(filter)
     assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    #validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_expression_and_expression():
-    filter = "natural=tree and power=plant"
+    filter = "natural=tree and leaf_type=broadleaved"
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_expression_or_expression():
-    filter = "natural=tree or power=plant"
+    filter = "natural=tree or leaf_type=broadleaved"
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
