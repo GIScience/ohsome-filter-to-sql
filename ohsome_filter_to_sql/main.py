@@ -13,13 +13,7 @@ class OFLToSql(OFLListener):
         self.stack: deque = deque()
 
     def exitExpression(self, ctx):
-        """Handle expression compositions.
-
-        '(' expression ')'
-        NOT expression
-        expression AND expression
-        expression OR expression
-        """
+        """Handle expression compositions: (), NOT, AND, OR"""
         if ctx.getChildCount() == 3:
             if ctx.getChild(0).getText() == ("(") and ctx.getChild(2).getText() == ")":
                 expression = self.stack.pop()
@@ -59,11 +53,11 @@ class OFLToSql(OFLListener):
             # skip comma in list in between brackets
             if child == ",":
                 continue
-            # remove STRING from stack wich are part of TagListMatch
+            # remove STRING from stack wich are part of *ListMatch
             self.stack.pop()
             values.append(child)
-        key = self.stack.pop()
         values_as_string = "', '".join(values)
+        key = self.stack.pop()
         self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
 
     def exitTypeMatch(self, ctx):
@@ -87,6 +81,33 @@ class OFLToSql(OFLListener):
             self.stack.append(f"osmID >= '{lower_bound}'")
         elif upper_bound:
             self.stack.append(f"osmID <= '{upper_bound}'")
+
+    def exitIdListMatch(self, ctx):
+        # differs from TagListMatch insofar that no STRING needs to be popped from stack
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "id:(" as well as last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            values.append(child)
+        values_as_string = "', '".join(values)
+        self.stack.append(f"osmId IN ('{values_as_string}')")
+
+    def parse_list(self, children) -> str:
+        values = []
+        children = list(child.getText() for child in children)
+        # skip first part denoting "key in (" or "id:("
+        # as well as last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            # remove STRING from stack wich are part of *ListMatch
+            self.stack.pop()
+            values.append(child)
+        return "', '".join(values)
 
 
 def unescape(string: str):

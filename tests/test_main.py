@@ -40,6 +40,7 @@ def test_build_tree(filter):
         "natural in (tree, water)",  #    tagListMatch
         '"type" in (boundary, route)',  # tagListMatch w/keyword as key
         "natural in (tree, other)",  #    tagListMatch w/keyword unquoted as value
+        "natural in (tree)",  #           tagListMatch w/keyword with single value
     ),
 )
 def test_tag_match(filter):
@@ -119,7 +120,19 @@ def test_type_id_match(filter):
     ),
 )
 def test_id_range_match(filter):
-    # TODO: should operator (..) and operands separated by space be valid?
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "id:(1)",
+        "id:(1, 42, 1234)",
+    ),
+)
+def test_id_list_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
