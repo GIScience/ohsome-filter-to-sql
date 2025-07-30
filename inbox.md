@@ -2,3 +2,8 @@
 - [ ] idRange: Should operator (..) and operands separated by space be valid?
   - Examples given by the docs have spaces
 - [ ] Feature: How could we du substring queries in ohsome filter language like SQL substring
+- [ ] Is `tags?'natural'` more efficient than `tags->>natural NOT NULL`?
+- [ ] Is `tags@>{'natural': 'tree'}` more efficient than `tags->>'natural' = 'tree'` for tag match?
+- [ ] Is `tags @> {'highway': 'primary'} or tags @> {'highway': 'secondary'}` more efficient then `tags->>highway in (primary, secondary)`?
+- [ ] Feature: case insensitive queries (e.g. `leaftype=Broadleaf and leaftype=broadleaf`)
+- [ ] Feature: Normalisierte werte (meter vs meile, km/h vs ...)
