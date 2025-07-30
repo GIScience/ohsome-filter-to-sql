@@ -47,7 +47,7 @@ def test_build_tree(filter):
 def test_tag_match(filter):
     query = main(filter)
     assert verify(query)
-    #validate("SELECT * FROM foo WHERE " + query)
+    # validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_expression_and_expression():
@@ -154,6 +154,26 @@ def test_type_id_list_match(filter):
 
 def test_hashtag_match():
     filter = "hashtag:missingmaps"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "hashtag:(missingmaps)",
+        "hashtag:(missingmaps, type, other)",
+    ),
+)
+def test_hashtag_list_match(filter):
+    query = main(filter)
+    assert verify(query)
+    # TODO: Validate query. Blocker: array[] is not valid sqlite syntax
+
+
+def test_changeset_match():
+    filter = "changeset:1"
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)

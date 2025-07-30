@@ -1,0 +1,1 @@
+array['missingmaps', 'type', 'other'] && changeset_hashtags

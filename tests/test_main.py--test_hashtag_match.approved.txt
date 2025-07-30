@@ -1,1 +1,1 @@
-'missingmaps' = any(hashtags) 
+'missingmaps' = any(changeset_hashtags) 

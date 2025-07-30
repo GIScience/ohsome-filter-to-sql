@@ -113,7 +113,26 @@ class OFLToSql(OFLListener):
 
     def exitHashtagMatch(self, ctx):
         hashtag = self.stack.pop()
-        self.stack.append(f"'{hashtag}' = any(hashtags) ")
+        self.stack.append(f"'{hashtag}' = any(changeset_hashtags) ")
+
+    def exitHashtagListMatch(self, ctx):
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "hashtag:(" and last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            # remove STRING from stack
+            self.stack.pop()
+            values.append(child)
+        values_as_string = "array['" + "', '".join(values) + "']"
+        # anyarray && anyarray → boolean (Do the arrays overlap?)
+        self.stack.append(f"{values_as_string} && changeset_hashtags")
+
+    def exitChangesetMatch(self, ctx):
+        id = ctx.getChild(2).getText()
+        self.stack.append(f"changeset_id = '{id}'")
 
 
 def unescape(string: str):
