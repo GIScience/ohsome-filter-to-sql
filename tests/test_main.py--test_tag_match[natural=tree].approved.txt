@@ -1,1 +1,1 @@
-tags->>'natural' = 'tree'
+tags @> '{"natural": "tree"}'

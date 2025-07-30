@@ -1,1 +1,1 @@
-tags->>'oneway' != 'yes'
+tags ? 'oneway' AND NOT tags @> '{"oneway": "yes"}'

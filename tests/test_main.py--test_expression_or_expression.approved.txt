@@ -1,1 +1,1 @@
-tags->>'natural' = 'tree' OR tags->>'power' = 'plant'
+tags @> '{"natural": "tree"}' OR tags @> '{"leaf_type": "broadleaved"}'

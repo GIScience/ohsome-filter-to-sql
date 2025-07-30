@@ -1,1 +1,1 @@
-tags->>'name' IS NULL
+NOT tags?'name'
