@@ -1,5 +1,24 @@
 # README
 
+## Installation
+
+```sh
+uv tool install git+https://gitlab.heigit.org/giscience/big-data/ohsome/libs/ohsome-filter-to-sql
+```
+
+You can run the CLI without installation with `uvx`:
+```sh
+uvx --from git+https://gitlab.heigit.org/giscience/big-data/ohsome/libs/ohsome-filter-to-sql ohsome-filter-to-sql
+```
+
+## Usage
+
+```sh
+$ ohsome-filter-to-sql  # start CLI
+natural = tree  # type in ohsome filter
+tags->>'natural' = 'tree'  # result
+```
+
 ## Development Setup
 
 ```sh
@@ -34,5 +53,6 @@ mv *.py ohsome_filter_to_sql/
 
 ## Resources
 
+- [ohsome filter documentation](https://docs.ohsome.org/ohsome-api/v1/filter.html)
 - [ANTLR with Python - Introduction](https://yetanotherprogrammingblog.medium.com/antlr-with-python-974c756bdb1b)
 - [ANTLR Listeners](https://github.com/antlr/antlr4/blob/master/doc/listeners.md)
