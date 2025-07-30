@@ -101,6 +101,10 @@ def main(filter: str):
     return " ".join(translation)
 
 
+def cli():
+    print(main(input()))
+
+
 def build_tree(filter: str) -> ParserRuleContext:
     """Build a antlr4 parse tree.
 

@@ -9,6 +9,15 @@ dependencies = [
     "antlr4-python3-runtime>=4.13.2",
 ]
 
+[project.scripts]
+ohsome-filter-to-sql= "ohsome_filter_to_sql.main:cli"
+
+[tool.uv]
+package = true
+
+[tool.uv.build-backend]
+module-root = ""  # use ohsome-filter-to-sql/ as root instead the default src/ohsome-filter-to-sql
+
 [dependency-groups]
 dev = [
     "pytest>=8.4.1",
