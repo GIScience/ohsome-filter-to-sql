@@ -67,6 +67,18 @@ class OFLToSql(OFLListener):
         values_as_string = "', '".join(values)
         self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
 
+    def exitTypeMatch(self, ctx):  # noqa
+        type_ = ctx.getChild(2).getText().upper()
+        self.stack.append(f"osmType = '{type_}'")
+
+    def exitIdMatch(self, ctx):  # noqa
+        id = ctx.getChild(2).getText()
+        self.stack.append(f"osmId = '{id}'")
+
+    def exitTypeIdMatch(self, ctx):  # noqa
+        type_, id = ctx.getChild(2).getText().split("/")
+        self.stack.append(f"osmType = '{type_}' AND osmId = '{id}'")
+
 
 def unescape(string: str):
     return string.replace('"', "")

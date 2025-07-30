@@ -73,3 +73,38 @@ def test_expression_in_brakets(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "type:node",
+        "type:way",
+        "type:relation",
+    ),
+)
+def test_type_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+def test_id_match():
+    filter = "id:3644187633"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "id:node/3644187633",
+        "id:way/3644187633",
+        "id:relation/3644187633",
+    ),
+)
+def test_type_id_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)

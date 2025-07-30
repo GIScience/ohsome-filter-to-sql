@@ -1,0 +1,1 @@
+osmType = 'node' AND osmId = '3644187633'
