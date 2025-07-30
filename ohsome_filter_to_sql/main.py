@@ -12,7 +12,7 @@ class OFLToSql(OFLListener):
     def __init__(self):
         self.stack: deque = deque()
 
-    def exitExpression(self, ctx):  # noqa
+    def exitExpression(self, ctx):
         """Handle expression compositions.
 
         '(' expression ')'
@@ -30,29 +30,28 @@ class OFLToSql(OFLListener):
                 operator = ctx.getChild(1).getText().upper()  # AND, OR, NOT
                 self.stack.append(f"{left} {operator} {right}")
 
-    def exitString(self, ctx):  # noqa
+    def exitString(self, ctx):
         self.stack.append(unescape(ctx.getChild(0).getText()))
 
-    def exitTagMatch(self, ctx):  # noqa
+    def exitTagMatch(self, ctx):
         value = self.stack.pop()
         key = self.stack.pop()
         self.stack.append(f"tags->>'{key}' = '{value}'")
 
-    def exitTagWildcardMatch(self, ctx):  # noqa
+    def exitTagWildcardMatch(self, ctx):
         key = self.stack.pop()
         self.stack.append(f"tags->>'{key}' IS NOT NULL")
 
-    def exitTagNotMatch(self, ctx):  # noqa
+    def exitTagNotMatch(self, ctx):
         value = self.stack.pop()
         key = self.stack.pop()
         self.stack.append(f"tags->>'{key}' != '{value}'")
 
-    def exitTagNotWildcardMatch(self, ctx):  # noqa
+    def exitTagNotWildcardMatch(self, ctx):
         key = self.stack.pop()
         self.stack.append(f"tags->>'{key}' IS NULL")
 
-    def exitTagListMatch(self, ctx):  # noqa
-        # TODO: does not work as expected
+    def exitTagListMatch(self, ctx):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "key in (" as well as last part closing list with ")"
@@ -67,19 +66,19 @@ class OFLToSql(OFLListener):
         values_as_string = "', '".join(values)
         self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
 
-    def exitTypeMatch(self, ctx):  # noqa
-        type_ = ctx.getChild(2).getText().upper()
+    def exitTypeMatch(self, ctx):
+        type_ = ctx.getChild(2).getText().upper()  # NODE, WAY, RELATION
         self.stack.append(f"osmType = '{type_}'")
 
-    def exitIdMatch(self, ctx):  # noqa
+    def exitIdMatch(self, ctx):
         id = ctx.getChild(2).getText()
         self.stack.append(f"osmId = '{id}'")
 
-    def exitTypeIdMatch(self, ctx):  # noqa
+    def exitTypeIdMatch(self, ctx):
         type_, id = ctx.getChild(2).getText().split("/")
         self.stack.append(f"osmType = '{type_}' AND osmId = '{id}'")
 
-    def exitIdRangeMatch(self, ctx):  # noqa
+    def exitIdRangeMatch(self, ctx):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
