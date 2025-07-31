@@ -12,7 +12,12 @@ class OFLToSql(OFLListener):
     def __init__(self):
         self.stack: deque = deque()
 
-    def exitExpression(self, ctx):
+    def exitString(self, ctx: ParserRuleContext):
+        self.stack.append(unescape(ctx.getChild(0).getText()))
+
+    # --- methods are sorted in the same order as rules in OFL.g4
+    #
+    def exitExpression(self, ctx: ParserRuleContext):
         """Handle expression compositions: (), NOT, AND, OR"""
         if ctx.getChildCount() == 3:
             if ctx.getChild(0).getText() == ("(") and ctx.getChild(2).getText() == ")":
@@ -24,98 +29,17 @@ class OFLToSql(OFLListener):
                 operator = ctx.getChild(1).getText().upper()  # AND, OR, NOT
                 self.stack.append(f"{left} {operator} {right}")
 
-    def exitString(self, ctx):
-        self.stack.append(unescape(ctx.getChild(0).getText()))
-
-    def exitTagMatch(self, ctx):
-        value = self.stack.pop()
-        key = self.stack.pop()
-        # @> Does the first JSON value contain the second?
-        self.stack.append("tags @> '{\"" + key + '": "' + value + "\"}'")
-
-    def exitTagWildcardMatch(self, ctx):
-        key = self.stack.pop()
-        self.stack.append(f"tags ? '{key}'")
-
-    def exitTagNotMatch(self, ctx):
-        value = self.stack.pop()
-        key = self.stack.pop()
-        self.stack.append(
-            f"tags ? '{key}' AND NOT " + "tags @> '{\"" + key + '": "' + value + "\"}'"
-        )
-
-    def exitTagNotWildcardMatch(self, ctx):
-        key = self.stack.pop()
-        self.stack.append(f"NOT tags?'{key}'")
-
-    def exitTagListMatch(self, ctx):
-        values = []
-        children = list(child.getText() for child in ctx.getChildren())
-        # skip first part denoting "key in (" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
-            # remove STRING from stack wich are part of *ListMatch
-            self.stack.pop()
-            values.append(child)
-        values_as_string = "', '".join(values)
-        key = self.stack.pop()
-        self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
-
-    def exitTypeMatch(self, ctx):
-        type_ = ctx.getChild(2).getText()  # NODE, WAY, RELATION
-        self.stack.append(f"osmType = '{type_.upper()}'")
-
-    def exitIdMatch(self, ctx):
-        id = ctx.getChild(2).getText()
-        self.stack.append(f"osmId = '{id}'")
-
-    def exitTypeIdMatch(self, ctx):
-        type_, id = ctx.getChild(2).getText().split("/")
-        self.stack.append(f"osmType = '{type_.upper()}' AND osmId = '{id}'")
-
-    def exitIdRangeMatch(self, ctx):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
-        if lower_bound and upper_bound:
-            self.stack.append(f"osmID >= '{lower_bound}' AND osmID <= '{upper_bound}'")
-        elif lower_bound:
-            self.stack.append(f"osmID >= '{lower_bound}'")
-        elif upper_bound:
-            self.stack.append(f"osmID <= '{upper_bound}'")
-
-    def exitIdListMatch(self, ctx):
-        # differs from TagListMatch insofar that no STRING needs to be popped from stack
-        values = []
-        children = list(child.getText() for child in ctx.getChildren())
-        # skip first part denoting "id:(" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
-            values.append(child)
-        values_as_string = "', '".join(values)
-        self.stack.append(f"osmId IN ('{values_as_string}')")
-
-    def exitTypeIdListMatch(self, ctx):
-        values = []
-        children = list(child.getText() for child in ctx.getChildren())
-        # skip first part denoting "id:(" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
-            type_, id = child.split("/")
-            values.append(f"(osmId = '{id}' AND osmType = '{type_.upper()}')")
-        values_as_string = " OR ".join(values)
-        self.stack.append(values_as_string)
-
-    def exitHashtagMatch(self, ctx):
+    # ---
+    #
+    def exitHashtagMatch(self, ctx: ParserRuleContext):
         hashtag = self.stack.pop()
         self.stack.append(f"'{hashtag}' = any(changeset_hashtags) ")
 
-    def exitHashtagListMatch(self, ctx):
+    def exitHashtagWildcardMatch(self, ctx: ParserRuleContext):
+        # TODO
+        pass
+
+    def exitHashtagListMatch(self, ctx: ParserRuleContext):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "hashtag:(" and last part closing list with ")"
@@ -130,11 +54,149 @@ class OFLToSql(OFLListener):
         # anyarray && anyarray → boolean (Do the arrays overlap?)
         self.stack.append(f"{values_as_string} && changeset_hashtags")
 
-    def exitChangesetMatch(self, ctx):
+    # ---
+    #
+    def exitTagMatch(self, ctx: ParserRuleContext):
+        value = self.stack.pop()
+        key = self.stack.pop()
+        # @> Does the first JSON value contain the second?
+        self.stack.append("tags @> '{\"" + key + '": "' + value + "\"}'")
+
+    def exitTagWildcardMatch(self, ctx: ParserRuleContext):
+        key = self.stack.pop()
+        self.stack.append(f"tags ? '{key}'")
+
+    def exitTagNotMatch(self, ctx: ParserRuleContext):
+        value = self.stack.pop()
+        key = self.stack.pop()
+        self.stack.append(
+            f"tags ? '{key}' AND NOT " + "tags @> '{\"" + key + '": "' + value + "\"}'"
+        )
+
+    def exitTagNotWildcardMatch(self, ctx: ParserRuleContext):
+        key = self.stack.pop()
+        self.stack.append(f"NOT tags?'{key}'")
+
+    def exitTagListMatch(self, ctx: ParserRuleContext):
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "key in (" as well as last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            # remove STRING from stack wich are part of *ListMatch
+            self.stack.pop()
+            values.append(child)
+        values_as_string = "', '".join(values)
+        key = self.stack.pop()
+        self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
+
+    # ---
+    #
+    def exitTypeMatch(self, ctx: ParserRuleContext):
+        type_ = ctx.getChild(2).getText()  # NODE, WAY, RELATION
+        self.stack.append(f"osmType = '{type_.upper()}'")
+
+    def exitIdMatch(self, ctx: ParserRuleContext):
+        id = ctx.getChild(2).getText()
+        self.stack.append(f"osmId = '{id}'")
+
+    def exitTypeIdMatch(self, ctx: ParserRuleContext):
+        type_, id = ctx.getChild(2).getText().split("/")
+        self.stack.append(f"osmType = '{type_.upper()}' AND osmId = '{id}'")
+
+    def exitIdRangeMatch(self, ctx: ParserRuleContext):
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(f"osmID >= '{lower_bound}' AND osmID <= '{upper_bound}'")
+        elif lower_bound:
+            self.stack.append(f"osmID >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"osmID <= '{upper_bound}'")
+
+    def exitIdListMatch(self, ctx: ParserRuleContext):
+        # differs from TagListMatch insofar that no STRING needs to be popped from stack
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "id:(" as well as last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            values.append(child)
+        values_as_string = "', '".join(values)
+        self.stack.append(f"osmId IN ('{values_as_string}')")
+
+    def exitTypeIdListMatch(self, ctx: ParserRuleContext):
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "id:(" as well as last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            type_, id = child.split("/")
+            values.append(f"(osmId = '{id}' AND osmType = '{type_.upper()}')")
+        values_as_string = " OR ".join(values)
+        self.stack.append(values_as_string)
+
+    # ---
+    #
+    def exitGeometryMatch(self, ctx: ParserRuleContext):
+        geometry_type = ctx.getChild(2).getText()
+        self.stack.append(f"geometry_type = '{geometry_type}'")
+
+    def exitAreaRangeMatch(self, ctx: ParserRuleContext):
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(f"area >= '{lower_bound}' AND area <= '{upper_bound}'")
+        elif lower_bound:
+            self.stack.append(f"area >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"area <= '{upper_bound}'")
+
+    def exitLengthRangeMatch(self, ctx: ParserRuleContext):
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(
+                f"length >= '{lower_bound}' AND length <= '{upper_bound}'"
+            )
+        elif lower_bound:
+            self.stack.append(f"length >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"length <= '{upper_bound}'")
+
+    def exitGeometryVerticesRangeMatch(self, ctx: ParserRuleContext):
+        # TODO
+        pass
+
+    def exitGeometryOutersMatch(self, ctx: ParserRuleContext):
+        # TODO
+        pass
+
+    def exitGeometryOutersRangeMatch(self, ctx: ParserRuleContext):
+        # TODO
+        pass
+
+    def exitGeometryInnersMatch(self, ctx: ParserRuleContext):
+        # TODO
+        pass
+
+    def exitGeometryInnersRangeMatch(self, ctx: ParserRuleContext):
+        # TODO
+        pass
+
+    # ---
+    #
+    def exitChangesetMatch(self, ctx: ParserRuleContext):
         id = ctx.getChild(2).getText()
         self.stack.append(f"changeset_id = '{id}'")
 
-    def exitChangesetListMatch(self, ctx):
+    def exitChangesetListMatch(self, ctx: ParserRuleContext):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "id:(" as well as last part closing list with ")"
@@ -146,7 +208,7 @@ class OFLToSql(OFLListener):
         values_as_string = "', '".join(values)
         self.stack.append(f"changeset_id IN ('{values_as_string}')")
 
-    def exitChangesetRangeMatch(self, ctx):
+    def exitChangesetRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
@@ -158,35 +220,9 @@ class OFLToSql(OFLListener):
         elif upper_bound:
             self.stack.append(f"changeset_id <= '{upper_bound}'")
 
-    def exitChangesetCreatedByMatch(self, ctx):
+    def exitChangesetCreatedByMatch(self, ctx: ParserRuleContext):
         editor = self.stack.pop()
         self.stack.append('changeset_tags @> \'{"created_by": "' + editor + "\"}'")
-
-    def exitGeometryMatch(self, ctx):
-        geometry_type = ctx.getChild(2).getText()
-        self.stack.append(f"geometry_type = '{geometry_type}'")
-
-    def exitAreaRangeMatch(self, ctx):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
-        if lower_bound and upper_bound:
-            self.stack.append(f"area >= '{lower_bound}' AND area <= '{upper_bound}'")
-        elif lower_bound:
-            self.stack.append(f"area >= '{lower_bound}'")
-        elif upper_bound:
-            self.stack.append(f"area <= '{upper_bound}'")
-
-    def exitLengthRangeMatch(self, ctx):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
-        if lower_bound and upper_bound:
-            self.stack.append(
-                f"length >= '{lower_bound}' AND length <= '{upper_bound}'"
-            )
-        elif lower_bound:
-            self.stack.append(f"length >= '{lower_bound}'")
-        elif upper_bound:
-            self.stack.append(f"length <= '{upper_bound}'")
 
 
 def unescape(string: str):

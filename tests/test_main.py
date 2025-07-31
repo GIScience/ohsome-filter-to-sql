@@ -28,26 +28,8 @@ def test_build_tree(filter):
     assert verify(tree)
 
 
-@pytest.mark.parametrize(
-    "filter",
-    (
-        '"natural:addr"=tree',  #      tagMatch
-        "natural=tree",  #      tagMatch
-        '"type"=boundary',  #   tagMatch w/ keyword as key
-        'name="other"',  #      tagMatch w/ keyword as value
-        "natural=*",  #         tagWildcardMatch
-        "oneway!=yes",  #       tagNotMatch
-        "name!=*"  #            tagNotWildcardMatch
-        "highway in (residential, living_street)",  # tagListMatch
-        '"type" in (boundary, route)',  #       tagListMatch w/keyword as key
-        "highway in (residential, other)",  #   tagListMatch w/keyword unquoted as value
-        "natural in (residential)",  #          tagListMatch w/keyword with single value
-    ),
-)
-def test_tag_match(filter):
-    query = main(filter)
-    assert verify(query)
-    # validate("SELECT * FROM foo WHERE " + query)
+# -- Tests are sorted in the same order as rules in OFL.g4
+#
 
 
 def test_expression_and_expression():
@@ -75,6 +57,48 @@ def test_expression_in_brakets(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+def test_hashtag_match():
+    filter = "hashtag:missingmaps"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "hashtag:(missingmaps)",
+        "hashtag:(missingmaps, type, other)",
+    ),
+)
+def test_hashtag_list_match(filter):
+    query = main(filter)
+    assert verify(query)
+    # TODO: Validate query. Blocker: array[] is not valid sqlite syntax
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        '"natural:addr"=tree',  #      tagMatch
+        "natural=tree",  #      tagMatch
+        '"type"=boundary',  #   tagMatch w/ keyword as key
+        'name="other"',  #      tagMatch w/ keyword as value
+        "natural=*",  #         tagWildcardMatch
+        "oneway!=yes",  #       tagNotMatch
+        "name!=*"  #            tagNotWildcardMatch
+        "highway in (residential, living_street)",  # tagListMatch
+        '"type" in (boundary, route)',  #       tagListMatch w/keyword as key
+        "highway in (residential, other)",  #   tagListMatch w/keyword unquoted as value
+        "natural in (residential)",  #          tagListMatch w/keyword with single value
+    ),
+)
+def test_tag_match(filter):
+    query = main(filter)
+    assert verify(query)
+    # validate("SELECT * FROM foo WHERE " + query)
 
 
 @pytest.mark.parametrize(
@@ -152,8 +176,16 @@ def test_type_id_list_match(filter):
     validate("SELECT * FROM foo WHERE " + query)
 
 
-def test_hashtag_match():
-    filter = "hashtag:missingmaps"
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "geometry:point",
+        "geometry:line",
+        "geometry:polygon",
+        "geometry:other",
+    ),
+)
+def test_geometry_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
@@ -162,14 +194,29 @@ def test_hashtag_match():
 @pytest.mark.parametrize(
     "filter",
     (
-        "hashtag:(missingmaps)",
-        "hashtag:(missingmaps, type, other)",
+        "area:(1.0..99.99)",
+        "area:(1.0..)",
+        "area:(..99.99)",
     ),
 )
-def test_hashtag_list_match(filter):
+def test_area_range_match(filter):
     query = main(filter)
     assert verify(query)
-    # TODO: Validate query. Blocker: array[] is not valid sqlite syntax
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "length:(1.0..99.99)",
+        "length:(1.0..)",
+        "length:(..99.99)",
+    ),
+)
+def test_length_range_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_changeset_match():
@@ -218,46 +265,3 @@ def test_changeset_range_match(filter):
 def test_changeset_created_by_match(filter):
     query = main(filter)
     assert verify(query)
-
-
-@pytest.mark.parametrize(
-    "filter",
-    (
-        "geometry:point",
-        "geometry:line",
-        "geometry:polygon",
-        "geometry:other",
-    ),
-)
-def test_geometry_match(filter):
-    query = main(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
-
-
-@pytest.mark.parametrize(
-    "filter",
-    (
-        "area:(1.0..99.99)",
-        "area:(1.0..)",
-        "area:(..99.99)",
-    ),
-)
-def test_area_range_match(filter):
-    query = main(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
-
-
-@pytest.mark.parametrize(
-    "filter",
-    (
-        "length:(1.0..99.99)",
-        "length:(1.0..)",
-        "length:(..99.99)",
-    ),
-)
-def test_length_range_match(filter):
-    query = main(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
