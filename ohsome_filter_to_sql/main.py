@@ -1,3 +1,4 @@
+import json
 import sys
 from collections import deque
 
@@ -59,8 +60,9 @@ class OFLToSql(OFLListener):
     def exitTagMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
+        j = json.dumps({key: value})
         # @> Does the first JSON value contain the second?
-        self.stack.append("tags @> '{\"" + key + '": "' + value + "\"}'")
+        self.stack.append(f"tags @> '{j}'")
 
     def exitTagWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
@@ -69,9 +71,8 @@ class OFLToSql(OFLListener):
     def exitTagNotMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
-        self.stack.append(
-            f"tags ? '{key}' AND NOT " + "tags @> '{\"" + key + '": "' + value + "\"}'"
-        )
+        j = json.dumps({key: value})
+        self.stack.append(f"tags ? '{key}' AND NOT tags @> '{j}'")
 
     def exitTagNotWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
@@ -222,7 +223,8 @@ class OFLToSql(OFLListener):
 
     def exitChangesetCreatedByMatch(self, ctx: ParserRuleContext):
         editor = self.stack.pop()
-        self.stack.append('changeset_tags @> \'{"created_by": "' + editor + "\"}'")
+        j = json.dumps({"created_by": editor})
+        self.stack.append(f"changeset_tags @> '{j}'")
 
 
 def unescape(string: str):
