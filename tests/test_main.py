@@ -206,8 +206,30 @@ def test_changeset_range_match(filter):
     validate("SELECT * FROM foo WHERE " + query)
 
 
-def test_changeset_created_by_match():
-    filter = "changeset.created_by:mona"
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "changeset.created_by:Potlatch",
+        'changeset.created_by:"Go Map!! 4.3.0"',
+        'changeset.created_by:"bulk_upload.py"',
+        'changeset.created_by:"JOSM/1.5 (19253 en_GB)"',
+    ),
+)
+def test_changeset_created_by_match(filter):
+    query = main(filter)
+    assert verify(query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "geometry:point",
+        "geometry:line",
+        "geometry:polygon",
+        "geometry:other",
+    ),
+)
+def test_geometry_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)

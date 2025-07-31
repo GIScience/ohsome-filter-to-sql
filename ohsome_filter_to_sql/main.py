@@ -159,9 +159,12 @@ class OFLToSql(OFLListener):
             self.stack.append(f"changeset_id <= '{upper_bound}'")
 
     def exitChangesetCreatedByMatch(self, ctx):
-        user_name = self.stack.pop()
-        self.stack.append(f"user_name = '{user_name}'")
+        editor = self.stack.pop()
+        self.stack.append('changeset_tags @> \'{"created_by": "' + editor + "\"}'")
 
+    def exitGeometryMatch(self, ctx):
+        geometry = self.stack.pop()
+        self.stack.append(f"geometry = '{geometry}'")
 
 def unescape(string: str):
     return string.replace('"', "")
