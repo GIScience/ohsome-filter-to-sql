@@ -177,3 +177,37 @@ def test_changeset_match():
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "changeset:(1)",
+        "changeset:(1, 300, 4264l)",
+    ),
+)
+def test_changeset_list_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "changeset:(1..999)",
+        "changeset:(1..)",
+        "changeset:(..999)",
+    ),
+)
+def test_changeset_range_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+def test_changeset_created_by_match():
+    filter = "changeset.created_by:mona"
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)

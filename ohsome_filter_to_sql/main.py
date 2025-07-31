@@ -134,6 +134,34 @@ class OFLToSql(OFLListener):
         id = ctx.getChild(2).getText()
         self.stack.append(f"changeset_id = '{id}'")
 
+    def exitChangesetListMatch(self, ctx):
+        values = []
+        children = list(child.getText() for child in ctx.getChildren())
+        # skip first part denoting "id:(" as well as last part closing list with ")"
+        for child in children[3:-1]:
+            # skip comma in list in between brackets
+            if child == ",":
+                continue
+            values.append(child)
+        values_as_string = "', '".join(values)
+        self.stack.append(f"changeset_id IN ('{values_as_string}')")
+
+    def exitChangesetRangeMatch(self, ctx):
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(
+                f"changeset_id >= '{lower_bound}' AND changeset_id <= '{upper_bound}'"
+            )
+        elif lower_bound:
+            self.stack.append(f"changeset_id >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"changeset_id <= '{upper_bound}'")
+
+    def exitChangesetCreatedByMatch(self, ctx):
+        user_name = self.stack.pop()
+        self.stack.append(f"user_name = '{user_name}'")
+
 
 def unescape(string: str):
     return string.replace('"', "")
