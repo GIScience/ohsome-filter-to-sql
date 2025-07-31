@@ -3,7 +3,7 @@ import sqlite3
 import pytest
 from pytest_approval import verify
 
-from ohsome_filter_to_sql.main import build_tree, main
+from ohsome_filter_to_sql.main import build_tree, ohsome_filter_to_sq
 
 
 def validate(query: str):
@@ -34,14 +34,14 @@ def test_build_tree(filter):
 
 def test_expression_and_expression():
     filter = "natural=tree and leaf_type=broadleaved"
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_expression_or_expression():
     filter = "natural=tree or leaf_type=broadleaved"
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -54,14 +54,14 @@ def test_expression_or_expression():
     ),
 )
 def test_expression_in_brakets(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_hashtag_match():
     filter = "hashtag:missingmaps"
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -74,7 +74,7 @@ def test_hashtag_match():
     ),
 )
 def test_hashtag_list_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     # TODO: Validate query. Blocker: array[] is not valid sqlite syntax
 
@@ -96,7 +96,7 @@ def test_hashtag_list_match(filter):
     ),
 )
 def test_tag_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     # validate("SELECT * FROM foo WHERE " + query)
 
@@ -110,14 +110,14 @@ def test_tag_match(filter):
     ),
 )
 def test_type_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_id_match():
     filter = "id:3644187633"
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -131,7 +131,7 @@ def test_id_match():
     ),
 )
 def test_type_id_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -145,7 +145,7 @@ def test_type_id_match(filter):
     ),
 )
 def test_id_range_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -158,7 +158,7 @@ def test_id_range_match(filter):
     ),
 )
 def test_id_list_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -171,7 +171,7 @@ def test_id_list_match(filter):
     ),
 )
 def test_type_id_list_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -186,7 +186,7 @@ def test_type_id_list_match(filter):
     ),
 )
 def test_geometry_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -200,7 +200,7 @@ def test_geometry_match(filter):
     ),
 )
 def test_area_range_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -214,14 +214,14 @@ def test_area_range_match(filter):
     ),
 )
 def test_length_range_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
 
 def test_changeset_match():
     filter = "changeset:1"
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -234,7 +234,7 @@ def test_changeset_match():
     ),
 )
 def test_changeset_list_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -248,7 +248,7 @@ def test_changeset_list_match(filter):
     ),
 )
 def test_changeset_range_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
 
@@ -263,5 +263,5 @@ def test_changeset_range_match(filter):
     ),
 )
 def test_changeset_created_by_match(filter):
-    query = main(filter)
+    query = ohsome_filter_to_sq(filter)
     assert verify(query)
