@@ -1,10 +1,16 @@
-- [ ] How does a Hashtag wildcard match look like?
 - [ ] idRange: Should operator (..) and operands separated by space be valid?
-  - Examples given by the docs have spaces
+  - Examples given by the ohsome API docs have spaces
 - [ ] Feature: How could we du substring queries in ohsome filter language like SQL substring
 - [ ] Is `tags?'natural'` more efficient than `tags->>natural NOT NULL`?
 - [ ] Is `tags@>{'natural': 'tree'}` more efficient than `tags->>'natural' = 'tree'` for tag match?
 - [ ] Is `tags @> {'highway': 'primary'} or tags @> {'highway': 'secondary'}` more efficient then `tags->>highway in (primary, secondary)`?
-- [ ] Feature: case insensitive queries (e.g. `leaftype=Broadleaf and leaftype=broadleaf`)
-- [ ] Feature: Normalisierte werte (meter vs meile, km/h vs ...)
-- [ ] Should `changesetCreatedBy` work for user id and name or should we query id and name differently?
+- [ ] New feature: case insensitive queries (e.g. `leaftype=Broadleaf and leaftype=broadleaf`)
+- [ ] New feature: Normalisierte werte (meter vs meile, km/h vs ...)
+- [ ] Missing listener function for following rules:
+    - `tagWildcardMatch: string '=' WILDCARD;`
+    - `perimeterRangeMatch: PERIMETER ':' '(' RANGE_DEC ')';`
+    - `geometryVerticesRangeMatch: GEOMETRY_VERTICES ':' '(' RANGE_INT ')';`
+    - `geometryOutersMatch: GEOMETRY_OUTERS ':' NUMBER;`
+    - `geometryOutersRangeMatch: GEOMETRY_OUTERS ':' '(' RANGE_INT ')';`
+    - `geometryInnersMatch: GEOMETRY_INNERS ':' NUMBER;`
+    - `geometryInnersRangeMatch: GEOMETRY_INNERS ':' '(' RANGE_INT ')';`
