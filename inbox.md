@@ -7,7 +7,7 @@
 - [ ] New feature: case insensitive queries (e.g. `leaftype=Broadleaf and leaftype=broadleaf`)
 - [ ] New feature: Normalisierte werte (meter vs meile, km/h vs ...)
 - [ ] Missing listener function for following rules:
-    - `tagWildcardMatch: string '=' WILDCARD;`
+    - `hashtagWildcardMatch: string '=' WILDCARD;`
     - `perimeterRangeMatch: PERIMETER ':' '(' RANGE_DEC ')';`
     - `geometryVerticesRangeMatch: GEOMETRY_VERTICES ':' '(' RANGE_INT ')';`
     - `geometryOutersMatch: GEOMETRY_OUTERS ':' NUMBER;`
