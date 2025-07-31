@@ -163,8 +163,31 @@ class OFLToSql(OFLListener):
         self.stack.append('changeset_tags @> \'{"created_by": "' + editor + "\"}'")
 
     def exitGeometryMatch(self, ctx):
-        geometry = self.stack.pop()
-        self.stack.append(f"geometry = '{geometry}'")
+        geometry_type = ctx.getChild(2).getText()
+        self.stack.append(f"geometry_type = '{geometry_type}'")
+
+    def exitAreaRangeMatch(self, ctx):
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(f"area >= '{lower_bound}' AND area <= '{upper_bound}'")
+        elif lower_bound:
+            self.stack.append(f"area >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"area <= '{upper_bound}'")
+
+    def exitLengthRangeMatch(self, ctx):
+        child = ctx.getChild(3).getText()
+        lower_bound, upper_bound = child.split("..")
+        if lower_bound and upper_bound:
+            self.stack.append(
+                f"length >= '{lower_bound}' AND length <= '{upper_bound}'"
+            )
+        elif lower_bound:
+            self.stack.append(f"length >= '{lower_bound}'")
+        elif upper_bound:
+            self.stack.append(f"length <= '{upper_bound}'")
+
 
 def unescape(string: str):
     return string.replace('"', "")

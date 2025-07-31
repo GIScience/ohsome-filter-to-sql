@@ -233,3 +233,31 @@ def test_geometry_match(filter):
     query = main(filter)
     assert verify(query)
     validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "area:(1.0..99.99)",
+        "area:(1.0..)",
+        "area:(..99.99)",
+    ),
+)
+def test_area_range_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "length:(1.0..99.99)",
+        "length:(1.0..)",
+        "length:(..99.99)",
+    ),
+)
+def test_length_range_match(filter):
+    query = main(filter)
+    assert verify(query)
+    validate("SELECT * FROM foo WHERE " + query)
