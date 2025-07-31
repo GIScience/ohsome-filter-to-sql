@@ -7,3 +7,4 @@
 - [ ] Is `tags @> {'highway': 'primary'} or tags @> {'highway': 'secondary'}` more efficient then `tags->>highway in (primary, secondary)`?
 - [ ] Feature: case insensitive queries (e.g. `leaftype=Broadleaf and leaftype=broadleaf`)
 - [ ] Feature: Normalisierte werte (meter vs meile, km/h vs ...)
+- [ ] Should `changesetCreatedBy` work for user id and name or should we query id and name differently?
