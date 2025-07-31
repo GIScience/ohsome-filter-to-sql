@@ -1,6 +1,6 @@
 # README
 
-## Installation
+## Installation as standalone tool (CLI)
 
 ```sh
 uv tool install git+https://gitlab.heigit.org/giscience/big-data/ohsome/libs/ohsome-filter-to-sql
@@ -11,13 +11,29 @@ You can run the CLI without installation with `uvx`:
 uvx --from git+https://gitlab.heigit.org/giscience/big-data/ohsome/libs/ohsome-filter-to-sql ohsome-filter-to-sql
 ```
 
-## Usage
+## Usage as standalone tool (CLI)
 
 ```sh
 $ ohsome-filter-to-sql  # start CLI
-natural = tree  # type in ohsome filter
-tags->>'natural' = 'tree'  # result
+natural = tree and leaftype = broadleaf  # type in ohsome filter and hit enter
+tags @> '{"natural": "tree"}' AND tags @> '{"leaftype": "broadleaf"}'  # result
 ```
+
+## Installation as Python library
+
+```sh
+uv add ohsome-filter-to-sql
+```
+
+## Usage as Python library
+
+```python
+from ohsome_filter_to_sql import ohsome_filter_to_sql
+
+
+sql_query = ohsome_filter_to_sql("natural = tree")
+```
+
 
 ## Development Setup
 
