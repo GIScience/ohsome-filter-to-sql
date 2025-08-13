@@ -1,0 +1,6 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE area >= '1.0' 
+AND area <= '99.99'
+
+[<Record count=17127>]

@@ -1,0 +1,6 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE tags ? 'oneway' 
+AND NOT tags @> '{"oneway": "yes"}'
+
+[<Record count=2134>]

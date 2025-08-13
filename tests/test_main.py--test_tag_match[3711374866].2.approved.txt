@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE tags ? 'natural'
+
+[<Record count=6432>]

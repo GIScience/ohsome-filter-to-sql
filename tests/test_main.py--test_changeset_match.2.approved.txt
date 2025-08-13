@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE changeset_id = '1'
+
+[<Record count=0>]

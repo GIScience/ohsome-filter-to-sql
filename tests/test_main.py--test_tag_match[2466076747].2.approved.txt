@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE tags->>'type' IN ('boundary', 'route')
+
+[<Record count=99860>]

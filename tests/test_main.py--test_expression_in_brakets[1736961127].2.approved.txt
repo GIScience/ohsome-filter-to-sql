@@ -1,0 +1,7 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE (tags @> '{"type": "boundary"}' 
+OR tags @> '{"name": "other"}') 
+AND tags @> '{"natural": "tree"}'
+
+[<Record count=0>]

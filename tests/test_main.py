@@ -1,18 +1,49 @@
-import sqlite3
+import asyncio
 
+import asyncpg
 import pytest
 from pytest_approval import verify
 
-from ohsome_filter_to_sql.main import build_tree, ohsome_filter_to_sq
+from ohsome_filter_to_sql.main import build_tree, ohsome_filter_to_sql
 
 
-def validate(query: str):
-    con = sqlite3.connect(":memory:")
-    try:
-        con.execute(query)
-    except sqlite3.OperationalError as error:
-        if "syntax error" in str(error):
-            raise AssertionError("Syntax error in SQL query") from error  # noqa: TRY003
+def _query(sql: str) -> list[asyncpg.Record]:
+    async def _():
+        con = await asyncpg.connect(
+            user="postgres",
+            password="mylocalpassword",  # noqa: S106
+            host="localhost",
+            port=5432,
+        )
+        res = await con.fetch(sql)
+        await con.close()
+        return res
+
+    return asyncio.run(_())
+
+
+def query(where_clause: str) -> str:
+    """Build a count SQL query, query database. Returned formatted SQL and results."""
+    sql = "SELECT COUNT(*) FROM contributions WHERE " + where_clause
+    results = _query(sql)
+    return format_sql(sql) + "\n\n" + str(results)
+
+
+def format_sql(_):
+    """Make SQL string pretty."""
+    _ = _.split("FROM")
+    _ = "\nFROM".join(_)
+
+    _ = _.split("WHERE")
+    _ = "\nWHERE".join(_)
+
+    _ = _.split("AND")
+    _ = "\nAND".join(_)
+
+    _ = _.split("OR")
+    _ = "\nOR".join(_)
+
+    return _
 
 
 @pytest.mark.parametrize(
@@ -34,16 +65,16 @@ def test_build_tree(filter):
 
 def test_expression_and_expression():
     filter = "natural=tree and leaf_type=broadleaved"
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 def test_expression_or_expression():
     filter = "natural=tree or leaf_type=broadleaved"
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -54,16 +85,16 @@ def test_expression_or_expression():
     ),
 )
 def test_expression_in_brakets(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 def test_hashtag_match():
     filter = "hashtag:missingmaps"
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -74,15 +105,15 @@ def test_hashtag_match():
     ),
 )
 def test_hashtag_list_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    # TODO: Validate query. Blocker: array[] is not valid sqlite syntax
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
     "filter",
     (
-        '"natural:addr"=tree',  #      tagMatch
+        '"addr:housenumber"="45"',  # tagMatch
         "natural=tree",  #      tagMatch
         '"type"=boundary',  #   tagMatch w/ keyword as key
         'name="other"',  #      tagMatch w/ keyword as value
@@ -90,15 +121,15 @@ def test_hashtag_list_match(filter):
         "oneway!=yes",  #       tagNotMatch
         "name!=*"  #            tagNotWildcardMatch
         "highway in (residential, living_street)",  # tagListMatch
-        '"type" in (boundary, route)',  #       tagListMatch w/keyword as key
+        '"type" in (boundary, route)',  #             tagListMatch w/keyword as key
         "highway in (residential, other)",  #   tagListMatch w/keyword unquoted as value
-        "natural in (residential)",  #          tagListMatch w/keyword with single value
+        "natural in (water)",  #                tagListMatch w/keyword with single value
     ),
 )
 def test_tag_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    # validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -110,16 +141,16 @@ def test_tag_match(filter):
     ),
 )
 def test_type_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 def test_id_match():
     filter = "id:3644187633"
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -131,9 +162,9 @@ def test_id_match():
     ),
 )
 def test_type_id_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -145,9 +176,9 @@ def test_type_id_match(filter):
     ),
 )
 def test_id_range_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -158,9 +189,9 @@ def test_id_range_match(filter):
     ),
 )
 def test_id_list_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -171,9 +202,9 @@ def test_id_list_match(filter):
     ),
 )
 def test_type_id_list_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -186,9 +217,9 @@ def test_type_id_list_match(filter):
     ),
 )
 def test_geometry_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -200,9 +231,9 @@ def test_geometry_match(filter):
     ),
 )
 def test_area_range_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -214,16 +245,16 @@ def test_area_range_match(filter):
     ),
 )
 def test_length_range_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 def test_changeset_match():
     filter = "changeset:1"
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -234,9 +265,9 @@ def test_changeset_match():
     ),
 )
 def test_changeset_list_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -248,9 +279,9 @@ def test_changeset_list_match(filter):
     ),
 )
 def test_changeset_range_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
-    validate("SELECT * FROM foo WHERE " + query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))
 
 
 @pytest.mark.parametrize(
@@ -263,5 +294,6 @@ def test_changeset_range_match(filter):
     ),
 )
 def test_changeset_created_by_match(filter):
-    query = ohsome_filter_to_sq(filter)
-    assert verify(query)
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(query(sql))

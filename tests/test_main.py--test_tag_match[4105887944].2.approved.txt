@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE NOT tags?'name'
+
+[<Record count=209287>]

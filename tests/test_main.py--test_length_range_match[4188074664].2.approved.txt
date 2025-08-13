@@ -1,0 +1,6 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE length >= '1.0' 
+AND length <= '99.99'
+
+[<Record count=50699>]

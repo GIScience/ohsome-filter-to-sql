@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE tags->>'natural' IN ('water')
+
+[<Record count=166>]

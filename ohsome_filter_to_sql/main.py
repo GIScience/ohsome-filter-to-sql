@@ -231,7 +231,7 @@ def unescape(string: str):
     return string.replace('"', "")
 
 
-def ohsome_filter_to_sq(filter: str) -> str:
+def ohsome_filter_to_sql(filter: str) -> str:
     listener = OFLToSql()
     tree = build_tree(filter)
     translation = walk_tree(tree, listener).stack
@@ -239,7 +239,7 @@ def ohsome_filter_to_sq(filter: str) -> str:
 
 
 def cli():
-    print(ohsome_filter_to_sq(input()))
+    print(ohsome_filter_to_sql(input()))
 
 
 def build_tree(filter: str) -> ParserRuleContext:
@@ -262,4 +262,4 @@ def walk_tree(tree: ParserRuleContext, listener: OFLToSql) -> OFLToSql:
 
 
 if __name__ == "__main__":
-    ohsome_filter_to_sq(sys.argv[1])
+    ohsome_filter_to_sql(sys.argv[1])
