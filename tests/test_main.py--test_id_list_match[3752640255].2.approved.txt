@@ -1,5 +1,5 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE osm_id IN ('1')
+WHERE osm_id IN (1)
 
 [<Record count=0>]

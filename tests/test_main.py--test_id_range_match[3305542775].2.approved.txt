@@ -1,6 +1,6 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE osm_id >= '1' 
-AND osm_id <= '9999'
+WHERE osm_id >= 1 
+AND osm_id <= 9999
 
 [<Record count=2209>]

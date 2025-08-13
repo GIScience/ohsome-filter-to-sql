@@ -1,1 +1,1 @@
-osm_id >= '1' AND osm_id <= '9999'
+osm_id >= 1 AND osm_id <= 9999
