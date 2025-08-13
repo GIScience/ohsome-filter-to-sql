@@ -1,1 +1,1 @@
-geometry_type = 'polygon'
+(status_geom_type).geom_type = 'Polygon'

@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE (status_geom_type).geom_type = 'Polygon'
+
+[<Record count=62628>]

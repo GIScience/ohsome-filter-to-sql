@@ -1,1 +1,1 @@
-geometry_type = 'other'
+(status_geom_type).geom_type = 'Other'

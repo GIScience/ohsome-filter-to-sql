@@ -1,1 +1,1 @@
-geometry_type = 'point'
+(status_geom_type).geom_type = 'Point'

@@ -146,8 +146,8 @@ class OFLToSql(OFLListener):
     # ---
     #
     def exitGeometryMatch(self, ctx: ParserRuleContext):
-        geometry_type = ctx.getChild(2).getText()
-        self.stack.append(f"geometry_type = '{geometry_type}'")
+        geometry_type = ctx.getChild(2).getText().title()
+        self.stack.append(f"(status_geom_type).geom_type = '{geometry_type}'")
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
