@@ -24,6 +24,7 @@ dev = [
     "ruff>=0.12.4",
     "pytest-approval",
     "pre-commit>=4.2.0",
+    "asyncpg>=0.30.0",
 ]
 
 [tool.ruff]
