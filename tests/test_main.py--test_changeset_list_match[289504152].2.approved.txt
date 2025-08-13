@@ -1,5 +1,5 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE changeset_id = 1
+WHERE changeset_id IN (1, 300, 4264)
 
 [<Record count=0>]

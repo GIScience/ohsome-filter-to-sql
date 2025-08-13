@@ -1,6 +1,6 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE changeset_id >= '1' 
-AND changeset_id <= '999'
+WHERE changeset_id >= 1 
+AND changeset_id <= 999
 
 [<Record count=0>]

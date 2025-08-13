@@ -261,7 +261,7 @@ def test_changeset_match():
     "filter",
     (
         "changeset:(1)",
-        "changeset:(1, 300, 4264l)",
+        "changeset:(1, 300, 4264)",
     ),
 )
 def test_changeset_list_match(filter):

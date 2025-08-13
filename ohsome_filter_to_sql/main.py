@@ -195,7 +195,7 @@ class OFLToSql(OFLListener):
     #
     def exitChangesetMatch(self, ctx: ParserRuleContext):
         id = ctx.getChild(2).getText()
-        self.stack.append(f"changeset_id = '{id}'")
+        self.stack.append(f"changeset_id = {id}")
 
     def exitChangesetListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -206,20 +206,20 @@ class OFLToSql(OFLListener):
             if child == ",":
                 continue
             values.append(child)
-        values_as_string = "', '".join(values)
-        self.stack.append(f"changeset_id IN ('{values_as_string}')")
+        values_as_string = ", ".join(values)
+        self.stack.append(f"changeset_id IN ({values_as_string})")
 
     def exitChangesetRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
             self.stack.append(
-                f"changeset_id >= '{lower_bound}' AND changeset_id <= '{upper_bound}'"
+                f"changeset_id >= {lower_bound} AND changeset_id <= {upper_bound}"
             )
         elif lower_bound:
-            self.stack.append(f"changeset_id >= '{lower_bound}'")
+            self.stack.append(f"changeset_id >= {lower_bound}")
         elif upper_bound:
-            self.stack.append(f"changeset_id <= '{upper_bound}'")
+            self.stack.append(f"changeset_id <= {upper_bound}")
 
     def exitChangesetCreatedByMatch(self, ctx: ParserRuleContext):
         editor = self.stack.pop()
