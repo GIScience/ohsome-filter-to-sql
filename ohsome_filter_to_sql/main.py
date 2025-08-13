@@ -101,21 +101,23 @@ class OFLToSql(OFLListener):
 
     def exitIdMatch(self, ctx: ParserRuleContext):
         id = ctx.getChild(2).getText()
-        self.stack.append(f"osmId = '{id}'")
+        self.stack.append(f"osm_id = '{id}'")
 
     def exitTypeIdMatch(self, ctx: ParserRuleContext):
         type_, id = ctx.getChild(2).getText().split("/")
-        self.stack.append(f"osmType = '{type_.upper()}' AND osmId = '{id}'")
+        self.stack.append(f"osmType = '{type_.upper()}' AND osm_id = '{id}'")
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
-            self.stack.append(f"osmID >= '{lower_bound}' AND osmID <= '{upper_bound}'")
+            self.stack.append(
+                f"osm_id >= '{lower_bound}' AND osm_id <= '{upper_bound}'"
+            )
         elif lower_bound:
-            self.stack.append(f"osmID >= '{lower_bound}'")
+            self.stack.append(f"osm_id >= '{lower_bound}'")
         elif upper_bound:
-            self.stack.append(f"osmID <= '{upper_bound}'")
+            self.stack.append(f"osm_id <= '{upper_bound}'")
 
     def exitIdListMatch(self, ctx: ParserRuleContext):
         # differs from TagListMatch insofar that no STRING needs to be popped from stack
@@ -128,7 +130,7 @@ class OFLToSql(OFLListener):
                 continue
             values.append(child)
         values_as_string = "', '".join(values)
-        self.stack.append(f"osmId IN ('{values_as_string}')")
+        self.stack.append(f"osm_id IN ('{values_as_string}')")
 
     def exitTypeIdListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -139,7 +141,7 @@ class OFLToSql(OFLListener):
             if child == ",":
                 continue
             type_, id = child.split("/")
-            values.append(f"(osmId = '{id}' AND osmType = '{type_.upper()}')")
+            values.append(f"(osm_id = '{id}' AND osmType = '{type_.upper()}')")
         values_as_string = " OR ".join(values)
         self.stack.append(values_as_string)
 

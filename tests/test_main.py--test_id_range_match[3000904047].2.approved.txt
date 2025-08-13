@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE osm_id >= '1'
+
+[<Record count=370233>]

@@ -1,1 +1,1 @@
-osmId IN ('1')
+osm_id IN ('1')

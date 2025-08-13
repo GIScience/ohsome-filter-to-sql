@@ -1,1 +1,1 @@
-osmType = 'NODE' AND osmId = '3644187633'
+osmType = 'NODE' AND osm_id = '3644187633'
