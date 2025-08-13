@@ -97,7 +97,7 @@ class OFLToSql(OFLListener):
     #
     def exitTypeMatch(self, ctx: ParserRuleContext):
         type_ = ctx.getChild(2).getText()  # NODE, WAY, RELATION
-        self.stack.append(f"osmType = '{type_.upper()}'")
+        self.stack.append(f"osm_type = '{type_}'")
 
     def exitIdMatch(self, ctx: ParserRuleContext):
         id = ctx.getChild(2).getText()
@@ -105,7 +105,7 @@ class OFLToSql(OFLListener):
 
     def exitTypeIdMatch(self, ctx: ParserRuleContext):
         type_, id = ctx.getChild(2).getText().split("/")
-        self.stack.append(f"osmType = '{type_.upper()}' AND osm_id = {id}")
+        self.stack.append(f"osm_type = '{type_}' AND osm_id = {id}")
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
@@ -139,7 +139,7 @@ class OFLToSql(OFLListener):
             if child == ",":
                 continue
             type_, id = child.split("/")
-            values.append(f"(osm_id = {id} AND osmType = '{type_.upper()}')")
+            values.append(f"(osm_id = {id} AND osm_type = '{type_}')")
         values_as_string = " OR ".join(values)
         self.stack.append(values_as_string)
 

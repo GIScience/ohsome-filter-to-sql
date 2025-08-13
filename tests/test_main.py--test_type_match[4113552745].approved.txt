@@ -1,1 +1,1 @@
-osmType = 'WAY'
+osm_type = 'way'
