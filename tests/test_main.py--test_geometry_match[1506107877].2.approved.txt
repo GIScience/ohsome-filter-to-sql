@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE (status_geom_type).geom_type = 'LineString'
+
+[<Record count=80643>]

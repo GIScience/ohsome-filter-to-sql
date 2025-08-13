@@ -1,1 +1,1 @@
-(status_geom_type).geom_type = 'Line'
+(status_geom_type).geom_type = 'LineString'
