@@ -25,6 +25,7 @@ dev = [
     "pytest-approval",
     "pre-commit>=4.2.0",
     "asyncpg>=0.30.0",
+    "pytest-asyncio>=1.1.0",
 ]
 
 [tool.ruff]
@@ -62,6 +63,8 @@ addopts = ["-s"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
 
 [tool.uv.sources]
 pytest-approval = { git = "https://git.sr.ht/~talfus-laddus/pytest-approval" }

@@ -1,31 +1,27 @@
-import asyncio
-
 import asyncpg
 import pytest
 from pytest_approval import verify
 
 from ohsome_filter_to_sql.main import build_tree, ohsome_filter_to_sql
 
+pytestmark = pytest.mark.asyncio
 
-def _query(sql: str) -> list[asyncpg.Record]:
-    async def _():
-        con = await asyncpg.connect(
+# connection will be closed by pytest sessionfinish hook in conftest
+db_con: asyncpg.connection.Connection | None = None
+
+
+async def query(where_clause: str) -> str:
+    """Build a count SQL query, query database. Returned formatted SQL and results."""
+    global db_con
+    if db_con is None:
+        db_con = await asyncpg.connect(
             user="postgres",
             password="mylocalpassword",  # noqa: S106
             host="localhost",
             port=5432,
         )
-        res = await con.fetch(sql)
-        await con.close()
-        return res
-
-    return asyncio.run(_())
-
-
-def query(where_clause: str) -> str:
-    """Build a count SQL query, query database. Returned formatted SQL and results."""
     sql = "SELECT COUNT(*) FROM contributions WHERE " + where_clause
-    results = _query(sql)
+    results: list[asyncpg.Record] = await db_con.fetch(sql)
     return format_sql(sql) + "\n\n" + str(results)
 
 
@@ -54,7 +50,7 @@ def format_sql(_):
         "id:(node/1, way/2) and type:way",
     ),
 )
-def test_build_tree(filter):
+async def test_build_tree(filter):
     tree = build_tree(filter).toStringTree()
     assert verify(tree)
 
@@ -63,18 +59,18 @@ def test_build_tree(filter):
 #
 
 
-def test_expression_and_expression():
+async def test_expression_and_expression():
     filter = "natural=tree and leaf_type=broadleaved"
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
-def test_expression_or_expression():
+async def test_expression_or_expression():
     filter = "natural=tree or leaf_type=broadleaved"
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -84,17 +80,17 @@ def test_expression_or_expression():
         '("type"=boundary or name="other") and natural=tree',
     ),
 )
-def test_expression_in_brakets(filter):
+async def test_expression_in_brakets(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
-def test_hashtag_match():
+async def test_hashtag_match():
     filter = "hashtag:missingmaps"
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -104,10 +100,10 @@ def test_hashtag_match():
         "hashtag:(missingmaps, type, other)",
     ),
 )
-def test_hashtag_list_match(filter):
+async def test_hashtag_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -126,10 +122,10 @@ def test_hashtag_list_match(filter):
         "natural in (water)",  #                tagListMatch w/keyword with single value
     ),
 )
-def test_tag_match(filter):
+async def test_tag_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -140,17 +136,17 @@ def test_tag_match(filter):
         "type:relation",
     ),
 )
-def test_type_match(filter):
+async def test_type_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
-def test_id_match():
+async def test_id_match():
     filter = "id:3644187633"
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -161,10 +157,10 @@ def test_id_match():
         "id:relation/3644187633",
     ),
 )
-def test_type_id_match(filter):
+async def test_type_id_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -175,10 +171,10 @@ def test_type_id_match(filter):
         "id:(1..)",
     ),
 )
-def test_id_range_match(filter):
+async def test_id_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -188,10 +184,10 @@ def test_id_range_match(filter):
         "id:(1, 42, 1234)",
     ),
 )
-def test_id_list_match(filter):
+async def test_id_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -201,10 +197,10 @@ def test_id_list_match(filter):
         "id:(node/1, way/42, relation/1234)",
     ),
 )
-def test_type_id_list_match(filter):
+async def test_type_id_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -216,10 +212,10 @@ def test_type_id_list_match(filter):
         "geometry:other",
     ),
 )
-def test_geometry_match(filter):
+async def test_geometry_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -230,10 +226,10 @@ def test_geometry_match(filter):
         "area:(..99.99)",
     ),
 )
-def test_area_range_match(filter):
+async def test_area_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -244,17 +240,17 @@ def test_area_range_match(filter):
         "length:(..99.99)",
     ),
 )
-def test_length_range_match(filter):
+async def test_length_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
-def test_changeset_match():
+async def test_changeset_match():
     filter = "changeset:1"
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -264,10 +260,10 @@ def test_changeset_match():
         "changeset:(1, 300, 4264)",
     ),
 )
-def test_changeset_list_match(filter):
+async def test_changeset_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -278,10 +274,10 @@ def test_changeset_list_match(filter):
         "changeset:(..999)",
     ),
 )
-def test_changeset_range_match(filter):
+async def test_changeset_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
 
 
 @pytest.mark.parametrize(
@@ -293,7 +289,7 @@ def test_changeset_range_match(filter):
         'changeset.created_by:"JOSM/1.5 (19253 en_GB)"',
     ),
 )
-def test_changeset_created_by_match(filter):
+async def test_changeset_created_by_match(filter):
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
-    assert verify(query(sql))
+    assert verify(await query(sql))
