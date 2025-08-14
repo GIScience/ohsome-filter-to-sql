@@ -9,4 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
-/tests/**/*received*
+# Approvaltests
+/tests/**/*.received*
+
+# ANTLR4
+*.interp
+*.tokens
