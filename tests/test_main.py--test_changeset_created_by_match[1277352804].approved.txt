@@ -1,1 +1,0 @@
-changeset_tags @> '{"created_by": "JOSM/1.5 (19253 en_GB)"}'

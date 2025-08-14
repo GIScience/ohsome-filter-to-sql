@@ -1,0 +1,1 @@
+(osm_id = 4540889804 AND osm_type = 'node')

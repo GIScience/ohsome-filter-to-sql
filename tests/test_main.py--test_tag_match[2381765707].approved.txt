@@ -1,1 +1,0 @@
-tags @> '{"contact:website": "https://heigit.org/"}'

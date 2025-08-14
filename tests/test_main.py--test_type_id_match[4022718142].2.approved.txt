@@ -1,5 +1,6 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE osm_id = 4540889804
+WHERE osm_type = 'node' 
+AND osm_id = 4540889804
 
 [<Record count=8>]

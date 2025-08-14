@@ -1,6 +1,5 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE tags ? 'oneway' 
-AND NOT tags @> '{"oneway": "yes"}'
+WHERE NOT tags @> '{"oneway": "yes"}'
 
-[<Record count=2134>]
+[<Record count=350960>]

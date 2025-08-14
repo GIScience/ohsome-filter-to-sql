@@ -77,11 +77,14 @@ async def test_expression_or_expression(db_con):
     assert verify(await query(db_con, sql))
 
 
+# TODO
+# add tests for all grammar keywords like number, geometry, id, ...
 @pytest.mark.parametrize(
     "filter",
     (
         "(natural=tree)",
         '("type"=boundary or name="other") and natural=tree',
+        '("addr:housenumber"=45)',
     ),
 )
 async def test_expression_in_brakets(db_con, filter):
@@ -119,7 +122,7 @@ async def test_expression_in_brakets(db_con, filter):
         'name="other"',  #      tagMatch w/ keyword as value
         "natural=*",  #         tagWildcardMatch
         "oneway!=yes",  #       tagNotMatch
-        "name!=*"  #            tagNotWildcardMatch
+        "name!=*",  #            tagNotWildcardMatch
         "highway in (residential, living_street)",  # tagListMatch
         '"type" in (boundary, route)',  #             tagListMatch w/keyword as key
         "highway in (residential, other)",  #   tagListMatch w/keyword unquoted as value
@@ -147,7 +150,7 @@ async def test_type_match(db_con, filter):
 
 
 async def test_id_match(db_con):
-    filter = "id:3644187633"
+    filter = "id:4540889804"
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
     assert verify(await query(db_con, sql))
@@ -156,9 +159,9 @@ async def test_id_match(db_con):
 @pytest.mark.parametrize(
     "filter",
     (
-        "id:node/3644187633",
-        "id:way/3644187633",
-        "id:relation/3644187633",
+        "id:node/4540889804",
+        "id:way/1136431018",
+        "id:relation/2070281",
     ),
 )
 async def test_type_id_match(db_con, filter):
@@ -184,8 +187,8 @@ async def test_id_range_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
-        "id:(1)",
-        "id:(1, 42, 1234)",
+        "id:(4540889804)",
+        "id:(1136431018, 4540889804, 2070281)",
     ),
 )
 async def test_id_list_match(db_con, filter):
@@ -197,8 +200,8 @@ async def test_id_list_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
-        "id:(node/1)",
-        "id:(node/1, way/42, relation/1234)",
+        "id:(node/4540889804)",
+        "id:(node/4540889804, way/1136431018, relation/2070281)",
     ),
 )
 async def test_type_id_list_match(db_con, filter):
@@ -213,7 +216,6 @@ async def test_type_id_list_match(db_con, filter):
         "geometry:point",
         "geometry:line",
         "geometry:polygon",
-        "geometry:other",
     ),
 )
 async def test_geometry_match(db_con, filter):
@@ -222,15 +224,26 @@ async def test_geometry_match(db_con, filter):
     assert verify(await query(db_con, sql))
 
 
+@pytest.mark.skip("Not implemented yet")
+async def test_geometry_match_other(db_con, filter):
+    filter = "geometry:other"
+    sql = ohsome_filter_to_sql(filter)
+    assert verify(sql)
+    assert verify(await query(db_con, sql))
+
+
 @pytest.mark.parametrize(
     "filter",
     (
-        "area:(1.0..99.99)",
-        "area:(1.0..)",
-        "area:(..99.99)",
+        "area:(1.0..1E6)",
+        "area:(1.3..)",
+        "area:(2.0..1.0)",
+        "area:(1e6..)",
+        "area:(1..1e6)",
     ),
 )
 async def test_area_range_match(db_con, filter):
+    # TODO: ValueError: not enough values to unpack (expected 2, got 1)
     sql = ohsome_filter_to_sql(filter)
     assert verify(sql)
     assert verify(await query(db_con, sql))
@@ -240,8 +253,9 @@ async def test_area_range_match(db_con, filter):
     "filter",
     (
         "length:(1.0..99.99)",
-        "length:(1.0..)",
-        "length:(..99.99)",
+        "length:(1E6..)",
+        "length:(1e6..)",
+        "length:(..10000)",
     ),
 )
 async def test_length_range_match(db_con, filter):
@@ -297,3 +311,17 @@ async def test_length_range_match(db_con, filter):
 #     sql = ohsome_filter_to_sql(filter)
 #     assert verify(sql)
 #     assert verify(await query(sql))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "id:(1 ..2",  # missing closing bracket
+        "id:(1, 2",  # missing closing bracket
+        "id:(1, 2,)",  # missing closing bracket
+        "area:(-1..)area:(1.0..-200)length:(..-200)",
+    ),
+)
+def test_invalid_filters(filter):
+    with pytest.raises(Exception):
+        ohsome_filter_to_sql(filter)

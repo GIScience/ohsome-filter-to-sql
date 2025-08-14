@@ -1,1 +1,1 @@
-tags->>'type' IN ('boundary', 'route')
+tags -> 'type' IN ('"boundary"', '"route"')

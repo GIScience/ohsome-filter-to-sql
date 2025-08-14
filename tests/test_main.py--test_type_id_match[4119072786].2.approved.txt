@@ -1,0 +1,6 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE osm_type = 'relation' 
+AND osm_id = 2070281
+
+[<Record count=956>]

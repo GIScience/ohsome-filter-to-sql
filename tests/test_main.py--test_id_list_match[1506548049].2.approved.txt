@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE osm_id IN (1136431018, 4540889804, 2070281)
+
+[<Record count=972>]

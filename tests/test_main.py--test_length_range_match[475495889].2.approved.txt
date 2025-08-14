@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE length >= 1e6
+
+[<Record count=53>]

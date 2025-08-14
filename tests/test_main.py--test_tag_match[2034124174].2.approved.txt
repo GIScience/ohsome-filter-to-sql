@@ -1,0 +1,5 @@
+SELECT COUNT(*) 
+FROM contributions 
+WHERE tags -> 'highway' IN ('"residential"', '"living_street"')
+
+[<Record count=11536>]

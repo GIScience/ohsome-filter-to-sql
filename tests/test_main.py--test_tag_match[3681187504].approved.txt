@@ -1,1 +1,1 @@
-tags->>'natural' IN ('water')
+tags -> 'natural' IN ('"water"')

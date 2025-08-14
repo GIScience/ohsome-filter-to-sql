@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE changeset_id IN (1)
-
-[<Record count=0>]

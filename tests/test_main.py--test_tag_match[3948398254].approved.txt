@@ -1,1 +1,1 @@
-tags->>'highway' IN ('residential', 'other')
+tags -> 'highway' IN ('"residential"', '"other"')

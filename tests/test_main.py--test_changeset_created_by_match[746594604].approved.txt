@@ -1,1 +1,0 @@
-changeset_tags @> '{"created_by": "Potlatch"}'

@@ -72,11 +72,11 @@ class OFLToSql(OFLListener):
         value = self.stack.pop()
         key = self.stack.pop()
         j = json.dumps({key: value})
-        self.stack.append(f"tags ? '{key}' AND NOT tags @> '{j}'")
+        self.stack.append(f"NOT tags @> '{j}'")
 
     def exitTagNotWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
-        self.stack.append(f"NOT tags?'{key}'")
+        self.stack.append(f"NOT tags ? '{key}'")
 
     def exitTagListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -89,9 +89,9 @@ class OFLToSql(OFLListener):
             # remove STRING from stack wich are part of *ListMatch
             self.stack.pop()
             values.append(child)
-        values_as_string = "', '".join(values)
+        values_as_string = "\"', '\"".join(values)
         key = self.stack.pop()
-        self.stack.append(f"tags->>'{key}' IN ('{values_as_string}')")
+        self.stack.append(f"tags -> '{key}' IN ('\"{values_as_string}\"')")
 
     # ---
     #
@@ -146,32 +146,39 @@ class OFLToSql(OFLListener):
     # ---
     #
     def exitGeometryMatch(self, ctx: ParserRuleContext):
-        geometry_type = ctx.getChild(2).getText().title()
-        if geometry_type == "Line":
-            geometry_type = "LineString"
-        self.stack.append(f"(status_geom_type).geom_type = '{geometry_type}'")
+        geom_type = ctx.getChild(2).getText()
+        match geom_type:
+            case "point":
+                self.stack.append("(status_geom_type).geom_type = 'Point'")
+            case "line":
+                self.stack.append("(status_geom_type).geom_type = 'LineString'")
+            case "polygon":
+                self.stack.append(
+                    "(status_geom_type).geom_type = 'Polygon' "
+                    + "OR (status_geom_type).geom_type = 'MultiPolygon'"
+                )
+            case "other":
+                raise NotImplementedError()
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
-            self.stack.append(f"area >= '{lower_bound}' AND area <= '{upper_bound}'")
+            self.stack.append(f"area >= {lower_bound} AND area <= {upper_bound}")
         elif lower_bound:
-            self.stack.append(f"area >= '{lower_bound}'")
+            self.stack.append(f"area >= {lower_bound}")
         elif upper_bound:
-            self.stack.append(f"area <= '{upper_bound}'")
+            self.stack.append(f"area <= {upper_bound}")
 
     def exitLengthRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
-            self.stack.append(
-                f"length >= '{lower_bound}' AND length <= '{upper_bound}'"
-            )
+            self.stack.append(f"length >= {lower_bound} AND length <= {upper_bound}")
         elif lower_bound:
-            self.stack.append(f"length >= '{lower_bound}'")
+            self.stack.append(f"length >= {lower_bound}")
         elif upper_bound:
-            self.stack.append(f"length <= '{upper_bound}'")
+            self.stack.append(f"length <= {upper_bound}")
 
     def exitGeometryVerticesRangeMatch(self, ctx: ParserRuleContext):
         # TODO

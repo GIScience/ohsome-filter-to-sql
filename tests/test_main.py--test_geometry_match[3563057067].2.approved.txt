@@ -1,5 +1,6 @@
 SELECT COUNT(*) 
 FROM contributions 
-WHERE (status_geom_type).geom_type = 'Polygon'
+WHERE (status_geom_type).geom_type = 'Polygon' 
+OR (status_geom_type).geom_type = 'MultiPolygon'
 
-[<Record count=62628>]
+[<Record count=65523>]

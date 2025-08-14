@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE area <= '99.99'
-
-[<Record count=322839>]
