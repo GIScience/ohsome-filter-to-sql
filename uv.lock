@@ -12,6 +12,18 @@ wheels = [
 ]
 
 [[package]]
+name = "antlr4-tools"
+version = "0.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "install-jdk" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b8/7c/6033a383b196b885476210ba6ba72b501c439508ea81f1560a94ea116834/antlr4_tools-0.2.2.tar.gz", hash = "sha256:8af6fba512fc168e48eb93690ed21bdbe8848ed812d12b365d9d259a26ad6ba3", size = 6177, upload-time = "2025-04-27T16:43:22.593Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/76/e9/f3d327df348a906a83201d2a5e559194945135879b6920dbbce9c1d6fe79/antlr4_tools-0.2.2-py3-none-any.whl", hash = "sha256:79a0b971cf8337db49df076495332e9e401e2217d114ee1ac7797d3b28df001b", size = 4405, upload-time = "2025-04-27T16:43:21.527Z" },
+]
+
+[[package]]
 name = "asyncpg"
 version = "0.30.0"
 source = { registry = "https://pypi.org/simple" }
@@ -82,6 +94,15 @@ wheels = [
 ]
 
 [[package]]
+name = "install-jdk"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/67/502a753533e9b4deb691f3f7ba6303682494f2d8ee651d6253cd78045b66/install_jdk-1.1.0.tar.gz", hash = "sha256:2bfd53caf660e4916df0215a5715519dcb9547fa2a5f07421fd97a8046851eaa", size = 15181, upload-time = "2023-07-21T01:18:36.591Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7e/5e/af84054b0ff9f9fbe49a7079d46ba8b4ee7ab6192a0310d4bd2c91254626/install_jdk-1.1.0-py3-none-any.whl", hash = "sha256:b63f0fcd63f7abab3443d4120ba92716397753b8a8ea3c85762a629925a9936e", size = 15648, upload-time = "2023-07-21T01:18:35.501Z" },
+]
+
+[[package]]
 name = "nodeenv"
 version = "1.9.1"
 source = { registry = "https://pypi.org/simple" }
@@ -100,6 +121,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "antlr4-tools" },
     { name = "asyncpg" },
     { name = "pre-commit" },
     { name = "pytest" },
@@ -113,6 +135,7 @@ requires-dist = [{ name = "antlr4-python3-runtime", specifier = ">=4.13.2" }]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "antlr4-tools", specifier = ">=0.2.2" },
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "pytest", specifier = ">=8.4.1" },

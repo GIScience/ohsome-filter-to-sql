@@ -26,6 +26,7 @@ dev = [
     "pre-commit>=4.2.0",
     "asyncpg>=0.30.0",
     "pytest-asyncio>=1.1.0",
+    "antlr4-tools>=0.2.2",
 ]
 
 [tool.ruff]
