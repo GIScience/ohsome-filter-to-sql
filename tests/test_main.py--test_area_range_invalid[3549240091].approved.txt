@@ -1,0 +1,3 @@
+area:(1.0 ..)
+
+line 1:10 token recognition error at: '..)'

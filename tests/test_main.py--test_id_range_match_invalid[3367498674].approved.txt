@@ -1,0 +1,3 @@
+id:(1 .. 9999)
+
+line 1:6 token recognition error at: '.. '

@@ -1,0 +1,3 @@
+area:(-1.0..)
+
+line 1:8 token recognition error at: '.0'

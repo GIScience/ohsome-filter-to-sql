@@ -1,0 +1,3 @@
+length:(1.0 ..10.0)
+
+line 1:8 extraneous input '1.0' expecting RANGE_DEC

@@ -1,0 +1,5 @@
+type :node
+
+osm_type = 'node'
+
+[<Record count=114518>]

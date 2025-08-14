@@ -1,0 +1,3 @@
+length:(10.0 .. 100.0)
+
+line 1:13 token recognition error at: '.. '

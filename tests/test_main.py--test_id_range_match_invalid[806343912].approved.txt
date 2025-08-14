@@ -1,0 +1,3 @@
+id:(1.. 9999)
+
+line 1:8 extraneous input '9999' expecting ')'

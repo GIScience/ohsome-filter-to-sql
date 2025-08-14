@@ -10,10 +10,23 @@ from ohsome_filter_to_sql.OFLListener import OFLListener
 from ohsome_filter_to_sql.OFLParser import OFLParser
 
 
-class OFLErrorListener(ErrorListener):
-    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):  # noqa: N803
+class ParserValueError(ValueError):
+    pass
+
+
+class LexerValueError(ValueError):
+    pass
+
+
+class OFLParserErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         # message is based on antlr4 ConsoleErrorListener
-        raise ValueError("line " + str(line) + ":" + str(column) + " " + msg)
+        raise ParserValueError("line " + str(line) + ":" + str(column) + " " + msg)
+
+
+class OFLLexerErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        raise LexerValueError("line " + str(line) + ":" + str(column) + " " + msg)
 
 
 class OFLToSql(OFLListener):
@@ -265,10 +278,12 @@ def build_tree(filter: str) -> ParserRuleContext:
     """
     input_stream = InputStream(filter)
     lexer = OFLLexer(input_stream)
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(OFLLexerErrorListener())
     stream = CommonTokenStream(lexer)
     parser = OFLParser(stream)
     parser.removeErrorListeners()
-    parser.addErrorListener(OFLErrorListener())
+    parser.addErrorListener(OFLParserErrorListener())
     tree = parser.root()
     return tree
 

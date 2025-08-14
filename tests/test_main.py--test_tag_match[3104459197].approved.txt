@@ -1,0 +1,5 @@
+"natural*^what🙈"="🙈ohno != erf = and or" or "natural or *^what🙈" = "🙈ohno != erf = and or"
+
+tags @> '{"natural*^what\ud83d\ude48": "\ud83d\ude48ohno != erf = and or"}' OR tags @> '{"natural or *^what\ud83d\ude48": "\ud83d\ude48ohno != erf = and or"}'
+
+[<Record count=0>]

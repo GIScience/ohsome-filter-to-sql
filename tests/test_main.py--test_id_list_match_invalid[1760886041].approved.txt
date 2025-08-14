@@ -1,0 +1,3 @@
+id:(1 ..2
+
+line 1:6 mismatched input '..2' expecting {')', ','}

@@ -1,0 +1,3 @@
+type:foo
+
+line 1:5 mismatched input 'foo' expecting OSMTYPE

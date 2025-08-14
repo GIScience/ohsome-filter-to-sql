@@ -1,0 +1,5 @@
+natural=* and not "natürla"=*
+
+tags ? 'natural' AND tags ? 'natürla'
+
+[<Record count=0>]

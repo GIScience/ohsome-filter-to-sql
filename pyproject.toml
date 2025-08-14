@@ -57,7 +57,7 @@ select = [
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = ["S101", "S608"]  # S101 usage of asserts; S608 possible SQL injection
-"ohsome_filter_to_sql/main.py" = ["N802"]  # N802 function name should be lowercase
+"ohsome_filter_to_sql/main.py" = ["N802", "N803"]  # N802 function name should be lowercase
 
 [tool.pytest]
 addopts = ["-s"]

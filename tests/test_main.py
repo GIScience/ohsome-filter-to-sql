@@ -1,3 +1,8 @@
+# Test fixtures cover examples of the ohsome API filter documentation and
+# tests fixtures used by the ohsome dashboard for ohsome filter syntax highlighting:
+# - https://docs.ohsome.org/ohsome-api/v1/filter.html
+# - https://github.com/GIScience/ohsome-dashboard/blob/main/src/prism-language-ohsome-filter.ts
+
 from typing import AsyncGenerator
 
 import asyncpg
@@ -7,7 +12,12 @@ from asyncpg import Record
 from asyncpg.connection import Connection
 from pytest_approval import verify
 
-from ohsome_filter_to_sql.main import build_tree, ohsome_filter_to_sql
+from ohsome_filter_to_sql.main import (
+    LexerValueError,
+    ParserValueError,
+    build_tree,
+    ohsome_filter_to_sql,
+)
 
 pytestmark = pytest.mark.asyncio  # mark all tests
 
@@ -112,9 +122,18 @@ async def test_hashtag_list_match(db_con, filter):
         "natural= tree",
         "natural =tree",
         '"addr:housenumber"="45"',
-        '"type"=boundary',  #             tagMatch w/ keyword as key
-        '"building:material"="other"',  # tagMatch w/ keyword as value
+        '"type"=boundary',  #             w/ keyword as key
+        '"building:material"="other"',  # w/ keyword as value
         "oneway!=yes",
+        "oneway != yes",
+        "oneway!= yes",
+        "oneway !=yes",
+        (
+            '"natural*^what🙈"="🙈ohno != erf = and or" or "natural or *^what🙈" = '
+            + '"🙈ohno != erf = and or"'
+        ),
+        '"na\\"tural*^what🙈"="🙈ohno \\"abc\\\\!= erf = and or"',
+        'natural=* and not "natürla"=*',
     ),
 )
 async def test_tag_match(db_con, filter):
@@ -139,10 +158,27 @@ async def test_tag_wildcard_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "*=*",
+        "addr:housenumber=*",
+        "type=boundary",
+        '"building:material"=other',
+        "natürla=*",
+    ),
+)
+async def test_tag_match_invalid(filter):
+    with pytest.raises((LexerValueError, ParserValueError)) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "highway in (residential, living_street)",
-        '"type" in (boundary, route)',  #       tagListMatch w/keyword as key
-        'highway in (residential, "other")',  # tagListMatch w/keyword quoted as value
-        "natural in (water)",  #                tagListMatch w/keyword with single value
+        "highway in ( residential,living_street )",
+        '"type" in (boundary, route)',  #       w/keyword as key
+        'highway in (residential, "other")',  # w/keyword quoted as value
+        "natural in (water)",  #                w/keyword with single value
     ),
 )
 async def test_tag_list_match(db_con, filter):
@@ -154,6 +190,9 @@ async def test_tag_list_match(db_con, filter):
     "filter",
     (
         "type:node",
+        "type :node",
+        "type: node",
+        "type : node",
         "type:way",
         "type:relation",
     ),
@@ -161,6 +200,13 @@ async def test_tag_list_match(db_con, filter):
 async def test_type_match(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
+
+
+async def test_type_match_invalid():
+    filter = "type:foo"
+    with pytest.raises((LexerValueError, ParserValueError)) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
 
 
 async def test_id_match(db_con):
@@ -172,7 +218,24 @@ async def test_id_match(db_con):
 @pytest.mark.parametrize(
     "filter",
     (
+        "id:",
+        "id:foo",
+        "id:1.0",
+    ),
+)
+async def test_id_match_invalid(filter):
+    with pytest.raises((LexerValueError, ParserValueError)) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "id:node/4540889804",
+        "id :node/4540889804",
+        "id: node/4540889804",
+        "id : node/4540889804",
         "id:way/1136431018",
         "id:relation/2070281",
     ),
@@ -185,7 +248,24 @@ async def test_type_id_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "id:node/ 4540889804",
+        "id:node /4540889804",
+        "id:node / 4540889804",
+    ),
+)
+async def test_type_id_match_invalid(filter):
+    with pytest.raises((LexerValueError, ParserValueError)) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "id:(1..9999)",
+        "id :(1..9999)",
+        "id: (1..9999)",
+        "id : (1..9999)",
         "id:(..9999)",
         "id:(1..)",
     ),
@@ -198,8 +278,29 @@ async def test_id_range_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "id:(1.. 9999)",
+        "id:(1 ..9999)",
+        "id:(1 .. 9999)",
+        "id:( .. 9999)",
+        "id:(1 ..)",
+        "id:(1..",
+    ),
+)
+async def test_id_range_match_invalid(filter):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "id:(4540889804)",
+        "id: (4540889804)",
+        "id :(4540889804)",
+        "id : (4540889804)",
         "id:(1136431018, 4540889804, 2070281)",
+        "id:( 1136431018,4540889804,2070281 )",
     ),
 )
 async def test_id_list_match(db_con, filter):
@@ -210,8 +311,28 @@ async def test_id_list_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "id:(1 ..2",
+        "id:(1, 2",
+        "id:(1, 2,)",
+        "id:()",
+        "id:(, )",
+    ),
+)
+async def test_id_list_match_invalid(filter):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "id:(node/4540889804)",
+        "id :(node/4540889804)",
+        "id: (node/4540889804)",
+        "id : (node/4540889804)",
         "id:(node/4540889804, way/1136431018, relation/2070281)",
+        "id:( node/4540889804,way/1136431018,relation/2070281 )",
     ),
 )
 async def test_type_id_list_match(db_con, filter):
@@ -222,7 +343,23 @@ async def test_type_id_list_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "id:(node/4540889804, way/1136431018",
+        "id:(node/4540889804, way/1136431018, )",
+    ),
+)
+async def test_type_id_list_match_invalid(filter):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "geometry:point",
+        "geometry :point",
+        "geometry: point",
+        "geometry : point",
         "geometry:line",
         "geometry:polygon",
     ),
@@ -242,7 +379,25 @@ async def test_geometry_match_other(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "geometry:",
+        "geometry:foo",
+        "geometry:1",
+    ),
+)
+async def test_gemoetry_match_invalid(filter):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "area:(1.0..1E6)",
+        "area :(1.0..1E6)",
+        "area: (1.0..1E6)",
+        "area : (1.0..1E6)",
+        "area:( 1.0..1E6 )",
         "area:(1.3..)",
         "area:(2.0..1.0)",
         "area:(1e6..)",
@@ -258,15 +413,63 @@ async def test_area_range_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "area:(1..)",
+        "area:(..9999)",
+        "area:(1..9999)",
+        "area:(-1.0..)",
+        "area:(1.0..-200)",
+        "area:(..-200)",
+        "area:(1.0.. 9999.0)",
+        "area:(1.0 ..9999.0)",
+        "area:(1.0 .. 9999.0)",
+        "area:( .. 9999.0)",
+        "area:(1.0 ..)",
+    ),
+)
+async def test_area_range_invalid(filter):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "length:(1.0..99.99)",
+        "length :(1.0..99.99)",
+        "length: (1.0..99.99)",
+        "length : (1.0..99.99)",
+        "length:( 1.0..99.99 )",
         "length:(1E6..)",
         "length:(1e6..)",
-        "length:(..10000)",
     ),
 )
 async def test_length_range_match(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "length:(1..)",
+        "length:(1..99)",
+        "length:(..99)",
+        "length:(-1..)",
+        "length:(3.0..-200.0)",
+        "length:(..-200.0)",
+        "length:(1.0.. 10.0)",
+        "length:(1.0 ..10.0)",
+        "length:(1.0 .. 10.0)",
+        "length:( .. 10.0)",
+        "length:(1.0 ..)",
+        "length:(10.0 .. 100.0)",
+    ),
+)
+async def test_length_range_invalid(filter):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
 
 
 @pytest.mark.skip("Not implemented yet.")
@@ -280,8 +483,13 @@ async def test_changeset_match(db_con):
 @pytest.mark.parametrize(
     "filter",
     (
+        "changeset:1",
+        "changeset :1",
+        "changeset: 1",
+        "changeset : 1",
         "changeset:(1)",
         "changeset:(1, 300, 4264)",
+        "changeset:( 1,300,4264 )",
     ),
 )
 async def test_changeset_list_match(db_con, filter):
@@ -294,6 +502,10 @@ async def test_changeset_list_match(db_con, filter):
     "filter",
     (
         "changeset:(1..999)",
+        "changeset :(1..999)",
+        "changeset: (1..999)",
+        "changeset : (1..999)",
+        "changeset:( 1..999 )",
         "changeset:(1..)",
         "changeset:(..999)",
     ),
@@ -316,20 +528,3 @@ async def test_changeset_range_match(db_con, filter):
 async def test_changeset_created_by_match(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
-
-
-@pytest.mark.parametrize(
-    "filter",
-    (
-        "id:(1 ..2",  # missing closing bracket
-        "id:(1, 2",  # missing closing bracket
-        "id:(1, 2,)",  # missing closing bracket
-        "area:(-1..)",
-        "area:(1.0..-200)",
-        "length:(..-200)",
-        "*=*",
-    ),
-)
-async def test_invalid_filters(filter):
-    with pytest.raises(ValueError) as e:  # noqa: F841
-        ohsome_filter_to_sql(filter)

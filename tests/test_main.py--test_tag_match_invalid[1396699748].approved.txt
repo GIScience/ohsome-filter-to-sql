@@ -1,0 +1,3 @@
+natürla=*
+
+line 1:3 token recognition error at: 'ü'
