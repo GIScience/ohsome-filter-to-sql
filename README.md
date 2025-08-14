@@ -37,9 +37,16 @@ sql_query = ohsome_filter_to_sql("natural = tree")
 
 ## Development Setup
 
+Setup a local instance of the [ohsomeDB](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/tree/main/local_setup).
+
+After ohsomeDB runs on `localhost:5432` all tests can be run with:
+```sh
+uv run pytest
+```
+
+To install pre-commit hooks run:
 ```sh
 uv run pre-commit install
-uv run pytest
 ```
 
 ### How to play around with the grammar?
