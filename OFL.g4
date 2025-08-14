@@ -75,7 +75,7 @@ changesetRangeMatch: CHANGESET ':' '(' RANGE_INT ')';
 changesetCreatedByMatch: CHANGESET_CREATEDBY ':' string;
 
 
-string: WORD | QUOTED;
+string: WORD | QUOTED | NUMBER;
 
 
 AND: 'and';
@@ -102,7 +102,7 @@ OSMID: OSMTYPE '/' NUMBER;
 GEOMETRY_TYPE: 'point' | 'line' | 'polygon' | 'other';
 
 NUMBER: NUMERAL+;
-DECIMAL: NUMERAL+ ('.' NUMERAL+)? ('E' NUMERAL+)?;
+DECIMAL: NUMERAL+ ('.' NUMERAL+)? ([Ee] NUMERAL+)?;
 WORD: LETTER+;
 QUOTED: '"' CHARACTER+ '"';
 
