@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE tags @> '{"addr:housenumber": "45"}'
-
-[<Record count=203>]

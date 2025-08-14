@@ -1,1 +1,5 @@
+"type" in (boundary, route)
+
 tags -> 'type' IN ('"boundary"', '"route"')
+
+[<Record count=99860>]

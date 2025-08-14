@@ -1,6 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE osm_type = 'way' 
-AND osm_id = 3644187633
-
-[<Record count=0>]

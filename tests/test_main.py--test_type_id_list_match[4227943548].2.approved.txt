@@ -1,6 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE (osm_id = 1 
-AND osm_type = 'node')
-
-[<Record count=0>]

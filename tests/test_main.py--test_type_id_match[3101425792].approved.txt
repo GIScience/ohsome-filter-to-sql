@@ -1,1 +1,0 @@
-osm_type = 'node' AND osm_id = 3644187633

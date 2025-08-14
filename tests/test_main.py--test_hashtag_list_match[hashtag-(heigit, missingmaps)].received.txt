@@ -1,1 +1,0 @@
-array['heigit', 'missingmaps'] && hashtag

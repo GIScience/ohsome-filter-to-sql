@@ -1,1 +1,5 @@
+id:way/1136431018
+
 osm_type = 'way' AND osm_id = 1136431018
+
+[<Record count=8>]

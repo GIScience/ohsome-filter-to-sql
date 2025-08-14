@@ -1,1 +1,0 @@
-(osm_id = 1 AND osm_type = 'node')

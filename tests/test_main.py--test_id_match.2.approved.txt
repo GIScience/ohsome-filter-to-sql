@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE osm_id = 4540889804
-
-[<Record count=8>]

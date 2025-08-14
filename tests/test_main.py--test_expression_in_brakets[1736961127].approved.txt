@@ -1,1 +1,5 @@
+("type"=boundary or name="other") and natural=tree
+
 (tags @> '{"type": "boundary"}' OR tags @> '{"name": "other"}') AND tags @> '{"natural": "tree"}'
+
+[<Record count=0>]

@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE tags -> 'highway' IN ('"residential"', '"other"')
-
-[<Record count=9962>]

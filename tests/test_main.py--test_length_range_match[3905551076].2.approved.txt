@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE length <= 10000
-
-[<Record count=369805>]

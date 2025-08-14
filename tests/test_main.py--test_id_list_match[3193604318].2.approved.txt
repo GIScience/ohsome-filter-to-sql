@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE osm_id IN (1, 42, 1234)
-
-[<Record count=0>]

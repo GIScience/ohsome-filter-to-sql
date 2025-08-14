@@ -1,1 +1,5 @@
+name="other"
+
 tags @> '{"name": "other"}'
+
+[<Record count=0>]

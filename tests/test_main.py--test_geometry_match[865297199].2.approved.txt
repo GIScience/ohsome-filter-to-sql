@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE (status_geom_type).geom_type = 'Point'
-
-[<Record count=114608>]

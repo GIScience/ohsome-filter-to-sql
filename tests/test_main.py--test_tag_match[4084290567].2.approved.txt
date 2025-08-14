@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE tags @> '{"type": "boundary"}'
-
-[<Record count=457>]

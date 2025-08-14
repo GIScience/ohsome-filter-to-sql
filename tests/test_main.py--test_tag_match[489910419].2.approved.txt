@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE tags @> '{"natural": "tree"}'
-
-[<Record count=5736>]

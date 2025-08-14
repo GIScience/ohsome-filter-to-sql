@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE tags @> '{"name": "other"}'
-
-[<Record count=0>]

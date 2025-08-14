@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE osm_type = 'relation'
-
-[<Record count=112354>]

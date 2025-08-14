@@ -1,5 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE NOT tags @> '{"oneway": "yes"}'
-
-[<Record count=350960>]

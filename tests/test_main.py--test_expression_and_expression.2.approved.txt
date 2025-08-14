@@ -1,6 +1,0 @@
-SELECT COUNT(*) 
-FROM contributions 
-WHERE tags @> '{"natural": "tree"}' 
-AND tags @> '{"leaf_type": "broadleaved"}'
-
-[<Record count=3916>]
