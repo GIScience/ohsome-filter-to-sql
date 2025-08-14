@@ -107,21 +107,45 @@ async def test_hashtag_list_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
-        '"addr:housenumber"="45"',  # tagMatch
-        "natural=tree",  #      tagMatch
-        '"type"=boundary',  #   tagMatch w/ keyword as key
-        '"building:material"="other"',  #      tagMatch w/ keyword as value
-        "natural=*",  #         tagWildcardMatch
-        "oneway!=yes",  #       tagNotMatch
-        "name!=*",  #            tagNotWildcardMatch
-        "highway in (residential, living_street)",  # tagListMatch
-        '"type" in (boundary, route)',  #             tagListMatch w/keyword as key
-        "highway in (residential, other)",  #   tagListMatch w/keyword unquoted as value
-        "natural in (water)",  #                tagListMatch w/keyword with single value
-        '"*"=*',
+        "natural=tree",
+        "natural = tree",
+        "natural= tree",
+        "natural =tree",
+        '"addr:housenumber"="45"',
+        '"type"=boundary',  #             tagMatch w/ keyword as key
+        '"building:material"="other"',  # tagMatch w/ keyword as value
+        "oneway!=yes",
     ),
 )
 async def test_tag_match(db_con, filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "natural=*",
+        "name!=*",
+        '"*"=*',
+        '"*"!=*',
+    ),
+)
+async def test_tag_wildcard_match(db_con, filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "highway in (residential, living_street)",
+        '"type" in (boundary, route)',  #       tagListMatch w/keyword as key
+        'highway in (residential, "other")',  # tagListMatch w/keyword quoted as value
+        "natural in (water)",  #                tagListMatch w/keyword with single value
+    ),
+)
+async def test_tag_list_match(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
 
