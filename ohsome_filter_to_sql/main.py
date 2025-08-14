@@ -3,10 +3,17 @@ import sys
 from collections import deque
 
 from antlr4 import CommonTokenStream, InputStream, ParserRuleContext, ParseTreeWalker
+from antlr4.error.ErrorListener import ErrorListener
 
 from ohsome_filter_to_sql.OFLLexer import OFLLexer
 from ohsome_filter_to_sql.OFLListener import OFLListener
 from ohsome_filter_to_sql.OFLParser import OFLParser
+
+
+class OFLErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):  # noqa: N803
+        # message is based on antlr4 ConsoleErrorListener
+        raise ValueError("line " + str(line) + ":" + str(column) + " " + msg)
 
 
 class OFLToSql(OFLListener):
@@ -260,6 +267,8 @@ def build_tree(filter: str) -> ParserRuleContext:
     lexer = OFLLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = OFLParser(stream)
+    parser.removeErrorListeners()
+    parser.addErrorListener(OFLErrorListener())
     tree = parser.root()
     return tree
 

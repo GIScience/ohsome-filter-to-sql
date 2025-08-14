@@ -118,6 +118,7 @@ async def test_hashtag_list_match(db_con, filter):
         '"type" in (boundary, route)',  #             tagListMatch w/keyword as key
         "highway in (residential, other)",  #   tagListMatch w/keyword unquoted as value
         "natural in (water)",  #                tagListMatch w/keyword with single value
+        '"*"=*',
     ),
 )
 async def test_tag_match(db_con, filter):
@@ -299,9 +300,12 @@ async def test_changeset_created_by_match(db_con, filter):
         "id:(1 ..2",  # missing closing bracket
         "id:(1, 2",  # missing closing bracket
         "id:(1, 2,)",  # missing closing bracket
-        "area:(-1..)area:(1.0..-200)length:(..-200)",
+        "area:(-1..)",
+        "area:(1.0..-200)",
+        "length:(..-200)",
+        "*=*",
     ),
 )
-def test_invalid_filters(filter):
-    with pytest.raises(Exception):  # noqa: B017
+async def test_invalid_filters(filter):
+    with pytest.raises(ValueError) as e:  # noqa: F841
         ohsome_filter_to_sql(filter)

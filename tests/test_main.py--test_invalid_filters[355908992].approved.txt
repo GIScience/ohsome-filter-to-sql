@@ -1,0 +1,3 @@
+length:(..-200)
+
+line 1:11 mismatched input '200' expecting RANGE_DEC

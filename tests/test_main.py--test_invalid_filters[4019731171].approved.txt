@@ -1,0 +1,3 @@
+area:(-1..)
+
+line 1:6 mismatched input '-1' expecting RANGE_DEC
