@@ -28,7 +28,7 @@ uv add ohsome-filter-to-sql
 ## Usage as Python library
 
 ```python
-from ohsome_filter_to_sql import ohsome_filter_to_sql
+from ohsome_filter_to_sql.main import ohsome_filter_to_sql
 
 
 sql_query = ohsome_filter_to_sql("natural = tree")
@@ -57,8 +57,7 @@ buildings=yes
 When the grammar file has change generate new Python code with `antlr4` and move genrated files to `ohsome_filter_to_sql/`.
 
 ```sh
-uv run antlr4 -Dlanguage=Python3 OFL.g4
-mv *.py ohsome_filter_to_sql/
+uv run antlr4 -Dlanguage=Python3 OFL.g4 && mv *.py ohsome_filter_to_sql/
 ```
 
 ## Inbox

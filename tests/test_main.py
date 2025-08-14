@@ -2,6 +2,9 @@
 # tests fixtures used by the ohsome dashboard for ohsome filter syntax highlighting:
 # - https://docs.ohsome.org/ohsome-api/v1/filter.html
 # - https://github.com/GIScience/ohsome-dashboard/blob/main/src/prism-language-ohsome-filter.ts
+#
+# TODO: implement the rest of ohsome api docs examples as tests:
+# -> https://docs.ohsome.org/ohsome-api/v1/filter.html#examples
 
 from typing import AsyncGenerator
 
