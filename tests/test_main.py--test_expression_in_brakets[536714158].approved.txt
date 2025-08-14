@@ -1,0 +1,5 @@
+(not natural=tree)
+
+(NOT tags @> '{"natural": "tree"}')
+
+[<Record count=364497>]

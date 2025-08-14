@@ -135,6 +135,7 @@ async def test_not_expression_comparison(db_con, filters):
         "((natural=tree))",
         '("addr:housenumber"=45 and "addr:street"="Berliner Straße") or name="HeiGIT"',
         'not ("addr:housenumber"=45 and "addr:street"="Berliner Straße") or name="HeiGIT"',  # noqa
+        "(not natural=tree)",
     ),
 )
 async def test_expression_in_brakets(db_con, filter):
