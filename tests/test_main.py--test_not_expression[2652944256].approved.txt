@@ -1,0 +1,5 @@
+not highway in (residential, living_street)
+
+NOT tags -> 'highway' IN ('"residential"', '"living_street"')
+
+[<Record count=68829>]

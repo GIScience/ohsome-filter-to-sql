@@ -83,8 +83,55 @@ async def test_expression_or_expression(db_con):
 @pytest.mark.parametrize(
     "filter",
     (
+        "not natural=tree",
+        "not natural!=tree",
+        "not natural=*",
+        "not highway in (residential, living_street)",
+        "not type:node",
+        "not id:node/4540889804",
+        "not geometry:point",
+        "not area:(1.0..1E6)",
+        "not length:(1.0..99.99)",
+    ),
+)
+async def test_not_expression(db_con, filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filters",
+    (
+        ("not natural=tree", "natural!=tree"),
+        ("natural=tree", "not natural!=tree"),
+        ("natural=tree", "not not natural=tree"),
+        (
+            "not highway in (residential, living_street)",
+            "highway=* and highway!=residential and highway!=living_street",
+        ),
+        ("not type:node", "type:way or type:relation"),
+        ("not geometry:point", "geometry:line or geometry:polygon"),
+        ("not length:(..99.99)", "length:(99.99..)"),
+        ("not length:(..1e6)", "length:(1e6..)"),
+    ),
+)
+async def test_not_expression_comparison(db_con, filters):
+    sql_where_clause_1 = ohsome_filter_to_sql(filters[0])
+    sql_where_clause_2 = ohsome_filter_to_sql(filters[1])
+    sql_1 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_1
+    sql_2 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_2
+    results_1: list[Record] = await db_con.fetch(sql_1)
+    results_2: list[Record] = await db_con.fetch(sql_2)
+    assert results_1 == results_2
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "(natural=tree)",
+        "((natural=tree))",
         '("addr:housenumber"=45 and "addr:street"="Berliner Straße") or name="HeiGIT"',
+        'not ("addr:housenumber"=45 and "addr:street"="Berliner Straße") or name="HeiGIT"',  # noqa
     ),
 )
 async def test_expression_in_brakets(db_con, filter):
@@ -268,6 +315,7 @@ async def test_type_id_match_invalid(filter):
         "id : (1..9999)",
         "id:(..9999)",
         "id:(1..)",
+        "id:(1..9999) or id:4540889804",
     ),
 )
 async def test_id_range_match(db_con, filter):
@@ -333,6 +381,7 @@ async def test_id_list_match_invalid(filter):
         "id : (node/4540889804)",
         "id:(node/4540889804, way/1136431018, relation/2070281)",
         "id:( node/4540889804,way/1136431018,relation/2070281 )",
+        "id:(node/4540889804, relation/2070281) or way/1136431018",
     ),
 )
 async def test_type_id_list_match(db_con, filter):
@@ -402,6 +451,7 @@ async def test_gemoetry_match_invalid(filter):
         "area:(2.0..1.0)",
         "area:(1e6..)",
         "area:(1..1e6)",
+        "area:(1.0..1E6) or area:(..0.5)",
     ),
 )
 async def test_area_range_match(db_con, filter):
@@ -442,6 +492,7 @@ async def test_area_range_invalid(filter):
         "length:( 1.0..99.99 )",
         "length:(1E6..)",
         "length:(1e6..)",
+        "length:(1.0..99.99) or length:(..0.5)",
     ),
 )
 async def test_length_range_match(db_con, filter):
@@ -508,6 +559,7 @@ async def test_changeset_list_match(db_con, filter):
         "changeset:( 1..999 )",
         "changeset:(1..)",
         "changeset:(..999)",
+        "changeset:(50..999) or changeset:(..10)",
     ),
 )
 async def test_changeset_range_match(db_con, filter):

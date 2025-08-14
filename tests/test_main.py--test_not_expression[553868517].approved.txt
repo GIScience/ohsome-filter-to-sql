@@ -1,0 +1,5 @@
+not id:node/4540889804
+
+NOT (osm_type = 'node' AND osm_id = 4540889804)
+
+[<Record count=370225>]

@@ -1,0 +1,5 @@
+not natural=*
+
+NOT tags ? 'natural'
+
+[<Record count=363801>]

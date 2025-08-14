@@ -1,0 +1,5 @@
+not length:(1.0..99.99)
+
+NOT (length >= 1.0 AND length <= 99.99)
+
+[<Record count=319534>]

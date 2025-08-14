@@ -47,8 +47,11 @@ class OFLToSql(OFLListener):
             else:
                 right = self.stack.pop()
                 left = self.stack.pop()
-                operator = ctx.getChild(1).getText().upper()  # AND, OR, NOT
+                operator = ctx.getChild(1).getText().upper()  # AND, OR
                 self.stack.append(f"{left} {operator} {right}")
+        elif ctx.getChildCount() == 2:
+            operator = ctx.getChild(0).getText().upper()  # NOT
+            self.stack.append(f"{operator} {self.stack.pop()}")
 
     # ---
     #
@@ -125,13 +128,13 @@ class OFLToSql(OFLListener):
 
     def exitTypeIdMatch(self, ctx: ParserRuleContext):
         type_, id = ctx.getChild(2).getText().split("/")
-        self.stack.append(f"osm_type = '{type_}' AND osm_id = {id}")
+        self.stack.append(f"(osm_type = '{type_}' AND osm_id = {id})")
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
-            self.stack.append(f"osm_id >= {lower_bound} AND osm_id <= {upper_bound}")
+            self.stack.append(f"(osm_id >= {lower_bound} AND osm_id <= {upper_bound})")
         elif lower_bound:
             self.stack.append(f"osm_id >= {lower_bound}")
         elif upper_bound:
@@ -160,7 +163,10 @@ class OFLToSql(OFLListener):
                 continue
             type_, id = child.split("/")
             values.append(f"(osm_id = {id} AND osm_type = '{type_}')")
-        values_as_string = " OR ".join(values)
+        if len(values) > 1:
+            values_as_string = "(" + " OR ".join(values) + ")"
+        else:
+            values_as_string = " OR ".join(values)
         self.stack.append(values_as_string)
 
     # ---
@@ -174,8 +180,8 @@ class OFLToSql(OFLListener):
                 self.stack.append("(status_geom_type).geom_type = 'LineString'")
             case "polygon":
                 self.stack.append(
-                    "(status_geom_type).geom_type = 'Polygon' "
-                    + "OR (status_geom_type).geom_type = 'MultiPolygon'"
+                    "((status_geom_type).geom_type = 'Polygon' "
+                    + "OR (status_geom_type).geom_type = 'MultiPolygon')"
                 )
             case "other":
                 raise NotImplementedError()
@@ -184,7 +190,7 @@ class OFLToSql(OFLListener):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
-            self.stack.append(f"area >= {lower_bound} AND area <= {upper_bound}")
+            self.stack.append(f"(area >= {lower_bound} AND area <= {upper_bound})")
         elif lower_bound:
             self.stack.append(f"area >= {lower_bound}")
         elif upper_bound:
@@ -194,7 +200,7 @@ class OFLToSql(OFLListener):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
-            self.stack.append(f"length >= {lower_bound} AND length <= {upper_bound}")
+            self.stack.append(f"(length >= {lower_bound} AND length <= {upper_bound})")
         elif lower_bound:
             self.stack.append(f"length >= {lower_bound}")
         elif upper_bound:
@@ -243,7 +249,7 @@ class OFLToSql(OFLListener):
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
             self.stack.append(
-                f"changeset_id >= {lower_bound} AND changeset_id <= {upper_bound}"
+                f"(changeset_id >= {lower_bound} AND changeset_id <= {upper_bound})"
             )
         elif lower_bound:
             self.stack.append(f"changeset_id >= {lower_bound}")

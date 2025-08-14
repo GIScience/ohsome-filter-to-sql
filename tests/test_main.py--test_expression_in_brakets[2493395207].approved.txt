@@ -1,0 +1,5 @@
+not ("addr:housenumber"=45 and "addr:street"="Berliner Straße") or name="HeiGIT"
+
+NOT (tags @> '{"addr:housenumber": "45"}' AND tags @> '{"addr:street": "Berliner Stra\u00dfe"}') OR tags @> '{"name": "HeiGIT"}'
+
+[<Record count=370218>]

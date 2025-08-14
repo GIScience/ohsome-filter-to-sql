@@ -1,0 +1,5 @@
+highway in (residential, living_street) and surface=paved
+
+tags -> 'highway' IN ('"residential"', '"living_street"') AND tags @> '{"surface": "paved"}'
+
+[<Record count=591>]

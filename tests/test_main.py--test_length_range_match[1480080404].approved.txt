@@ -1,0 +1,5 @@
+length:(1.0..99.99) or length:(..0.5)
+
+(length >= 1.0 AND length <= 99.99) OR length <= 0.5
+
+[<Record count=340372>]

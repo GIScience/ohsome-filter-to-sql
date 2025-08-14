@@ -1,0 +1,5 @@
+not geometry:point
+
+NOT (status_geom_type).geom_type = 'Point'
+
+[<Record count=255625>]
