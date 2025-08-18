@@ -1,0 +1,5 @@
+type:way and (highway in (motorway, motorway_link, trunk, trunk_link, primary, primary_link, secondary, secondary_link, tertiary, tertiary_link, unclassified, residential, living_street, pedestrian) or (highway=service and service=alley))
+
+osm_type = 'way' AND (tags -> 'highway' IN ('"motorway"', '"motorway_link"', '"trunk"', '"trunk_link"', '"primary"', '"primary_link"', '"secondary"', '"secondary_link"', '"tertiary"', '"tertiary_link"', '"unclassified"', '"residential"', '"living_street"', '"pedestrian"') OR (tags @> '{"highway": "service"}' AND tags @> '{"service": "alley"}'))
+
+[<Record count=30935>]

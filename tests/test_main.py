@@ -584,3 +584,25 @@ async def test_changeset_range_match(db_con, filter):
 async def test_changeset_created_by_match(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "(landuse=forest or natural=wood) and geometry:polygon",
+        "leisure=park and geometry:polygon or amenity=bench and (geometry:point or geometry:line)",  # noqa
+        "building=* and building!=no and geometry:polygon",
+        (
+            "type:way and (highway in (motorway, motorway_link, trunk, trunk_link, "
+            + "primary, primary_link, secondary, secondary_link, tertiary, "
+            + "tertiary_link, unclassified, residential, living_street, pedestrian) "
+            + "or (highway=service and service=alley))"
+        ),
+        "type:way and highway=residential and name!=* and noname!=yes",
+        "geometry:polygon and building=* and building!=no and area:(1E6..)",
+    ),
+)
+async def test_ohsome_api_examples(db_con, filter):
+    # https://docs.ohsome.org/ohsome-api/v1/filter.html#examples
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
