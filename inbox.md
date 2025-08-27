@@ -42,3 +42,5 @@ Warning but works:
 length:(..10000)
 line 1:8 mismatched input '..10000' expecting RANGE_DEC
 ```
+
+Can we re-write or queries to not use or but a json operator?
