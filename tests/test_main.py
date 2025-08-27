@@ -2,9 +2,6 @@
 # tests fixtures used by the ohsome dashboard for ohsome filter syntax highlighting:
 # - https://docs.ohsome.org/ohsome-api/v1/filter.html
 # - https://github.com/GIScience/ohsome-dashboard/blob/main/src/prism-language-ohsome-filter.ts
-#
-# TODO: implement the rest of ohsome api docs examples as tests:
-# -> https://docs.ohsome.org/ohsome-api/v1/filter.html#examples
 
 from typing import AsyncGenerator
 
@@ -604,5 +601,22 @@ async def test_changeset_created_by_match(db_con, filter):
 )
 async def test_ohsome_api_examples(db_con, filter):
     # https://docs.ohsome.org/ohsome-api/v1/filter.html#examples
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "geometry:line and  (highway=* or railway=platform) and not "
+        + '(cycleway=separate or "cycleway:both"=separate or '
+        + '("cycleway:right"=separate and "cycleway:left"=separate) or '
+        + "indoor=yes or indoor=corridor)",
+        "((highway=footway) or (highway=path and (foot=designated or foot=yes)) or "
+        + "(highway=pedestrian) or (highway=steps) or (highway=cycleway and foot=yes) "
+        + "or (sidewalk=* and highway!=motorway) or (foot=yes)) and geometry:line)",
+    ),
+)
+async def test_climate_action_navigator_examples(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
