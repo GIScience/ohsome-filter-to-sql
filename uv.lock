@@ -125,6 +125,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "antlr4-python3-runtime" },
+    { name = "pytest-approval" },
 ]
 
 [package.dev-dependencies]
@@ -133,13 +134,15 @@ dev = [
     { name = "asyncpg" },
     { name = "pre-commit" },
     { name = "pytest" },
-    { name = "pytest-approval" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "antlr4-python3-runtime", specifier = ">=4.13.2" }]
+requires-dist = [
+    { name = "antlr4-python3-runtime", specifier = ">=4.13.2" },
+    { name = "pytest-approval", git = "https://github.com/GIScience/pytest-approval.git" },
+]
 
 [package.metadata.requires-dev]
 dev = [
@@ -147,7 +150,6 @@ dev = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "pytest", specifier = ">=8.4.1" },
-    { name = "pytest-approval", git = "https://git.sr.ht/~talfus-laddus/pytest-approval" },
     { name = "pytest-asyncio", specifier = ">=1.1.0" },
     { name = "ruff", specifier = ">=0.12.4" },
 ]
@@ -223,7 +225,7 @@ wheels = [
 [[package]]
 name = "pytest-approval"
 version = "0.8.0"
-source = { git = "https://git.sr.ht/~talfus-laddus/pytest-approval#f55f9765c01e6d0cb393096c98d36c017b056cea" }
+source = { git = "https://github.com/GIScience/pytest-approval.git#20295691686de19689c58b7d2cd4ea8207e38d4c" }
 dependencies = [
     { name = "pytest" },
 ]

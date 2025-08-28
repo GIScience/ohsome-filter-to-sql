@@ -8,6 +8,7 @@ authors = [{email="ohsome@heigit.org"}]
 requires-python = ">=3.12"
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
+    "pytest-approval",
 ]
 
 [project.scripts]
@@ -19,11 +20,13 @@ package = true
 [tool.uv.build-backend]
 module-root = ""  # use ohsome-filter-to-sql/ as root instead the default src/ohsome-filter-to-sql
 
+[tool.uv.sources]
+pytest-approval = { git = "https://github.com/GIScience/pytest-approval.git" }
+
 [dependency-groups]
 dev = [
     "pytest>=8.4.1",
     "ruff>=0.12.4",
-    "pytest-approval",
     "pre-commit>=4.2.0",
     "asyncpg>=0.30.0",
     "pytest-asyncio>=1.1.0",
@@ -67,7 +70,4 @@ addopts = ["-s"]
 testpaths = ["tests"]
 asyncio_default_fixture_loop_scope = "session"
 asyncio_default_test_loop_scope = "session"
-
-[tool.uv.sources]
-pytest-approval = { git = "https://git.sr.ht/~talfus-laddus/pytest-approval" }
 
