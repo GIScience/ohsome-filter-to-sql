@@ -37,10 +37,5 @@ line 1:4 no viable alternative at input 'foo=geometry'
 Above does not work for every keyword like area, type, id, ...
 
 
-Warning but works:
-```
-length:(..10000)
-line 1:8 mismatched input '..10000' expecting RANGE_DEC
-```
 
 Can we re-write or queries to not use or but a json operator?
