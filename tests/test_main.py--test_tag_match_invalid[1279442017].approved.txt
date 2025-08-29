@@ -1,3 +1,0 @@
-"building:material"=other
-
-line 1:20 no viable alternative at input '"building:material"=other'

@@ -1,3 +1,3 @@
 geometry:foo
 
-line 1:9 mismatched input 'foo' expecting GEOMETRY_TYPE
+line 1:12 no viable alternative at input 'geometry:foo'

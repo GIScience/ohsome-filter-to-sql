@@ -34,7 +34,13 @@ class OFLToSql(OFLListener):
         self.stack: deque = deque()
 
     def exitString(self, ctx: ParserRuleContext):
-        self.stack.append(unescape(ctx.getChild(0).getText()))
+        if ctx.getChildCount() == 1:
+            self.stack.append(unescape(ctx.getChild(0).getText()))
+        else:
+            result = ""
+            for child in ctx.getChildren():
+                result += child.getText()
+            self.stack.append(result)
 
     # --- methods are sorted in the same order as rules in OFL.g4
     #

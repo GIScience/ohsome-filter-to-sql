@@ -1,0 +1,5 @@
+addr:housenumber=*
+
+tags ? 'addr:housenumber'
+
+[<Record count=1118053>]

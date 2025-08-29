@@ -1,0 +1,5 @@
+"natüröa"="yes"
+
+tags @> '{"nat\u00fcr\u00f6a": "yes"}'
+
+[<Record count=0>]
