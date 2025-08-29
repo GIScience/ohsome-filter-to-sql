@@ -20,22 +20,6 @@
 - potential enhancement: `WHERE tags @> '{"natural": "tree"}' AND tags @> '{"leaf_type": "broadleaved"}'` vs `WHERE tags @> '{"natural": "tree", "leaf_type": "broadleaved"}'`?
 
 
-Can we avoid using quoted keywords like `"type"="other"`. E.g. by extending grammar with (other keywords are missing here like other and way ...):
-``` 
-tagMatch: key '=' value;
-value: string | TYPE;
-key: string | TYPE;
-```
-
-
-Does not work due to value being grammar keyword
-```
-ohsome-filter-to-sql
-foo=geometry
-line 1:4 no viable alternative at input 'foo=geometry'
-```
-Above does not work for every keyword like area, type, id, ...
-
 
 
 Can we re-write or queries to not use or but a json operator?
