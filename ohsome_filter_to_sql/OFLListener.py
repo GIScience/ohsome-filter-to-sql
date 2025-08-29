@@ -278,5 +278,23 @@ class OFLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by OFLParser#range_int.
+    def enterRange_int(self, ctx:OFLParser.Range_intContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#range_int.
+    def exitRange_int(self, ctx:OFLParser.Range_intContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#range_dec.
+    def enterRange_dec(self, ctx:OFLParser.Range_decContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#range_dec.
+    def exitRange_dec(self, ctx:OFLParser.Range_decContext):
+        pass
+
+
 
 del OFLParser

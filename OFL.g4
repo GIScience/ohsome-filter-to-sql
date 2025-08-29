@@ -55,23 +55,23 @@ hashtagListMatch: HASHTAG ':' '(' string (',' string)* ')';
 typeMatch: TYPE ':' OSMTYPE;
 idMatch: ID ':' NUMBER;
 typeIdMatch: ID ':' OSMID;
-idRangeMatch: ID ':' '(' RANGE_INT ')';
+idRangeMatch: ID ':' '(' range_int ')';
 idListMatch: ID ':' '(' NUMBER (',' NUMBER)* ')';
 typeIdListMatch: ID ':' '(' OSMID (',' OSMID)* ')';
 
 geometryMatch: GEOMETRY ':' GEOMETRY_TYPE;
-areaRangeMatch: AREA ':' '(' RANGE_DEC ')';
-perimeterRangeMatch: PERIMETER ':' '(' RANGE_DEC ')';
-lengthRangeMatch: LENGTH ':' '(' RANGE_DEC ')';
-geometryVerticesRangeMatch: GEOMETRY_VERTICES ':' '(' RANGE_INT ')';
+areaRangeMatch: AREA ':' '(' range_dec ')';
+perimeterRangeMatch: PERIMETER ':' '(' range_dec ')';
+lengthRangeMatch: LENGTH ':' '(' range_dec ')';
+geometryVerticesRangeMatch: GEOMETRY_VERTICES ':' '(' range_int ')';
 geometryOutersMatch: GEOMETRY_OUTERS ':' NUMBER;
-geometryOutersRangeMatch: GEOMETRY_OUTERS ':' '(' RANGE_INT ')';
+geometryOutersRangeMatch: GEOMETRY_OUTERS ':' '(' range_int ')';
 geometryInnersMatch: GEOMETRY_INNERS ':' NUMBER;
-geometryInnersRangeMatch: GEOMETRY_INNERS ':' '(' RANGE_INT ')';
+geometryInnersRangeMatch: GEOMETRY_INNERS ':' '(' range_int ')';
 
 changesetMatch: CHANGESET ':' NUMBER;
 changesetListMatch: CHANGESET ':' '(' NUMBER (',' NUMBER)* ')';
-changesetRangeMatch: CHANGESET ':' '(' RANGE_INT ')';
+changesetRangeMatch: CHANGESET ':' '(' range_int ')';
 changesetCreatedByMatch: CHANGESET_CREATEDBY ':' string;
 
 
@@ -106,8 +106,8 @@ DECIMAL: NUMERAL+ ('.' NUMERAL+)? ([Ee] NUMERAL+)?;
 WORD: LETTER+;
 QUOTED: '"' CHARACTER+ '"';
 
-RANGE_INT: NUMBER '..' NUMBER | '..' NUMBER | NUMBER '..';
-RANGE_DEC: DECIMAL '..' DECIMAL | '..' DECIMAL | DECIMAL '..';
+range_int: NUMBER '..' NUMBER | '..' NUMBER | NUMBER '..';
+range_dec: (NUMBER | DECIMAL) '..' (NUMBER | DECIMAL) | '..' (NUMBER | DECIMAL) | (NUMBER | DECIMAL) '..';
 
 WHITESPACE: [ \t\r\n]+ -> skip;
 
