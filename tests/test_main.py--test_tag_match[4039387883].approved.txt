@@ -1,0 +1,5 @@
+building=other
+
+tags @> '{"building": "other"}'
+
+[<Record count=0>]

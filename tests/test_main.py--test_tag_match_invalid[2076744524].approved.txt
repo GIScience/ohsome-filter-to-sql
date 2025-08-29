@@ -1,3 +1,3 @@
 *=*
 
-line 1:0 mismatched input '*' expecting {<EOF>, '(', 'not', 'type', 'id', 'geometry', 'area', 'perimeter', 'length', 'geometry.vertices', 'geometry.outers', 'geometry.inners', 'changeset', 'changeset.created_by', 'hashtag', NUMBER, WORD, QUOTED}
+line 1:0 mismatched input '*' expecting {<EOF>, '(', 'and', 'or', 'not', 'type', 'id', 'geometry', 'area', 'perimeter', 'length', 'geometry.vertices', 'geometry.outers', 'geometry.inners', 'changeset', 'changeset.created_by', 'hashtag', OSMTYPE, GEOMETRY_TYPE, NUMBER, WORD, QUOTED}

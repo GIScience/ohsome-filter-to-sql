@@ -1,3 +1,0 @@
-type=boundary
-
-line 1:4 mismatched input '=' expecting ':'

@@ -1,0 +1,5 @@
+type=boundary
+
+tags @> '{"type": "boundary"}'
+
+[<Record count=22442>]

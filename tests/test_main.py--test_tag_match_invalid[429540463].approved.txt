@@ -1,3 +1,0 @@
-addr:housenumber=*
-
-line 1:4 no viable alternative at input 'addr:'

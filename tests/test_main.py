@@ -17,7 +17,7 @@ from ohsome_filter_to_sql.main import (
     ParserValueError,
     build_tree,
     ohsome_filter_to_sql,
-    unescape
+    unescape,
 )
 
 pytestmark = pytest.mark.asyncio  # mark all tests
@@ -171,8 +171,11 @@ async def test_hashtag_list_match(db_con, filter):
         "natural= tree",
         "natural =tree",
         '"addr:housenumber"="45"',
-        '"type"=boundary',  #             w/ keyword as key
-        '"building:material"="other"',  # w/ keyword as value
+        "type=boundary",  # w/ keyword as key
+        "building=other",  # w/ keyword as value
+        "addr:housenumber=*",  # key with colon
+        '"natüröa"="yes"',  # quoting string should always work and will be escaped
+        '"*"="*"',
         "oneway!=yes",
         "oneway != yes",
         "oneway!= yes",
@@ -208,9 +211,6 @@ async def test_tag_wildcard_match(db_con, filter):
     "filter",
     (
         "*=*",
-        "addr:housenumber=*",
-        "type=boundary",
-        '"building:material"=other',
         "natürla=*",
     ),
 )
@@ -621,16 +621,18 @@ async def test_climate_action_navigator_examples(db_con, filter):
     assert await validate_and_verify(db_con, sql, filter)
 
 
+# fmt: off
 @pytest.mark.parametrize(
     "str, out",
     [
         ("foo", "foo"),
-        ("\"foo\"", "foo"),
-        ("\"foo bar\"", "foo bar"),
-        ("\"foo\\\"bar\"", "foo\"bar"),
-        ("\"foo\\\\bar\"", "foo\\bar"),
-        ("\"foo\\\r\nbar\"", "foo\r\nbar"),
+        ("\"foo\"", "foo"),  # noqa: Q003
+        ("\"foo bar\"", "foo bar"),  # noqa: Q003
+        ("\"foo\\\"bar\"", "foo\"bar"), # noqa: Q003
+        ("\"foo\\\\bar\"", "foo\\bar"), # noqa: Q003
+        ("\"foo\\\r\nbar\"", "foo\r\nbar"), # noqa: Q003
     ],
 )
 async def test_strings(str, out):
     assert unescape(str) == out
+# fmt: on

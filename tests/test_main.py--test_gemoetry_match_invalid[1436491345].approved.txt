@@ -1,3 +1,3 @@
 geometry:
 
-line 1:9 missing GEOMETRY_TYPE at '<EOF>'
+line 1:9 no viable alternative at input 'geometry:'
