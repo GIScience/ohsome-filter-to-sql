@@ -61,7 +61,7 @@ For open tasks, please take a look at [inbox.md](inbox.md)
 
 ## Resources
 
-- [ohsome filter documentation](https://docs.ohsome.org/ohsome-api/v1/filter.html)
+- [ohsome filter documentation](https://docs.ohsome.org/ohsome-api/v1/filter.html) and [oshdb-filter](https://github.com/GIScience/oshdb/tree/main/oshdb-filter)
 - [ANTLR with Python - Introduction](https://yetanotherprogrammingblog.medium.com/antlr-with-python-974c756bdb1b)
 - [ANTLR Listeners](https://github.com/antlr/antlr4/blob/master/doc/listeners.md)
 - [ohsomeDB schema](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/blob/main/create-schema.sql)
