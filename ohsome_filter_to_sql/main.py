@@ -263,7 +263,13 @@ class OFLToSql(OFLListener):
 
 
 def unescape(string: str):
-    return string.replace('"', "")
+    if string[0] == '"':
+        string = string[1:-1]
+        string = string.replace("\\\"", "\"")
+        string = string.replace("\\\\", "\\")
+        string = string.replace("\\\r", "\r")
+        string = string.replace("\\\n", "\n")
+    return string
 
 
 def ohsome_filter_to_sql(filter: str) -> str:
