@@ -15,3 +15,4 @@ wheels/
 # ANTLR4
 *.interp
 *.tokens
+.antlr
