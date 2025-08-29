@@ -17,6 +17,7 @@ from ohsome_filter_to_sql.main import (
     ParserValueError,
     build_tree,
     ohsome_filter_to_sql,
+    unescape
 )
 
 pytestmark = pytest.mark.asyncio  # mark all tests
@@ -618,3 +619,18 @@ async def test_ohsome_api_examples(db_con, filter):
 async def test_climate_action_navigator_examples(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "str, out",
+    [
+        ("foo", "foo"),
+        ("\"foo\"", "foo"),
+        ("\"foo bar\"", "foo bar"),
+        ("\"foo\\\"bar\"", "foo\"bar"),
+        ("\"foo\\\\bar\"", "foo\\bar"),
+        ("\"foo\\\r\nbar\"", "foo\r\nbar"),
+    ],
+)
+async def test_strings(str, out):
+    assert unescape(str) == out
