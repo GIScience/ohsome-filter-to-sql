@@ -1,3 +1,0 @@
-area:( .. 9999.0)
-
-line 1:7 token recognition error at: '.. '

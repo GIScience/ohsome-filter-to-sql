@@ -1,3 +1,0 @@
-length:(1..99)
-
-line 1:8 mismatched input '1..99' expecting RANGE_DEC

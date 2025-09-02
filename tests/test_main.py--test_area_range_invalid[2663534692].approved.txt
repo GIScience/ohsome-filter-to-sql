@@ -1,3 +1,0 @@
-area:(1.0.. 9999.0)
-
-line 1:12 extraneous input '9999.0' expecting ')'

@@ -1,3 +1,0 @@
-area:(-1..)
-
-line 1:8 token recognition error at: '..)'

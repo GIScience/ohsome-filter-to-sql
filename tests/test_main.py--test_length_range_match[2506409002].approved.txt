@@ -1,0 +1,5 @@
+length:(1.0.. 10.0)
+
+(length >= 1.0 AND length <= 10.0)
+
+[<Record count=123000>]

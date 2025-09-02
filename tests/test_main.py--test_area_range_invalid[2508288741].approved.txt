@@ -1,3 +1,0 @@
-area:(1.0 ..9999.0)
-
-line 1:6 extraneous input '1.0' expecting RANGE_DEC

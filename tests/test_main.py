@@ -317,6 +317,11 @@ async def test_type_id_match_invalid(filter):
         "id:(..9999)",
         "id:(1..)",
         "id:(1..9999) or id:4540889804",
+        "id:(1.. 9999)",
+        "id:(1 ..9999)",
+        "id:(1 .. 9999)",
+        "id:( .. 9999)",
+        "id:(1 ..)",
     ),
 )
 async def test_id_range_match(db_con, filter):
@@ -326,14 +331,7 @@ async def test_id_range_match(db_con, filter):
 
 @pytest.mark.parametrize(
     "filter",
-    (
-        "id:(1.. 9999)",
-        "id:(1 ..9999)",
-        "id:(1 .. 9999)",
-        "id:( .. 9999)",
-        "id:(1 ..)",
-        "id:(1..",
-    ),
+    ("id:(1..",),
 )
 async def test_id_range_match_invalid(filter):
     with pytest.raises(ValueError) as e:
@@ -453,6 +451,14 @@ async def test_gemoetry_match_invalid(filter):
         "area:(1e6..)",
         "area:(1..1e6)",
         "area:(1.0..1E6) or area:(..0.5)",
+        "area:(1..)",
+        "area:(..9999)",
+        "area:(1..9999)",
+        "area:(1.0.. 9999.0)",
+        "area:(1.0 ..9999.0)",
+        "area:(1.0 .. 9999.0)",
+        "area:( .. 9999.0)",
+        "area:(1.0 ..)",
     ),
 )
 async def test_area_range_match(db_con, filter):
@@ -464,17 +470,9 @@ async def test_area_range_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
-        "area:(1..)",
-        "area:(..9999)",
-        "area:(1..9999)",
         "area:(-1.0..)",
         "area:(1.0..-200)",
         "area:(..-200)",
-        "area:(1.0.. 9999.0)",
-        "area:(1.0 ..9999.0)",
-        "area:(1.0 .. 9999.0)",
-        "area:( .. 9999.0)",
-        "area:(1.0 ..)",
     ),
 )
 async def test_area_range_invalid(filter):
@@ -494,6 +492,15 @@ async def test_area_range_invalid(filter):
         "length:(1E6..)",
         "length:(1e6..)",
         "length:(1.0..99.99) or length:(..0.5)",
+        "length:(1..)",
+        "length:(1..99)",
+        "length:(..99)",
+        "length:(1.0.. 10.0)",
+        "length:(1.0 ..10.0)",
+        "length:(1.0 .. 10.0)",
+        "length:( .. 10.0)",
+        "length:(1.0 ..)",
+        "length:(10.0 .. 100.0)",
     ),
 )
 async def test_length_range_match(db_con, filter):
@@ -504,18 +511,9 @@ async def test_length_range_match(db_con, filter):
 @pytest.mark.parametrize(
     "filter",
     (
-        "length:(1..)",
-        "length:(1..99)",
-        "length:(..99)",
         "length:(-1..)",
         "length:(3.0..-200.0)",
         "length:(..-200.0)",
-        "length:(1.0.. 10.0)",
-        "length:(1.0 ..10.0)",
-        "length:(1.0 .. 10.0)",
-        "length:( .. 10.0)",
-        "length:(1.0 ..)",
-        "length:(10.0 .. 100.0)",
     ),
 )
 async def test_length_range_invalid(filter):
