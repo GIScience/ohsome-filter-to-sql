@@ -1,5 +1,5 @@
 "na\"tural*^what🙈"="🙈ohno \"abc\\!= erf = and or"
 
-tags @> '{"na\\tural*^what\ud83d\ude48": "\ud83d\ude48ohno \\abc\\\\!= erf = and or"}'
+tags @> '{"na\"tural*^what\ud83d\ude48": "\ud83d\ude48ohno \"abc\\!= erf = and or"}'
 
 [<Record count=0>]
