@@ -111,7 +111,7 @@ class OFLToSql(OFLListener):
                 continue
             # remove STRING from stack wich are part of *ListMatch
             self.stack.pop()
-            values.append(child)
+            values.append(unescape(child))
         values_as_string = "\"', '\"".join(values)
         key = self.stack.pop()
         self.stack.append(f"tags -> '{key}' IN ('\"{values_as_string}\"')")
