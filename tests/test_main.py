@@ -611,7 +611,7 @@ async def test_ohsome_api_examples(db_con, filter):
         + '(cycleway=separate or "cycleway:both"=separate or '
         + '("cycleway:right"=separate and "cycleway:left"=separate) or '
         + "indoor=yes or indoor=corridor)",
-        "((highway=footway) or (highway=path and (foot=designated or foot=yes)) or "
+        "(((highway=footway) or (highway=path and (foot=designated or foot=yes)) or "
         + "(highway=pedestrian) or (highway=steps) or (highway=cycleway and foot=yes) "
         + "or (sidewalk=* and highway!=motorway) or (foot=yes)) and geometry:line)",
     ),
