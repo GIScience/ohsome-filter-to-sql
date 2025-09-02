@@ -382,7 +382,7 @@ async def test_id_list_match_invalid(filter):
         "id : (node/4540889804)",
         "id:(node/4540889804, way/1136431018, relation/2070281)",
         "id:( node/4540889804,way/1136431018,relation/2070281 )",
-        "id:(node/4540889804, relation/2070281) or way/1136431018",
+        "id:(node/4540889804, relation/2070281) or id:way/1136431018",
     ),
 )
 async def test_type_id_list_match(db_con, filter):
