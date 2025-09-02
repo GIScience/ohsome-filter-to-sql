@@ -1,0 +1,5 @@
+geometry:line and  (highway=* or railway=platform) and not (cycleway=separate or "cycleway:both"=separate or ("cycleway:right"=separate and "cycleway:left"=separate) or indoor=yes or indoor=corridor)
+
+(status_geom_type).geom_type = 'LineString' AND (tags ? 'highway' OR tags @> '{"railway": "platform"}') AND NOT (tags @> '{"cycleway": "separate"}' OR tags @> '{"cycleway:both": "separate"}' OR (tags @> '{"cycleway:right": "separate"}' AND tags @> '{"cycleway:left": "separate"}') OR tags @> '{"indoor": "yes"}' OR tags @> '{"indoor": "corridor"}')
+
+[<Record count=1499517>]
