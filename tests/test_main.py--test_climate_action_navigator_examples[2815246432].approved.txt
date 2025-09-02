@@ -1,0 +1,5 @@
+(((highway=footway) or (highway=path and (foot=designated or foot=yes)) or (highway=pedestrian) or (highway=steps) or (highway=cycleway and foot=yes) or (sidewalk=* and highway!=motorway) or (foot=yes)) and geometry:line)
+
+(((tags @> '{"highway": "footway"}') OR (tags @> '{"highway": "path"}' AND (tags @> '{"foot": "designated"}' OR tags @> '{"foot": "yes"}')) OR (tags @> '{"highway": "pedestrian"}') OR (tags @> '{"highway": "steps"}') OR (tags @> '{"highway": "cycleway"}' AND tags @> '{"foot": "yes"}') OR (tags ? 'sidewalk' AND NOT tags @> '{"highway": "motorway"}') OR (tags @> '{"foot": "yes"}')) AND (status_geom_type).geom_type = 'LineString')
+
+[<Record count=447712>]
