@@ -2,4 +2,4 @@ leisure=park and geometry:polygon or amenity=bench and (geometry:point or geomet
 
 tags @> '{"leisure": "park"}' AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon') OR tags @> '{"amenity": "bench"}' AND ((status_geom_type).geom_type = 'Point' OR (status_geom_type).geom_type = 'LineString')
 
-[<Record count=2660>]
+[<Record count=33096>]

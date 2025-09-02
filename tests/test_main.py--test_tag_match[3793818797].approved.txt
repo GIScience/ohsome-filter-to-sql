@@ -2,4 +2,4 @@ natural=* and not "natürla"=*
 
 tags ? 'natural' AND NOT tags ? 'natürla'
 
-[<Record count=6432>]
+[<Record count=157306>]

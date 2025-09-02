@@ -2,4 +2,4 @@ natural=tree and leaf_type=broadleaved
 
 tags @> '{"natural": "tree"}' AND tags @> '{"leaf_type": "broadleaved"}'
 
-[<Record count=3916>]
+[<Record count=53934>]

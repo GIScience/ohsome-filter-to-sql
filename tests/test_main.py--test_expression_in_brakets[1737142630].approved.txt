@@ -2,4 +2,4 @@
 
 (tags @> '{"addr:housenumber": "45"}' AND tags @> '{"addr:street": "Berliner Stra\u00dfe"}') OR tags @> '{"name": "HeiGIT"}'
 
-[<Record count=16>]
+[<Record count=24>]

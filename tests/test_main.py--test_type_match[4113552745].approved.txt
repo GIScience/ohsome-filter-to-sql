@@ -2,4 +2,4 @@ type:way
 
 osm_type = 'way'
 
-[<Record count=143361>]
+[<Record count=3894678>]

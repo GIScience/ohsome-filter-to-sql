@@ -2,4 +2,4 @@ type:way and highway=residential and name!=* and noname!=yes
 
 osm_type = 'way' AND tags @> '{"highway": "residential"}' AND NOT tags ? 'name' AND NOT tags @> '{"noname": "yes"}'
 
-[<Record count=626>]
+[<Record count=26268>]

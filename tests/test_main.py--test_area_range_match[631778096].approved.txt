@@ -2,4 +2,4 @@ area:(1.0..1E6) or area:(..0.5)
 
 (area >= 1.0 AND area <= 1E6) OR area <= 0.5
 
-[<Record count=368592>]
+[<Record count=6131524>]

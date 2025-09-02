@@ -2,4 +2,4 @@ geometry:polygon and building=* and building!=no and area:(1E6..)
 
 ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon') AND tags ? 'building' AND NOT tags @> '{"building": "no"}' AND area >= 1E6
 
-[<Record count=0>]
+[<Record count=14>]

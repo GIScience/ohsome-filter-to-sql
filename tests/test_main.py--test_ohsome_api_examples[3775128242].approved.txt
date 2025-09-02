@@ -2,4 +2,4 @@
 
 (tags @> '{"landuse": "forest"}' OR tags @> '{"natural": "wood"}') AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')
 
-[<Record count=766>]
+[<Record count=35450>]
