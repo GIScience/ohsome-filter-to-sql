@@ -170,6 +170,7 @@ async def test_hashtag_list_match(db_con, filter):
         "natural = tree",
         "natural= tree",
         "natural =tree",
+        "natural=Tree",  # case sensitive
         '"addr:housenumber"="45"',
         "type=boundary",  # w/ keyword as key
         "building=other",  # w/ keyword as value
