@@ -176,6 +176,7 @@ async def test_hashtag_list_match(db_con, filter):
         "addr:housenumber=*",  # key with colon
         '"natüröa"="yes"',  # quoting string should always work and will be escaped
         '"*"="*"',
+        "maxspeed=30",
         "oneway!=yes",
         "oneway != yes",
         "oneway!= yes",
