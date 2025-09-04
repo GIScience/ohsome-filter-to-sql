@@ -152,6 +152,15 @@ class OFLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by OFLParser#osmid.
+    def enterOsmid(self, ctx:OFLParser.OsmidContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#osmid.
+    def exitOsmid(self, ctx:OFLParser.OsmidContext):
+        pass
+
+
     # Enter a parse tree produced by OFLParser#geometryMatch.
     def enterGeometryMatch(self, ctx:OFLParser.GeometryMatchContext):
         pass

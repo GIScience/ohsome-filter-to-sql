@@ -1,6 +1,7 @@
 import json
 import sys
 from collections import deque
+from typing import Any
 
 from antlr4 import CommonTokenStream, InputStream, ParserRuleContext, ParseTreeWalker
 from antlr4.error.ErrorListener import ErrorListener
@@ -133,7 +134,8 @@ class OFLToSql(OFLListener):
         self.stack.append(f"osm_id = {id}")
 
     def exitTypeIdMatch(self, ctx: ParserRuleContext):
-        type_, id = ctx.getChild(2).getText().split("/")
+        matched_text = ctx.getChild(2).getText()
+        id, type_ = handle_short_hand_or_normal_osm_id(matched_text)
         self.stack.append(f"(osm_type = '{type_}' AND osm_id = {id})")
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
@@ -167,7 +169,7 @@ class OFLToSql(OFLListener):
             # skip comma in list in between brackets
             if child == ",":
                 continue
-            type_, id = child.split("/")
+            id, type_ = handle_short_hand_or_normal_osm_id(child)
             values.append(f"(osm_id = {id} AND osm_type = '{type_}')")
         if len(values) > 1:
             values_as_string = "(" + " OR ".join(values) + ")"
@@ -277,6 +279,16 @@ def unescape(string: str):
         string = string.replace("\\\n", "\n")
     return string
 
+
+def handle_short_hand_or_normal_osm_id(matched_text: str) -> tuple[str, int]:
+    matched_text = matched_text.replace("(", "").replace(")", "")
+    if "/" in matched_text:
+        type_, id = matched_text.split("/")
+    else:
+        type_short_mapping = {"n": "node", "w": "way", "r": "relation"}
+        type_ = type_short_mapping[matched_text[0]]
+        id = matched_text[1:]
+    return id, type_
 
 def ohsome_filter_to_sql(filter: str) -> str:
     listener = OFLToSql()

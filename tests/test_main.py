@@ -426,6 +426,21 @@ async def test_type_id_list_match_invalid(filter):
 @pytest.mark.parametrize(
     "filter",
     (
+        "id:n4540889804",
+        "id:w4540889804",
+        "id:r4540889804",
+        "id:(r4540889804)",
+    ),
+)
+@asyncpg_recorder.use_cassette
+async def test_short_type_id_list_match(db_con, filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
         "geometry:point",
         "geometry :point",
         "geometry: point",
@@ -667,3 +682,21 @@ async def test_climate_action_navigator_examples(db_con, filter):
 async def test_strings(str, out):
     assert unescape(str) == out
 # fmt: on
+
+@pytest.mark.parametrize(
+    "filters",
+    (
+        ("id:(node/4540889804)", "id:(n4540889804)"),
+        ("id:(way/4540889804)", "id:(w4540889804)"),
+        ("id:(relation/4540889804)", "id:(r4540889804)"),
+    ),
+)
+@asyncpg_recorder.use_cassette
+async def test_shorthand_osm_type_comparison(db_con, filters):
+    sql_where_clause_1 = ohsome_filter_to_sql(filters[0])
+    sql_where_clause_2 = ohsome_filter_to_sql(filters[1])
+    sql_1 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_1
+    sql_2 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_2
+    results_1: list[Record] = await db_con.fetch(sql_1)
+    results_2: list[Record] = await db_con.fetch(sql_2)
+    assert results_1 == results_2

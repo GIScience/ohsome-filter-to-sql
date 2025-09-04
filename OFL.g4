@@ -54,10 +54,11 @@ hashtagListMatch: HASHTAG ':' '(' string (',' string)* ')';
 
 typeMatch: TYPE ':' OSMTYPE;
 idMatch: ID ':' NUMBER;
-typeIdMatch: ID ':' OSMID;
+typeIdMatch: ID ':' osmid;
 idRangeMatch: ID ':' '(' range_int ')';
 idListMatch: ID ':' '(' NUMBER (',' NUMBER)* ')';
-typeIdListMatch: ID ':' '(' OSMID (',' OSMID)* ')';
+typeIdListMatch: ID ':' '(' osmid (',' osmid)* ')';
+osmid: OSMID | SHORT_OSMID;
 
 geometryMatch: GEOMETRY ':' GEOMETRY_TYPE;
 areaRangeMatch: AREA ':' '(' range_dec ')';
@@ -102,7 +103,9 @@ CHANGESET_CREATEDBY: 'changeset.created_by';
 HASHTAG: 'hashtag';
 
 OSMTYPE: 'node' | 'way' | 'relation';
+OSMTYPE_SHORT: 'n' | 'w' | 'r';
 OSMID: OSMTYPE '/' NUMBER;
+SHORT_OSMID: OSMTYPE_SHORT NUMBER;
 GEOMETRY_TYPE: 'point' | 'line' | 'polygon' | 'other';
 
 NUMBER: NUMERAL+;
