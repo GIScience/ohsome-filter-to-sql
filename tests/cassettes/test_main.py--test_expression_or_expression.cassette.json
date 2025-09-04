@@ -1,0 +1,1 @@
+{"3288776040": {"results": [{"count": 102104}], "query": "SELECT COUNT(*) FROM contributions WHERE tags @> '{\"natural\": \"tree\"}' OR tags @> '{\"leaf_type\": \"broadleaved\"}'", "args": [], "limit": 0, "timeout": null, "record_class": null}}
