@@ -8,6 +8,7 @@ authors = [{email="ohsome@heigit.org"}]
 requires-python = ">=3.12"
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
+    "asyncpg-recorder",
     "pytest-approval",
 ]
 
@@ -22,6 +23,7 @@ module-root = ""  # use ohsome-filter-to-sql/ as root instead the default src/oh
 
 [tool.uv.sources]
 pytest-approval = { git = "https://github.com/GIScience/pytest-approval.git" }
+asyncpg-recorder = { git = "https://github.com/GIScience/asyncpg-recorder.git" }
 
 [dependency-groups]
 dev = [
