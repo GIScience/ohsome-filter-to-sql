@@ -1,3 +1,0 @@
-area:(1.0..-200)
-
-line 1:11 extraneous input '-200' expecting ')'

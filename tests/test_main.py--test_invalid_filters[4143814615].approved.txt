@@ -1,3 +1,0 @@
-area:(1.0 .. 1E6)length:(10 .. 100)perimeter:( .. 100)
-
-line 1:6 mismatched input '1.0' expecting RANGE_DEC

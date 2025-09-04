@@ -1,5 +1,0 @@
-highway in (residential,living_street)
-
-tags -> 'highway' IN ('"residential"', '"living_street"')
-
-[<Record count=11536>]

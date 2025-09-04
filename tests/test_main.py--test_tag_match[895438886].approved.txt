@@ -1,5 +1,0 @@
-"building:material"="other"
-
-tags @> '{"building:material": "other"}'
-
-[<Record count=0>]

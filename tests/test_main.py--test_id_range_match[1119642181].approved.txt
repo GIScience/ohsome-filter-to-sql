@@ -1,5 +1,0 @@
-id:(1..9999) and highwar=primary
-
-(osm_id >= 1 AND osm_id <= 9999) AND tags @> '{"highwar": "primary"}'
-
-[<Record count=0>]

@@ -75,3 +75,6 @@ asyncio_default_test_loop_scope = "session"
 
 [tool.asyncpg-recorder]
 "cassettes-dir"="tests/cassettes"
+
+[tool.pytest-approval]
+"approved-dir"="tests/approved"

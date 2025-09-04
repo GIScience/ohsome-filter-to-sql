@@ -1,5 +1,0 @@
-not natural!=tree
-
-NOT NOT tags @> '{"natural": "tree"}'
-
-[<Record count=5736>]

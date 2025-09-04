@@ -1,5 +1,0 @@
-(natural=tree)
-
-(tags @> '{"natural": "tree"}')
-
-[<Record count=5736>]

@@ -1,5 +1,0 @@
-"building"="yes"
-
-tags @> '{"building": "yes"}'
-
-[<Record count=1079806>]

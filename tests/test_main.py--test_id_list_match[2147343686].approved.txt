@@ -1,5 +1,0 @@
-id:(1136431018, 2070281) or id:node/4540889804
-
-osm_id IN (1136431018, 2070281) OR (osm_type = 'node' AND osm_id = 4540889804)
-
-[<Record count=972>]

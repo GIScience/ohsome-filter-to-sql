@@ -1,5 +1,0 @@
-area:(1.0..1E6) or area:(0.0..0.1)
-
-(area >= 1.0 AND area <= 1E6) OR (area >= 0.0 AND area <= 0.1)
-
-[<Record count=368504>]

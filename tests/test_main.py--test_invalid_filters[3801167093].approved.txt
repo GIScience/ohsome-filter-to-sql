@@ -1,3 +1,0 @@
-id:(1 ..)
-
-line 1:9 mismatched input '<EOF>' expecting {')', ','}
