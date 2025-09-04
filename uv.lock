@@ -309,8 +309,8 @@ wheels = [
 
 [[package]]
 name = "pytest-approval"
-version = "2025.9.4"
-source = { git = "https://github.com/GIScience/pytest-approval.git#4d85f32e258d7b58adfa6842bb02faa371d2aaf6" }
+version = "2025.9.4.1"
+source = { git = "https://github.com/GIScience/pytest-approval.git#583be30efe2813a786520282a2d817971b2baee9" }
 dependencies = [
     { name = "pytest" },
 ]
