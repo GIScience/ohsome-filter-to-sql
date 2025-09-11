@@ -25,9 +25,6 @@ sql_query = ohsome_filter_to_sql("natural = tree")
 
 ## Development Setup
 
-Setup a local instance of the [ohsomeDB](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/tree/main/local_setup).
-
-After ohsomeDB runs on `localhost:5432` all tests can be run with:
 ```sh
 uv run pytest
 ```
@@ -36,6 +33,9 @@ To install pre-commit hooks run:
 ```sh
 uv run pre-commit install
 ```
+
+To develop new features you will need a local instance of the [ohsomeDB](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/tree/main/local_setup).
+
 
 ### How to play around with the grammar?
 
@@ -47,6 +47,8 @@ buildings=yes
 (root:1 (expression:8 (tagMatch:1 (string:1 buildings) = (string:1 yes))) <EOF>)
 ```
 
+[ANTLR Lab](http://lab.antlr.org/) can also be used to try out the grammar.
+
 ### How to generating parser code?
 
 When the grammar file has change generate new Python code with `antlr4` and move genrated files to `ohsome_filter_to_sql/`.
@@ -54,10 +56,6 @@ When the grammar file has change generate new Python code with `antlr4` and move
 ```sh
 uv run antlr4 -Dlanguage=Python3 OFL.g4 && mv *.py ohsome_filter_to_sql/
 ```
-
-## Inbox
-
-For open tasks, please take a look at [inbox.md](inbox.md)
 
 ## Resources
 
