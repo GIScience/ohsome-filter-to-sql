@@ -8,8 +8,6 @@ authors = [{email="ohsome@heigit.org"}]
 requires-python = ">=3.12"
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
-    "asyncpg-recorder",
-    "pytest-approval",
 ]
 
 [project.scripts]
@@ -33,6 +31,8 @@ dev = [
     "asyncpg>=0.30.0",
     "pytest-asyncio>=1.1.0",
     "antlr4-tools>=0.2.2",
+    "pytest-approval",
+    "asyncpg-recorder",
 ]
 
 [tool.ruff]
