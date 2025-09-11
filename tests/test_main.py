@@ -197,6 +197,8 @@ async def test_hashtag_list_match(db_con, filter):
         ),
         '"na\\"tural*^what🙈"="🙈ohno \\"abc\\\\!= erf = and or"',
         'natural=* and not "natürla"=*',
+        "sidewalk::left=yes",
+        "sidewalk:=yes",
     ),
 )
 @asyncpg_recorder.use_cassette
