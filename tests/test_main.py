@@ -3,14 +3,11 @@
 # - https://docs.ohsome.org/ohsome-api/v1/filter.html
 # - https://github.com/GIScience/ohsome-dashboard/blob/main/src/prism-language-ohsome-filter.ts
 
-from typing import AsyncGenerator
 
 import asyncpg
 import asyncpg_recorder
 import pytest
-import pytest_asyncio
 from asyncpg import Record
-from asyncpg.connection import Connection
 from pytest_approval import verify
 
 from ohsome_filter_to_sql.main import (
@@ -24,12 +21,7 @@ from ohsome_filter_to_sql.main import (
 pytestmark = pytest.mark.asyncio  # mark all tests
 
 
-@asyncpg_recorder.use_cassette
-async def validate_and_verify(
-    db_con: Connection,
-    sql_where_clause: str,
-    filter: str,
-):
+async def validate_and_verify(sql_where_clause: str, filter: str):
     """Validate query and verify results.
 
     Build SQL query from given WHERE Clause.
@@ -37,21 +29,20 @@ async def validate_and_verify(
     Verify SQL query results through approval testing.
     """
     sql = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause
-    results: list[Record] = await db_con.fetch(sql)
+    results: list[Record] = await execute_query(sql)
     text = "\n\n".join([filter, sql_where_clause, str(results)])
     return verify(text)
 
 
-@pytest_asyncio.fixture(scope="session")
-async def db_con() -> AsyncGenerator[Connection, None]:
+@asyncpg_recorder.use_cassette
+async def execute_query(sql: str) -> list[Record]:
     con = await asyncpg.connect(
         user="postgres",
         password="mylocalpassword",  # noqa: S106
         host="localhost",
         port=5432,
     )
-    yield con
-    await con.close()
+    return await con.fetch(sql)
 
 
 @pytest.mark.parametrize(
@@ -71,18 +62,16 @@ async def test_build_tree(filter):
 #
 
 
-@asyncpg_recorder.use_cassette
-async def test_expression_and_expression(db_con):
+async def test_expression_and_expression():
     filter = "natural=tree and leaf_type=broadleaved"
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
-@asyncpg_recorder.use_cassette
-async def test_expression_or_expression(db_con):
+async def test_expression_or_expression():
     filter = "natural=tree or leaf_type=broadleaved"
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -99,10 +88,9 @@ async def test_expression_or_expression(db_con):
         "not length:(1.0..99.99)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_not_expression(db_con, filter):
+async def test_not_expression(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -121,14 +109,13 @@ async def test_not_expression(db_con, filter):
         ("not length:(..1e6)", "length:(1e6..)"),
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_not_expression_comparison(db_con, filters):
+async def test_not_expression_comparison(filters):
     sql_where_clause_1 = ohsome_filter_to_sql(filters[0])
     sql_where_clause_2 = ohsome_filter_to_sql(filters[1])
     sql_1 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_1
     sql_2 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_2
-    results_1: list[Record] = await db_con.fetch(sql_1)
-    results_2: list[Record] = await db_con.fetch(sql_2)
+    results_1: list[Record] = await execute_query(sql_1)
+    results_2: list[Record] = await execute_query(sql_2)
     assert results_1 == results_2
 
 
@@ -142,18 +129,16 @@ async def test_not_expression_comparison(db_con, filters):
         "(not natural=tree)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_expression_in_brakets(db_con, filter):
+async def test_expression_in_brakets(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.skip("Not implemented yet.")
-@asyncpg_recorder.use_cassette
-async def test_hashtag_match(db_con):
+async def test_hashtag_match():
     filter = "hashtag:missingmaps"
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.skip("Not implemented yet.")
@@ -164,10 +149,9 @@ async def test_hashtag_match(db_con):
         "hashtag:(missingmaps, type, other)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_hashtag_list_match(db_con, filter):
+async def test_hashtag_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 # TODO
@@ -203,10 +187,9 @@ async def test_hashtag_list_match(db_con, filter):
         '"sidewalk : left" = yes',  # whitespace in quoted string is preserved
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_tag_match(db_con, filter):
+async def test_tag_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -218,10 +201,9 @@ async def test_tag_match(db_con, filter):
         '"*"!=*',
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_tag_wildcard_match(db_con, filter):
+async def test_tag_wildcard_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -231,7 +213,6 @@ async def test_tag_wildcard_match(db_con, filter):
         "natürla=*",
     ),
 )
-@asyncpg_recorder.use_cassette
 async def test_tag_match_invalid(filter):
     with pytest.raises((LexerValueError, ParserValueError)) as e:
         ohsome_filter_to_sql(filter)
@@ -248,10 +229,9 @@ async def test_tag_match_invalid(filter):
         "natural in (water)",  #                w/keyword with single value
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_tag_list_match(db_con, filter):
+async def test_tag_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -269,10 +249,9 @@ async def test_tag_list_match(db_con, filter):
         "name ~ *_*",  # literal _ needs to be escaped
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_tag_value_pattern_match(db_con, filter):
+async def test_tag_value_pattern_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -282,7 +261,6 @@ async def test_tag_value_pattern_match(db_con, filter):
         "key ~ foo*bar",
     ),
 )
-@asyncpg_recorder.use_cassette
 async def test_tag_value_pattern_match_invalid(filter):
     with pytest.raises((LexerValueError, ParserValueError)) as e:
         ohsome_filter_to_sql(filter)
@@ -300,10 +278,9 @@ async def test_tag_value_pattern_match_invalid(filter):
         "type:relation",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_type_match(db_con, filter):
+async def test_type_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 async def test_type_match_invalid():
@@ -313,11 +290,10 @@ async def test_type_match_invalid():
     verify(filter + "\n\n" + str(e.value))
 
 
-@asyncpg_recorder.use_cassette
-async def test_id_match(db_con):
+async def test_id_match():
     filter = "id:4540889804"
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -345,10 +321,9 @@ async def test_id_match_invalid(filter):
         "id:relation/2070281",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_type_id_match(db_con, filter):
+async def test_type_id_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -382,10 +357,9 @@ async def test_type_id_match_invalid(filter):
         "id:(1 ..)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_id_range_match(db_con, filter):
+async def test_id_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -409,10 +383,9 @@ async def test_id_range_match_invalid(filter):
         "id:( 1136431018,4540889804,2070281 )",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_id_list_match(db_con, filter):
+async def test_id_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -443,10 +416,9 @@ async def test_id_list_match_invalid(filter):
         "id:(node/4540889804, relation/2070281) or id:way/1136431018",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_type_id_list_match(db_con, filter):
+async def test_type_id_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -474,18 +446,16 @@ async def test_type_id_list_match_invalid(filter):
         "geometry:other",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_geometry_match(db_con, filter):
+async def test_geometry_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.skip("Not implemented yet.")
-@asyncpg_recorder.use_cassette
-async def test_geometry_match_other(db_con, filter):
+async def test_geometry_match_other(filter):
     filter = "geometry:other"
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -525,11 +495,10 @@ async def test_gemoetry_match_invalid(filter):
         "area:(1.0 ..)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_area_range_match(db_con, filter):
+async def test_area_range_match(filter):
     # TODO: ValueError: not enough values to unpack (expected 2, got 1)
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -568,10 +537,9 @@ async def test_area_range_invalid(filter):
         "length:(10.0 .. 100.0)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_length_range_match(db_con, filter):
+async def test_length_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -589,11 +557,10 @@ async def test_length_range_invalid(filter):
 
 
 @pytest.mark.skip("Not implemented yet.")
-@asyncpg_recorder.use_cassette
-async def test_changeset_match(db_con):
+async def test_changeset_match():
     filter = "changeset:1"
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.skip("Not implemented yet.")
@@ -609,10 +576,9 @@ async def test_changeset_match(db_con):
         "changeset:( 1,300,4264 )",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_changeset_list_match(db_con, filter):
+async def test_changeset_list_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.skip("Not implemented yet.")
@@ -629,10 +595,9 @@ async def test_changeset_list_match(db_con, filter):
         "changeset:(50..999) or changeset:(..10)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_changeset_range_match(db_con, filter):
+async def test_changeset_range_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.skip("Not implemented yet.")
@@ -645,10 +610,9 @@ async def test_changeset_range_match(db_con, filter):
         'changeset.created_by:"JOSM/1.5 (19253 en_GB)"',
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_changeset_created_by_match(db_con, filter):
+async def test_changeset_created_by_match(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -667,11 +631,10 @@ async def test_changeset_created_by_match(db_con, filter):
         "geometry:polygon and building=* and building!=no and area:(1E6..)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_ohsome_api_examples(db_con, filter):
+async def test_ohsome_api_examples(filter):
     # https://docs.ohsome.org/ohsome-api/v1/filter.html#examples
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 @pytest.mark.parametrize(
@@ -686,10 +649,9 @@ async def test_ohsome_api_examples(db_con, filter):
         + "or (sidewalk=* and highway!=motorway) or (foot=yes)) and geometry:line)",
     ),
 )
-@asyncpg_recorder.use_cassette
-async def test_climate_action_navigator_examples(db_con, filter):
+async def test_climate_action_navigator_examples(filter):
     sql = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(db_con, sql, filter)
+    assert await validate_and_verify(sql, filter)
 
 
 # fmt: off
