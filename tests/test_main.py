@@ -199,6 +199,8 @@ async def test_hashtag_list_match(db_con, filter):
         'natural=* and not "natürla"=*',
         "sidewalk::left=yes",
         "sidewalk:=yes",
+        "sidewalk : left = yes",  # whitespace between tokens is skipped by the lexer
+        '"sidewalk : left" = yes',  # whitespace in quoted string is preserved
     ),
 )
 @asyncpg_recorder.use_cassette
