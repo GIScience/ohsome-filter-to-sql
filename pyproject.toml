@@ -1,6 +1,6 @@
 [project]
 name = "ohsome-filter-to-sql"
-version = "0.1.0"
+version = "2025.9.11"
 description = "Translate ohsome API filter to SQL WHERE clause ready to be used with ohsomeDB"
 readme = "README.md"
 license = "LGPL-3.0-only"
