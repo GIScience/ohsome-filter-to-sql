@@ -1,8 +1,0 @@
-- [ ] Missing listener function for following rules:
-    - `hashtagWildcardMatch: string '=' WILDCARD;`
-    - `perimeterRangeMatch: PERIMETER ':' '(' RANGE_DEC ')';`
-    - `geometryVerticesRangeMatch: GEOMETRY_VERTICES ':' '(' RANGE_INT ')';`
-    - `geometryOutersMatch: GEOMETRY_OUTERS ':' NUMBER;`
-    - `geometryOutersRangeMatch: GEOMETRY_OUTERS ':' '(' RANGE_INT ')';`
-    - `geometryInnersMatch: GEOMETRY_INNERS ':' NUMBER;`
-    - `geometryInnersRangeMatch: GEOMETRY_INNERS ':' '(' RANGE_INT ')';`
