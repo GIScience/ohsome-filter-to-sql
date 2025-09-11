@@ -507,6 +507,7 @@ async def test_area_range_match(filter):
         "area:(-1.0..)",
         "area:(1.0..-200)",
         "area:(..-200)",
+        "area:(200..1)",
     ),
 )
 async def test_area_range_invalid(filter):
@@ -548,6 +549,7 @@ async def test_length_range_match(filter):
         "length:(-1..)",
         "length:(3.0..-200.0)",
         "length:(..-200.0)",
+        "length:(200..1)",
     ),
 )
 async def test_length_range_invalid(filter):

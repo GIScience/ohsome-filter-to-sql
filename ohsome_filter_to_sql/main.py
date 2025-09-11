@@ -18,6 +18,14 @@ class LexerValueError(ValueError):
     pass
 
 
+class InvalidRangeError(ValueError):
+    def __init__(self, lower_bound, upper_bound):
+        super().__init__(
+            "Upper bound is smaller the then lower bound. "
+            f"Try swapping bounds: ({lower_bound}..{upper_bound})"
+        )
+
+
 class OFLParserErrorListener(ErrorListener):
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         # message is based on antlr4 ConsoleErrorListener
@@ -67,7 +75,7 @@ class OFLToSql(OFLListener):
 
     def exitHashtagWildcardMatch(self, ctx: ParserRuleContext):
         # TODO
-        pass
+        raise NotImplementedError()
 
     def exitHashtagListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -212,6 +220,8 @@ class OFLToSql(OFLListener):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
+            if lower_bound > upper_bound:
+                raise InvalidRangeError(upper_bound, lower_bound)
             self.stack.append(f"(area >= {lower_bound} AND area <= {upper_bound})")
         elif lower_bound:
             self.stack.append(f"area >= {lower_bound}")
@@ -222,6 +232,8 @@ class OFLToSql(OFLListener):
         child = ctx.getChild(3).getText()
         lower_bound, upper_bound = child.split("..")
         if lower_bound and upper_bound:
+            if lower_bound > upper_bound:
+                raise InvalidRangeError(upper_bound, lower_bound)
             self.stack.append(f"(length >= {lower_bound} AND length <= {upper_bound})")
         elif lower_bound:
             self.stack.append(f"length >= {lower_bound}")
@@ -230,23 +242,23 @@ class OFLToSql(OFLListener):
 
     def exitGeometryVerticesRangeMatch(self, ctx: ParserRuleContext):
         # TODO
-        pass
+        raise NotImplementedError()
 
     def exitGeometryOutersMatch(self, ctx: ParserRuleContext):
         # TODO
-        pass
+        raise NotImplementedError()
 
     def exitGeometryOutersRangeMatch(self, ctx: ParserRuleContext):
         # TODO
-        pass
+        raise NotImplementedError()
 
     def exitGeometryInnersMatch(self, ctx: ParserRuleContext):
         # TODO
-        pass
+        raise NotImplementedError()
 
     def exitGeometryInnersRangeMatch(self, ctx: ParserRuleContext):
         # TODO
-        pass
+        raise NotImplementedError()
 
     # ---
     #
