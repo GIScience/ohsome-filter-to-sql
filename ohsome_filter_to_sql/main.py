@@ -190,7 +190,7 @@ class OFLToSql(OFLListener):
                     + "OR (status_geom_type).geom_type = 'MultiPolygon')"
                 )
             case "other":
-                raise NotImplementedError()
+                self.stack.append("(status_geom_type).geom_type = 'GeometryCollection'")
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):
         child = ctx.getChild(3).getText()
@@ -271,7 +271,9 @@ class OFLToSql(OFLListener):
 def unescape(string: str):
     if string[0] == '"':
         string = string[1:-1]
-        string = string.replace("\\\"", "\"")
+        # fmt: off
+        string = string.replace("\\\"", "\"") # noqa: Q003
+        # fmt: on
         string = string.replace("\\\\", "\\")
         string = string.replace("\\\r", "\r")
         string = string.replace("\\\n", "\n")

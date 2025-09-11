@@ -116,7 +116,7 @@ async def test_not_expression(db_con, filter):
             "highway=* and highway!=residential and highway!=living_street",
         ),
         ("not type:node", "type:way or type:relation"),
-        ("not geometry:point", "geometry:line or geometry:polygon"),
+        ("not geometry:point", "geometry:line or geometry:polygon or geometry:other"),
         ("not length:(..99.99)", "length:(99.99..)"),
         ("not length:(..1e6)", "length:(1e6..)"),
     ),
@@ -432,6 +432,7 @@ async def test_type_id_list_match_invalid(filter):
         "geometry : point",
         "geometry:line",
         "geometry:polygon",
+        "geometry:other",
     ),
 )
 @asyncpg_recorder.use_cassette
