@@ -1,0 +1,5 @@
+name ~ *"straße"
+
+tags ->> 'name' LIKE '%straße'
+
+[<Record count=239713>]

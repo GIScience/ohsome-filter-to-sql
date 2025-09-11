@@ -1,0 +1,5 @@
+name ~ "foo'bar"
+
+tags ->> 'name' LIKE 'foo''bar'
+
+[<Record count=0>]

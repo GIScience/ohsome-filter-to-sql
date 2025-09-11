@@ -1,0 +1,5 @@
+cuisine~*pizza*
+
+tags ->> 'cuisine' LIKE '%pizza%'
+
+[<Record count=1761>]

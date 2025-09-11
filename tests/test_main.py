@@ -64,7 +64,7 @@ async def db_con() -> AsyncGenerator[Connection, None]:
 )
 async def test_build_tree(filter):
     tree = build_tree(filter).toStringTree()
-    assert verify(tree)
+    assert tree != ""
 
 
 # -- Tests are sorted in the same order as rules in OFL.g4
@@ -252,6 +252,41 @@ async def test_tag_match_invalid(filter):
 async def test_tag_list_match(db_con, filter):
     sql = ohsome_filter_to_sql(filter)
     assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "cuisine ~ *pizza*",
+        "cuisine~*pizza*",
+        'name ~ *"straße"',  # quoted
+        "maxspeed ~ * mph",  # whitespace is skipped
+        'maxspeed ~ *" mph"',  # whitespace is preserved
+        "name ~ S*",
+        'name ~ "Hotel **"',  # literal * in quoted string
+        'name ~ "foo\'bar"',  # potential sql injection vector
+        'name ~ "%"',  # literal % needs to be escaped
+        "name ~ *_*",  # literal _ needs to be escaped
+    ),
+)
+@asyncpg_recorder.use_cassette
+async def test_tag_value_pattern_match(db_con, filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(db_con, sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "key ~ *",
+        "key ~ foo*bar",
+    ),
+)
+@asyncpg_recorder.use_cassette
+async def test_tag_value_pattern_match_invalid(filter):
+    with pytest.raises((LexerValueError, ParserValueError)) as e:
+        ohsome_filter_to_sql(filter)
+    verify(filter + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(

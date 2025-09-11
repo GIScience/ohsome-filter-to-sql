@@ -71,6 +71,15 @@ class OFLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by OFLParser#tagValuePatternMatch.
+    def enterTagValuePatternMatch(self, ctx:OFLParser.TagValuePatternMatchContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#tagValuePatternMatch.
+    def exitTagValuePatternMatch(self, ctx:OFLParser.TagValuePatternMatchContext):
+        pass
+
+
     # Enter a parse tree produced by OFLParser#hashtagMatch.
     def enterHashtagMatch(self, ctx:OFLParser.HashtagMatchContext):
         pass
@@ -275,6 +284,15 @@ class OFLListener(ParseTreeListener):
 
     # Exit a parse tree produced by OFLParser#string.
     def exitString(self, ctx:OFLParser.StringContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#valueSubString.
+    def enterValueSubString(self, ctx:OFLParser.ValueSubStringContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#valueSubString.
+    def exitValueSubString(self, ctx:OFLParser.ValueSubStringContext):
         pass
 
 

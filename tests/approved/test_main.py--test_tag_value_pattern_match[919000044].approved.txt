@@ -1,0 +1,5 @@
+name ~ "Hotel **"
+
+tags ->> 'name' LIKE 'Hotel **'
+
+[<Record count=0>]

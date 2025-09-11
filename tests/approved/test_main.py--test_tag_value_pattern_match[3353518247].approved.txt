@@ -1,0 +1,5 @@
+name ~ *_*
+
+tags ->> 'name' LIKE '%\_%'
+
+[<Record count=5437>]

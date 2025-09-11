@@ -18,6 +18,7 @@ expression
   | tagNotMatch
   | tagNotWildcardMatch
   | tagListMatch
+  | tagValuePatternMatch
 
   | typeMatch
   | idMatch
@@ -47,6 +48,7 @@ tagWildcardMatch: string '=' WILDCARD;
 tagListMatch: string 'in' '(' string (',' string)* ')';
 tagNotMatch: string '!=' string;
 tagNotWildcardMatch: string '!=' WILDCARD;
+tagValuePatternMatch: string '~' valueSubString;
 
 hashtagMatch: HASHTAG ':' string;
 hashtagWildcardMatch: HASHTAG ':' WORD WILDCARD;
@@ -80,6 +82,7 @@ string
   | NUMBER
   | (    (WORD | AND | OR | NOT | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)
     (':' (WORD | AND | OR | NOT | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)?)*);
+valueSubString: WILDCARD? string WILDCARD?;
 
 
 AND: 'and';

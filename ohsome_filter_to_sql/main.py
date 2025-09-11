@@ -89,9 +89,25 @@ class OFLToSql(OFLListener):
     def exitTagMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
+
         j = json.dumps({key: value})
         # @> Does the first JSON value contain the second?
         self.stack.append(f"tags @> '{j}'")
+
+    def exitTagValuePatternMatch(self, ctx):
+        value = (
+            self.stack.pop().replace("%", "\\%").replace("_", "\\_").replace("'", "''")
+        )
+        key = self.stack.pop().replace("'", "''")
+
+        value_child = ctx.getChild(2)
+        if value_child.getChild(0).getText() == "*":
+            value = "%" + value
+
+        if value_child.getChild(value_child.getChildCount() - 1).getText() == "*":
+            value = value + "%"
+
+        self.stack.append(f"tags ->> '{key}' LIKE '{value}'")
 
     def exitTagWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()

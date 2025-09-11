@@ -1,0 +1,5 @@
+maxspeed ~ *" mph"
+
+tags ->> 'maxspeed' LIKE '% mph'
+
+[<Record count=1588>]
