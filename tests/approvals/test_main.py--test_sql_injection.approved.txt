@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM contributions WHERE tags ? 'natural';drop table contributions;SELECT 'test'

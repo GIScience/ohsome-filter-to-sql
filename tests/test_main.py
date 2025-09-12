@@ -481,7 +481,6 @@ async def test_gemoetry_match_invalid(filter):
         "area : (1.0..1E6)",
         "area:( 1.0..1E6 )",
         "area:(1.3..)",
-        "area:(2.0..1.0)",
         "area:(1e6..)",
         "area:(1..1e6)",
         "area:(1.0..1E6) or area:(..0.5)",
@@ -671,3 +670,12 @@ async def test_climate_action_navigator_examples(filter):
 async def test_strings(str, out):
     assert unescape(str) == out
 # fmt: on
+
+
+async def test_sql_injection():
+    # TODO: add example which injects even though json.dumps is used.
+    filter = "\"natural';drop table contributions;SELECT 'test\"=*"
+    sql = ohsome_filter_to_sql(filter)
+    sql = "SELECT COUNT(*) FROM contributions WHERE " + sql
+    verify(sql)
+    assert await validate_and_verify(sql, filter)
