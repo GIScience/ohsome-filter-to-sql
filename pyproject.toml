@@ -77,4 +77,4 @@ asyncio_default_test_loop_scope = "session"
 "cassettes-dir"="tests/cassettes"
 
 [tool.pytest-approval]
-"approved-dir"="tests/approved"
+"approvals-dir"="tests/approvals"
