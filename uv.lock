@@ -49,8 +49,8 @@ wheels = [
 
 [[package]]
 name = "asyncpg-recorder"
-version = "2025.9.4"
-source = { git = "https://github.com/GIScience/asyncpg-recorder.git#8f9cce02d99fa3491abbc1732f221b39ad7940c4" }
+version = "2025.9.12"
+source = { git = "https://github.com/GIScience/asyncpg-recorder.git#c5fa8cabf16aa706a38e5cd511121e3c21dc98b2" }
 dependencies = [
     { name = "asyncpg" },
     { name = "testcontainers" },
@@ -307,8 +307,8 @@ wheels = [
 
 [[package]]
 name = "pytest-approval"
-version = "2025.9.4.1"
-source = { git = "https://github.com/GIScience/pytest-approval.git#583be30efe2813a786520282a2d817971b2baee9" }
+version = "2025.9.12.1"
+source = { git = "https://github.com/GIScience/pytest-approval.git#8f2a5b2bd571405a12fccd852dab6c7f5a9eafcc" }
 dependencies = [
     { name = "pytest" },
 ]
