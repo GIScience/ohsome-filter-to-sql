@@ -1,0 +1,3 @@
+maxspeed ~ * mph
+
+line 1:12 extraneous input ' ' expecting {'and', 'or', 'not', 'in', 'type', 'id', 'geometry', 'area', 'perimeter', 'length', 'geometry.vertices', 'geometry.outers', 'geometry.inners', 'changeset', 'changeset.created_by', 'hashtag', OSMTYPE, GEOMETRY_TYPE, NUMBER, WORD, QUOTED}

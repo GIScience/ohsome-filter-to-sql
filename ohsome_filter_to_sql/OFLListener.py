@@ -296,6 +296,114 @@ class OFLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by OFLParser#and.
+    def enterAnd(self, ctx:OFLParser.AndContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#and.
+    def exitAnd(self, ctx:OFLParser.AndContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#or.
+    def enterOr(self, ctx:OFLParser.OrContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#or.
+    def exitOr(self, ctx:OFLParser.OrContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#not.
+    def enterNot(self, ctx:OFLParser.NotContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#not.
+    def exitNot(self, ctx:OFLParser.NotContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#in.
+    def enterIn(self, ctx:OFLParser.InContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#in.
+    def exitIn(self, ctx:OFLParser.InContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#eq.
+    def enterEq(self, ctx:OFLParser.EqContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#eq.
+    def exitEq(self, ctx:OFLParser.EqContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#ne.
+    def enterNe(self, ctx:OFLParser.NeContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#ne.
+    def exitNe(self, ctx:OFLParser.NeContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#po.
+    def enterPo(self, ctx:OFLParser.PoContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#po.
+    def exitPo(self, ctx:OFLParser.PoContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#pc.
+    def enterPc(self, ctx:OFLParser.PcContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#pc.
+    def exitPc(self, ctx:OFLParser.PcContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#co.
+    def enterCo(self, ctx:OFLParser.CoContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#co.
+    def exitCo(self, ctx:OFLParser.CoContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#dd.
+    def enterDd(self, ctx:OFLParser.DdContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#dd.
+    def exitDd(self, ctx:OFLParser.DdContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#cn.
+    def enterCn(self, ctx:OFLParser.CnContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#cn.
+    def exitCn(self, ctx:OFLParser.CnContext):
+        pass
+
+
+    # Enter a parse tree produced by OFLParser#tl.
+    def enterTl(self, ctx:OFLParser.TlContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#tl.
+    def exitTl(self, ctx:OFLParser.TlContext):
+        pass
+
+
     # Enter a parse tree produced by OFLParser#range_int.
     def enterRange_int(self, ctx:OFLParser.Range_intContext):
         pass

@@ -50,21 +50,32 @@ class OFLToSql(OFLListener):
                 result += child.getText()
             self.stack.append(result)
 
+    def exitRange_int(self, ctx):
+        """Remove range brackets."""
+        self.stack.append(ctx.getText().strip()[1:-1].strip())
+
+    def exitRange_dec(self, ctx):
+        """Remove range brackets."""
+        self.stack.append(ctx.getText().strip()[1:-1].strip())
+
     # --- methods are sorted in the same order as rules in OFL.g4
     #
     def exitExpression(self, ctx: ParserRuleContext):
         """Handle expression compositions: (), NOT, AND, OR"""
         if ctx.getChildCount() == 3:
-            if ctx.getChild(0).getText() == ("(") and ctx.getChild(2).getText() == ")":
+            if (
+                ctx.getChild(0).getText().strip() == "("
+                and ctx.getChild(2).getText().strip() == ")"
+            ):
                 expression = self.stack.pop()
                 self.stack.append("(" + expression + ")")
             else:
                 right = self.stack.pop()
                 left = self.stack.pop()
-                operator = ctx.getChild(1).getText().upper()  # AND, OR
+                operator = ctx.getChild(1).getText().strip().upper()  # AND, OR
                 self.stack.append(f"{left} {operator} {right}")
         elif ctx.getChildCount() == 2:
-            operator = ctx.getChild(0).getText().upper()  # NOT
+            operator = ctx.getChild(0).getText().strip().upper()  # NOT
             self.stack.append(f"{operator} {self.stack.pop()}")
 
     # ---
@@ -81,10 +92,8 @@ class OFLToSql(OFLListener):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "hashtag:(" and last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
+        # and skip commas in list in between brackets (every second child)
+        for child in children[3:-1:2]:
             # remove STRING from stack
             self.stack.pop()
             values.append(child)
@@ -135,10 +144,8 @@ class OFLToSql(OFLListener):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "key in (" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
+        # and skip commas in list in between brackets
+        for child in children[3:-1:2]:
             # remove STRING from stack wich are part of *ListMatch
             self.stack.pop()
             values.append(unescape(child))
@@ -161,8 +168,8 @@ class OFLToSql(OFLListener):
         self.stack.append(f"(osm_type = '{type_}' AND osm_id = {id})")
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
+        range = self.stack.pop()
+        lower_bound, upper_bound = [n.strip() for n in range.split("..")]
         if lower_bound and upper_bound:
             self.stack.append(f"(osm_id >= {lower_bound} AND osm_id <= {upper_bound})")
         elif lower_bound:
@@ -175,11 +182,8 @@ class OFLToSql(OFLListener):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "id:(" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
-            values.append(child)
+        # and skip commas in list in between brackets
+        values = list(children[3:-1:2])
         values_as_string = ", ".join(values)
         self.stack.append(f"osm_id IN ({values_as_string})")
 
@@ -187,10 +191,8 @@ class OFLToSql(OFLListener):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "id:(" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
+        # and skip commas in list in between brackets
+        for child in children[3:-1:2]:
             type_, id = child.split("/")
             values.append(f"(osm_id = {id} AND osm_type = '{type_}')")
         if len(values) > 1:
@@ -217,8 +219,8 @@ class OFLToSql(OFLListener):
                 self.stack.append("(status_geom_type).geom_type = 'GeometryCollection'")
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
+        range = self.stack.pop()
+        lower_bound, upper_bound = [n.strip() for n in range.split("..")]
         if lower_bound and upper_bound:
             if lower_bound > upper_bound:
                 raise InvalidRangeError(upper_bound, lower_bound)
@@ -229,8 +231,8 @@ class OFLToSql(OFLListener):
             self.stack.append(f"area <= {upper_bound}")
 
     def exitLengthRangeMatch(self, ctx: ParserRuleContext):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
+        range = self.stack.pop()
+        lower_bound, upper_bound = [n.strip() for n in range.split("..")]
         if lower_bound and upper_bound:
             if lower_bound > upper_bound:
                 raise InvalidRangeError(upper_bound, lower_bound)
@@ -270,17 +272,14 @@ class OFLToSql(OFLListener):
         values = []
         children = list(child.getText() for child in ctx.getChildren())
         # skip first part denoting "id:(" as well as last part closing list with ")"
-        for child in children[3:-1]:
-            # skip comma in list in between brackets
-            if child == ",":
-                continue
-            values.append(child)
+        # and skip commas in list in between brackets
+        values = list(children[3:-1:2])
         values_as_string = ", ".join(values)
         self.stack.append(f"changeset_id IN ({values_as_string})")
 
     def exitChangesetRangeMatch(self, ctx: ParserRuleContext):
-        child = ctx.getChild(3).getText()
-        lower_bound, upper_bound = child.split("..")
+        range = self.stack.pop()
+        lower_bound, upper_bound = [n.strip() for n in range.split("..")]
         if lower_bound and upper_bound:
             self.stack.append(
                 f"(changeset_id >= {lower_bound} AND changeset_id <= {upper_bound})"
