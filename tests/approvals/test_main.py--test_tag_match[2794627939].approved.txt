@@ -1,0 +1,5 @@
+key=in
+
+tags @> '{"key": "in"}'
+
+[<Record count=0>]

@@ -45,7 +45,7 @@ expression
 
 tagMatch: string '=' string;
 tagWildcardMatch: string '=' WILDCARD;
-tagListMatch: string 'in' '(' string (',' string)* ')';
+tagListMatch: string IN '(' string (',' string)* ')';
 tagNotMatch: string '!=' string;
 tagNotWildcardMatch: string '!=' WILDCARD;
 tagValuePatternMatch: string '~' valueSubString;
@@ -80,8 +80,8 @@ changesetCreatedByMatch: CHANGESET_CREATEDBY ':' string;
 string
   : QUOTED
   | NUMBER
-  | (    (WORD | AND | OR | NOT | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)
-    (':' (WORD | AND | OR | NOT | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)?)*);
+  | (    (WORD | AND | OR | NOT | IN | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)
+    (':' (WORD | AND | OR | NOT | IN | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)?)*);
 valueSubString: WILDCARD? string WILDCARD?;
 
 
@@ -90,6 +90,7 @@ OR: 'or';
 NOT: 'not';
 
 WILDCARD: '*';
+IN: 'in';
 
 TYPE: 'type';
 ID: 'id';

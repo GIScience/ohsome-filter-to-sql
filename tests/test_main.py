@@ -167,6 +167,7 @@ async def test_hashtag_list_match(filter):
         '"addr:housenumber"="45"',
         "type=boundary",  # w/ keyword as key
         "building=other",  # w/ keyword as value
+        "key=in",  # allow "in" keyword as value
         "addr:housenumber=*",  # key with colon
         '"natüröa"="yes"',  # quoting string should always work and will be escaped
         '"*"="*"',

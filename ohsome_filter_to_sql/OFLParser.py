@@ -37,7 +37,7 @@ def serializedATN():
         315,8,31,1,32,1,32,1,32,1,32,1,32,1,32,1,32,3,32,324,8,32,1,33,1,
         33,1,33,1,33,1,33,1,33,1,33,3,33,333,8,33,1,33,0,1,2,34,0,2,4,6,
         8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,
-        52,54,56,58,60,62,64,66,0,2,4,0,10,12,14,26,28,28,31,31,1,0,29,30,
+        52,54,56,58,60,62,64,66,0,2,4,0,9,11,13,26,28,28,31,31,1,0,29,30,
         347,0,69,1,0,0,0,2,108,1,0,0,0,4,121,1,0,0,0,6,125,1,0,0,0,8,129,
         1,0,0,0,10,142,1,0,0,0,12,146,1,0,0,0,14,150,1,0,0,0,16,154,1,0,
         0,0,18,158,1,0,0,0,20,163,1,0,0,0,22,176,1,0,0,0,24,180,1,0,0,0,
@@ -48,7 +48,7 @@ def serializedATN():
         1,0,0,0,62,310,1,0,0,0,64,323,1,0,0,0,66,332,1,0,0,0,68,70,3,2,1,
         0,69,68,1,0,0,0,69,70,1,0,0,0,70,71,1,0,0,0,71,72,5,0,0,1,72,1,1,
         0,0,0,73,74,6,1,-1,0,74,75,5,1,0,0,75,76,3,2,1,0,76,77,5,2,0,0,77,
-        109,1,0,0,0,78,79,5,12,0,0,79,109,3,2,1,31,80,109,3,16,8,0,81,109,
+        109,1,0,0,0,78,79,5,11,0,0,79,109,3,2,1,31,80,109,3,16,8,0,81,109,
         3,18,9,0,82,109,3,20,10,0,83,109,3,4,2,0,84,109,3,6,3,0,85,109,3,
         10,5,0,86,109,3,12,6,0,87,109,3,8,4,0,88,109,3,14,7,0,89,109,3,22,
         11,0,90,109,3,24,12,0,91,109,3,26,13,0,92,109,3,28,14,0,93,109,3,
@@ -63,66 +63,66 @@ def serializedATN():
         0,108,96,1,0,0,0,108,97,1,0,0,0,108,98,1,0,0,0,108,99,1,0,0,0,108,
         100,1,0,0,0,108,101,1,0,0,0,108,102,1,0,0,0,108,103,1,0,0,0,108,
         104,1,0,0,0,108,105,1,0,0,0,108,106,1,0,0,0,108,107,1,0,0,0,109,
-        118,1,0,0,0,110,111,10,30,0,0,111,112,5,10,0,0,112,117,3,2,1,31,
-        113,114,10,29,0,0,114,115,5,11,0,0,115,117,3,2,1,30,116,110,1,0,
-        0,0,116,113,1,0,0,0,117,120,1,0,0,0,118,116,1,0,0,0,118,119,1,0,
-        0,0,119,3,1,0,0,0,120,118,1,0,0,0,121,122,3,60,30,0,122,123,5,3,
-        0,0,123,124,3,60,30,0,124,5,1,0,0,0,125,126,3,60,30,0,126,127,5,
-        3,0,0,127,128,5,13,0,0,128,7,1,0,0,0,129,130,3,60,30,0,130,131,5,
-        4,0,0,131,132,5,1,0,0,132,137,3,60,30,0,133,134,5,5,0,0,134,136,
-        3,60,30,0,135,133,1,0,0,0,136,139,1,0,0,0,137,135,1,0,0,0,137,138,
+        118,1,0,0,0,110,111,10,30,0,0,111,112,5,9,0,0,112,117,3,2,1,31,113,
+        114,10,29,0,0,114,115,5,10,0,0,115,117,3,2,1,30,116,110,1,0,0,0,
+        116,113,1,0,0,0,117,120,1,0,0,0,118,116,1,0,0,0,118,119,1,0,0,0,
+        119,3,1,0,0,0,120,118,1,0,0,0,121,122,3,60,30,0,122,123,5,3,0,0,
+        123,124,3,60,30,0,124,5,1,0,0,0,125,126,3,60,30,0,126,127,5,3,0,
+        0,127,128,5,12,0,0,128,7,1,0,0,0,129,130,3,60,30,0,130,131,5,13,
+        0,0,131,132,5,1,0,0,132,137,3,60,30,0,133,134,5,4,0,0,134,136,3,
+        60,30,0,135,133,1,0,0,0,136,139,1,0,0,0,137,135,1,0,0,0,137,138,
         1,0,0,0,138,140,1,0,0,0,139,137,1,0,0,0,140,141,5,2,0,0,141,9,1,
-        0,0,0,142,143,3,60,30,0,143,144,5,6,0,0,144,145,3,60,30,0,145,11,
-        1,0,0,0,146,147,3,60,30,0,147,148,5,6,0,0,148,149,5,13,0,0,149,13,
-        1,0,0,0,150,151,3,60,30,0,151,152,5,7,0,0,152,153,3,62,31,0,153,
-        15,1,0,0,0,154,155,5,25,0,0,155,156,5,8,0,0,156,157,3,60,30,0,157,
-        17,1,0,0,0,158,159,5,25,0,0,159,160,5,8,0,0,160,161,5,31,0,0,161,
-        162,5,13,0,0,162,19,1,0,0,0,163,164,5,25,0,0,164,165,5,8,0,0,165,
-        166,5,1,0,0,166,171,3,60,30,0,167,168,5,5,0,0,168,170,3,60,30,0,
+        0,0,0,142,143,3,60,30,0,143,144,5,5,0,0,144,145,3,60,30,0,145,11,
+        1,0,0,0,146,147,3,60,30,0,147,148,5,5,0,0,148,149,5,12,0,0,149,13,
+        1,0,0,0,150,151,3,60,30,0,151,152,5,6,0,0,152,153,3,62,31,0,153,
+        15,1,0,0,0,154,155,5,25,0,0,155,156,5,7,0,0,156,157,3,60,30,0,157,
+        17,1,0,0,0,158,159,5,25,0,0,159,160,5,7,0,0,160,161,5,31,0,0,161,
+        162,5,12,0,0,162,19,1,0,0,0,163,164,5,25,0,0,164,165,5,7,0,0,165,
+        166,5,1,0,0,166,171,3,60,30,0,167,168,5,4,0,0,168,170,3,60,30,0,
         169,167,1,0,0,0,170,173,1,0,0,0,171,169,1,0,0,0,171,172,1,0,0,0,
         172,174,1,0,0,0,173,171,1,0,0,0,174,175,5,2,0,0,175,21,1,0,0,0,176,
-        177,5,14,0,0,177,178,5,8,0,0,178,179,5,26,0,0,179,23,1,0,0,0,180,
-        181,5,15,0,0,181,182,5,8,0,0,182,183,5,29,0,0,183,25,1,0,0,0,184,
-        185,5,15,0,0,185,186,5,8,0,0,186,187,5,27,0,0,187,27,1,0,0,0,188,
-        189,5,15,0,0,189,190,5,8,0,0,190,191,5,1,0,0,191,192,3,64,32,0,192,
-        193,5,2,0,0,193,29,1,0,0,0,194,195,5,15,0,0,195,196,5,8,0,0,196,
-        197,5,1,0,0,197,202,5,29,0,0,198,199,5,5,0,0,199,201,5,29,0,0,200,
+        177,5,14,0,0,177,178,5,7,0,0,178,179,5,26,0,0,179,23,1,0,0,0,180,
+        181,5,15,0,0,181,182,5,7,0,0,182,183,5,29,0,0,183,25,1,0,0,0,184,
+        185,5,15,0,0,185,186,5,7,0,0,186,187,5,27,0,0,187,27,1,0,0,0,188,
+        189,5,15,0,0,189,190,5,7,0,0,190,191,5,1,0,0,191,192,3,64,32,0,192,
+        193,5,2,0,0,193,29,1,0,0,0,194,195,5,15,0,0,195,196,5,7,0,0,196,
+        197,5,1,0,0,197,202,5,29,0,0,198,199,5,4,0,0,199,201,5,29,0,0,200,
         198,1,0,0,0,201,204,1,0,0,0,202,200,1,0,0,0,202,203,1,0,0,0,203,
         205,1,0,0,0,204,202,1,0,0,0,205,206,5,2,0,0,206,31,1,0,0,0,207,208,
-        5,15,0,0,208,209,5,8,0,0,209,210,5,1,0,0,210,215,5,27,0,0,211,212,
-        5,5,0,0,212,214,5,27,0,0,213,211,1,0,0,0,214,217,1,0,0,0,215,213,
+        5,15,0,0,208,209,5,7,0,0,209,210,5,1,0,0,210,215,5,27,0,0,211,212,
+        5,4,0,0,212,214,5,27,0,0,213,211,1,0,0,0,214,217,1,0,0,0,215,213,
         1,0,0,0,215,216,1,0,0,0,216,218,1,0,0,0,217,215,1,0,0,0,218,219,
-        5,2,0,0,219,33,1,0,0,0,220,221,5,16,0,0,221,222,5,8,0,0,222,223,
-        5,28,0,0,223,35,1,0,0,0,224,225,5,17,0,0,225,226,5,8,0,0,226,227,
+        5,2,0,0,219,33,1,0,0,0,220,221,5,16,0,0,221,222,5,7,0,0,222,223,
+        5,28,0,0,223,35,1,0,0,0,224,225,5,17,0,0,225,226,5,7,0,0,226,227,
         5,1,0,0,227,228,3,66,33,0,228,229,5,2,0,0,229,37,1,0,0,0,230,231,
-        5,18,0,0,231,232,5,8,0,0,232,233,5,1,0,0,233,234,3,66,33,0,234,235,
-        5,2,0,0,235,39,1,0,0,0,236,237,5,19,0,0,237,238,5,8,0,0,238,239,
+        5,18,0,0,231,232,5,7,0,0,232,233,5,1,0,0,233,234,3,66,33,0,234,235,
+        5,2,0,0,235,39,1,0,0,0,236,237,5,19,0,0,237,238,5,7,0,0,238,239,
         5,1,0,0,239,240,3,66,33,0,240,241,5,2,0,0,241,41,1,0,0,0,242,243,
-        5,20,0,0,243,244,5,8,0,0,244,245,5,1,0,0,245,246,3,64,32,0,246,247,
-        5,2,0,0,247,43,1,0,0,0,248,249,5,21,0,0,249,250,5,8,0,0,250,251,
-        5,29,0,0,251,45,1,0,0,0,252,253,5,21,0,0,253,254,5,8,0,0,254,255,
+        5,20,0,0,243,244,5,7,0,0,244,245,5,1,0,0,245,246,3,64,32,0,246,247,
+        5,2,0,0,247,43,1,0,0,0,248,249,5,21,0,0,249,250,5,7,0,0,250,251,
+        5,29,0,0,251,45,1,0,0,0,252,253,5,21,0,0,253,254,5,7,0,0,254,255,
         5,1,0,0,255,256,3,64,32,0,256,257,5,2,0,0,257,47,1,0,0,0,258,259,
-        5,22,0,0,259,260,5,8,0,0,260,261,5,29,0,0,261,49,1,0,0,0,262,263,
-        5,22,0,0,263,264,5,8,0,0,264,265,5,1,0,0,265,266,3,64,32,0,266,267,
-        5,2,0,0,267,51,1,0,0,0,268,269,5,23,0,0,269,270,5,8,0,0,270,271,
-        5,29,0,0,271,53,1,0,0,0,272,273,5,23,0,0,273,274,5,8,0,0,274,275,
-        5,1,0,0,275,280,5,29,0,0,276,277,5,5,0,0,277,279,5,29,0,0,278,276,
+        5,22,0,0,259,260,5,7,0,0,260,261,5,29,0,0,261,49,1,0,0,0,262,263,
+        5,22,0,0,263,264,5,7,0,0,264,265,5,1,0,0,265,266,3,64,32,0,266,267,
+        5,2,0,0,267,51,1,0,0,0,268,269,5,23,0,0,269,270,5,7,0,0,270,271,
+        5,29,0,0,271,53,1,0,0,0,272,273,5,23,0,0,273,274,5,7,0,0,274,275,
+        5,1,0,0,275,280,5,29,0,0,276,277,5,4,0,0,277,279,5,29,0,0,278,276,
         1,0,0,0,279,282,1,0,0,0,280,278,1,0,0,0,280,281,1,0,0,0,281,283,
         1,0,0,0,282,280,1,0,0,0,283,284,5,2,0,0,284,55,1,0,0,0,285,286,5,
-        23,0,0,286,287,5,8,0,0,287,288,5,1,0,0,288,289,3,64,32,0,289,290,
-        5,2,0,0,290,57,1,0,0,0,291,292,5,24,0,0,292,293,5,8,0,0,293,294,
+        23,0,0,286,287,5,7,0,0,287,288,5,1,0,0,288,289,3,64,32,0,289,290,
+        5,2,0,0,290,57,1,0,0,0,291,292,5,24,0,0,292,293,5,7,0,0,293,294,
         3,60,30,0,294,59,1,0,0,0,295,308,5,32,0,0,296,308,5,29,0,0,297,304,
-        7,0,0,0,298,300,5,8,0,0,299,301,7,0,0,0,300,299,1,0,0,0,300,301,
+        7,0,0,0,298,300,5,7,0,0,299,301,7,0,0,0,300,299,1,0,0,0,300,301,
         1,0,0,0,301,303,1,0,0,0,302,298,1,0,0,0,303,306,1,0,0,0,304,302,
         1,0,0,0,304,305,1,0,0,0,305,308,1,0,0,0,306,304,1,0,0,0,307,295,
         1,0,0,0,307,296,1,0,0,0,307,297,1,0,0,0,308,61,1,0,0,0,309,311,5,
-        13,0,0,310,309,1,0,0,0,310,311,1,0,0,0,311,312,1,0,0,0,312,314,3,
-        60,30,0,313,315,5,13,0,0,314,313,1,0,0,0,314,315,1,0,0,0,315,63,
-        1,0,0,0,316,317,5,29,0,0,317,318,5,9,0,0,318,324,5,29,0,0,319,320,
-        5,9,0,0,320,324,5,29,0,0,321,322,5,29,0,0,322,324,5,9,0,0,323,316,
+        12,0,0,310,309,1,0,0,0,310,311,1,0,0,0,311,312,1,0,0,0,312,314,3,
+        60,30,0,313,315,5,12,0,0,314,313,1,0,0,0,314,315,1,0,0,0,315,63,
+        1,0,0,0,316,317,5,29,0,0,317,318,5,8,0,0,318,324,5,29,0,0,319,320,
+        5,8,0,0,320,324,5,29,0,0,321,322,5,29,0,0,322,324,5,8,0,0,323,316,
         1,0,0,0,323,319,1,0,0,0,323,321,1,0,0,0,324,65,1,0,0,0,325,326,7,
-        1,0,0,326,327,5,9,0,0,327,333,7,1,0,0,328,329,5,9,0,0,329,333,7,
-        1,0,0,330,331,7,1,0,0,331,333,5,9,0,0,332,325,1,0,0,0,332,328,1,
+        1,0,0,326,327,5,8,0,0,327,333,7,1,0,0,328,329,5,8,0,0,329,333,7,
+        1,0,0,330,331,7,1,0,0,331,333,5,8,0,0,332,325,1,0,0,0,332,328,1,
         0,0,0,332,330,1,0,0,0,333,67,1,0,0,0,16,69,108,116,118,137,171,202,
         215,280,300,304,307,310,314,323,332
     ]
@@ -137,8 +137,8 @@ class OFLParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'('", "')'", "'='", "'in'", "','", "'!='", 
-                     "'~'", "':'", "'..'", "'and'", "'or'", "'not'", "'*'", 
+    literalNames = [ "<INVALID>", "'('", "')'", "'='", "','", "'!='", "'~'", 
+                     "':'", "'..'", "'and'", "'or'", "'not'", "'*'", "'in'", 
                      "'type'", "'id'", "'geometry'", "'area'", "'perimeter'", 
                      "'length'", "'geometry.vertices'", "'geometry.outers'", 
                      "'geometry.inners'", "'changeset'", "'changeset.created_by'", 
@@ -146,7 +146,7 @@ class OFLParser ( Parser ):
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "AND", "OR", "NOT", "WILDCARD", 
+                      "<INVALID>", "AND", "OR", "NOT", "WILDCARD", "IN", 
                       "TYPE", "ID", "GEOMETRY", "AREA", "PERIMETER", "LENGTH", 
                       "GEOMETRY_VERTICES", "GEOMETRY_OUTERS", "GEOMETRY_INNERS", 
                       "CHANGESET", "CHANGESET_CREATEDBY", "HASHTAG", "OSMTYPE", 
@@ -209,11 +209,11 @@ class OFLParser ( Parser ):
     T__5=6
     T__6=7
     T__7=8
-    T__8=9
-    AND=10
-    OR=11
-    NOT=12
-    WILDCARD=13
+    AND=9
+    OR=10
+    NOT=11
+    WILDCARD=12
+    IN=13
     TYPE=14
     ID=15
     GEOMETRY=16
@@ -282,7 +282,7 @@ class OFLParser ( Parser ):
             self.state = 69
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 7381965826) != 0):
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 7381970434) != 0):
                 self.state = 68
                 self.expression(0)
 
@@ -779,6 +779,9 @@ class OFLParser ( Parser ):
                 return self.getTypedRuleContext(OFLParser.StringContext,i)
 
 
+        def IN(self):
+            return self.getToken(OFLParser.IN, 0)
+
         def getRuleIndex(self):
             return OFLParser.RULE_tagListMatch
 
@@ -803,7 +806,7 @@ class OFLParser ( Parser ):
             self.state = 129
             self.string()
             self.state = 130
-            self.match(OFLParser.T__3)
+            self.match(OFLParser.IN)
             self.state = 131
             self.match(OFLParser.T__0)
             self.state = 132
@@ -811,9 +814,9 @@ class OFLParser ( Parser ):
             self.state = 137
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==5:
+            while _la==4:
                 self.state = 133
-                self.match(OFLParser.T__4)
+                self.match(OFLParser.T__3)
                 self.state = 134
                 self.string()
                 self.state = 139
@@ -868,7 +871,7 @@ class OFLParser ( Parser ):
             self.state = 142
             self.string()
             self.state = 143
-            self.match(OFLParser.T__5)
+            self.match(OFLParser.T__4)
             self.state = 144
             self.string()
         except RecognitionException as re:
@@ -917,7 +920,7 @@ class OFLParser ( Parser ):
             self.state = 146
             self.string()
             self.state = 147
-            self.match(OFLParser.T__5)
+            self.match(OFLParser.T__4)
             self.state = 148
             self.match(OFLParser.WILDCARD)
         except RecognitionException as re:
@@ -967,7 +970,7 @@ class OFLParser ( Parser ):
             self.state = 150
             self.string()
             self.state = 151
-            self.match(OFLParser.T__6)
+            self.match(OFLParser.T__5)
             self.state = 152
             self.valueSubString()
         except RecognitionException as re:
@@ -1016,7 +1019,7 @@ class OFLParser ( Parser ):
             self.state = 154
             self.match(OFLParser.HASHTAG)
             self.state = 155
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 156
             self.string()
         except RecognitionException as re:
@@ -1067,7 +1070,7 @@ class OFLParser ( Parser ):
             self.state = 158
             self.match(OFLParser.HASHTAG)
             self.state = 159
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 160
             self.match(OFLParser.WORD)
             self.state = 161
@@ -1122,7 +1125,7 @@ class OFLParser ( Parser ):
             self.state = 163
             self.match(OFLParser.HASHTAG)
             self.state = 164
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 165
             self.match(OFLParser.T__0)
             self.state = 166
@@ -1130,9 +1133,9 @@ class OFLParser ( Parser ):
             self.state = 171
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==5:
+            while _la==4:
                 self.state = 167
-                self.match(OFLParser.T__4)
+                self.match(OFLParser.T__3)
                 self.state = 168
                 self.string()
                 self.state = 173
@@ -1186,7 +1189,7 @@ class OFLParser ( Parser ):
             self.state = 176
             self.match(OFLParser.TYPE)
             self.state = 177
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 178
             self.match(OFLParser.OSMTYPE)
         except RecognitionException as re:
@@ -1234,7 +1237,7 @@ class OFLParser ( Parser ):
             self.state = 180
             self.match(OFLParser.ID)
             self.state = 181
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 182
             self.match(OFLParser.NUMBER)
         except RecognitionException as re:
@@ -1282,7 +1285,7 @@ class OFLParser ( Parser ):
             self.state = 184
             self.match(OFLParser.ID)
             self.state = 185
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 186
             self.match(OFLParser.OSMID)
         except RecognitionException as re:
@@ -1331,7 +1334,7 @@ class OFLParser ( Parser ):
             self.state = 188
             self.match(OFLParser.ID)
             self.state = 189
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 190
             self.match(OFLParser.T__0)
             self.state = 191
@@ -1387,7 +1390,7 @@ class OFLParser ( Parser ):
             self.state = 194
             self.match(OFLParser.ID)
             self.state = 195
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 196
             self.match(OFLParser.T__0)
             self.state = 197
@@ -1395,9 +1398,9 @@ class OFLParser ( Parser ):
             self.state = 202
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==5:
+            while _la==4:
                 self.state = 198
-                self.match(OFLParser.T__4)
+                self.match(OFLParser.T__3)
                 self.state = 199
                 self.match(OFLParser.NUMBER)
                 self.state = 204
@@ -1455,7 +1458,7 @@ class OFLParser ( Parser ):
             self.state = 207
             self.match(OFLParser.ID)
             self.state = 208
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 209
             self.match(OFLParser.T__0)
             self.state = 210
@@ -1463,9 +1466,9 @@ class OFLParser ( Parser ):
             self.state = 215
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==5:
+            while _la==4:
                 self.state = 211
-                self.match(OFLParser.T__4)
+                self.match(OFLParser.T__3)
                 self.state = 212
                 self.match(OFLParser.OSMID)
                 self.state = 217
@@ -1519,7 +1522,7 @@ class OFLParser ( Parser ):
             self.state = 220
             self.match(OFLParser.GEOMETRY)
             self.state = 221
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 222
             self.match(OFLParser.GEOMETRY_TYPE)
         except RecognitionException as re:
@@ -1568,7 +1571,7 @@ class OFLParser ( Parser ):
             self.state = 224
             self.match(OFLParser.AREA)
             self.state = 225
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 226
             self.match(OFLParser.T__0)
             self.state = 227
@@ -1621,7 +1624,7 @@ class OFLParser ( Parser ):
             self.state = 230
             self.match(OFLParser.PERIMETER)
             self.state = 231
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 232
             self.match(OFLParser.T__0)
             self.state = 233
@@ -1674,7 +1677,7 @@ class OFLParser ( Parser ):
             self.state = 236
             self.match(OFLParser.LENGTH)
             self.state = 237
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 238
             self.match(OFLParser.T__0)
             self.state = 239
@@ -1727,7 +1730,7 @@ class OFLParser ( Parser ):
             self.state = 242
             self.match(OFLParser.GEOMETRY_VERTICES)
             self.state = 243
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 244
             self.match(OFLParser.T__0)
             self.state = 245
@@ -1779,7 +1782,7 @@ class OFLParser ( Parser ):
             self.state = 248
             self.match(OFLParser.GEOMETRY_OUTERS)
             self.state = 249
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 250
             self.match(OFLParser.NUMBER)
         except RecognitionException as re:
@@ -1828,7 +1831,7 @@ class OFLParser ( Parser ):
             self.state = 252
             self.match(OFLParser.GEOMETRY_OUTERS)
             self.state = 253
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 254
             self.match(OFLParser.T__0)
             self.state = 255
@@ -1880,7 +1883,7 @@ class OFLParser ( Parser ):
             self.state = 258
             self.match(OFLParser.GEOMETRY_INNERS)
             self.state = 259
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 260
             self.match(OFLParser.NUMBER)
         except RecognitionException as re:
@@ -1929,7 +1932,7 @@ class OFLParser ( Parser ):
             self.state = 262
             self.match(OFLParser.GEOMETRY_INNERS)
             self.state = 263
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 264
             self.match(OFLParser.T__0)
             self.state = 265
@@ -1981,7 +1984,7 @@ class OFLParser ( Parser ):
             self.state = 268
             self.match(OFLParser.CHANGESET)
             self.state = 269
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 270
             self.match(OFLParser.NUMBER)
         except RecognitionException as re:
@@ -2033,7 +2036,7 @@ class OFLParser ( Parser ):
             self.state = 272
             self.match(OFLParser.CHANGESET)
             self.state = 273
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 274
             self.match(OFLParser.T__0)
             self.state = 275
@@ -2041,9 +2044,9 @@ class OFLParser ( Parser ):
             self.state = 280
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==5:
+            while _la==4:
                 self.state = 276
-                self.match(OFLParser.T__4)
+                self.match(OFLParser.T__3)
                 self.state = 277
                 self.match(OFLParser.NUMBER)
                 self.state = 282
@@ -2098,7 +2101,7 @@ class OFLParser ( Parser ):
             self.state = 285
             self.match(OFLParser.CHANGESET)
             self.state = 286
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 287
             self.match(OFLParser.T__0)
             self.state = 288
@@ -2151,7 +2154,7 @@ class OFLParser ( Parser ):
             self.state = 291
             self.match(OFLParser.CHANGESET_CREATEDBY)
             self.state = 292
-            self.match(OFLParser.T__7)
+            self.match(OFLParser.T__6)
             self.state = 293
             self.string()
         except RecognitionException as re:
@@ -2199,6 +2202,12 @@ class OFLParser ( Parser ):
                 return self.getTokens(OFLParser.NOT)
             else:
                 return self.getToken(OFLParser.NOT, i)
+
+        def IN(self, i:int=None):
+            if i is None:
+                return self.getTokens(OFLParser.IN)
+            else:
+                return self.getToken(OFLParser.IN, i)
 
         def TYPE(self, i:int=None):
             if i is None:
@@ -2317,11 +2326,11 @@ class OFLParser ( Parser ):
                 self.state = 296
                 self.match(OFLParser.NUMBER)
                 pass
-            elif token in [10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 31]:
+            elif token in [9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 31]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 297
                 _la = self._input.LA(1)
-                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 2550127616) != 0)):
+                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 2550132224) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -2332,14 +2341,14 @@ class OFLParser ( Parser ):
                 while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                     if _alt==1:
                         self.state = 298
-                        self.match(OFLParser.T__7)
+                        self.match(OFLParser.T__6)
                         self.state = 300
                         self._errHandler.sync(self)
                         la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
                         if la_ == 1:
                             self.state = 299
                             _la = self._input.LA(1)
-                            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 2550127616) != 0)):
+                            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 2550132224) != 0)):
                                 self._errHandler.recoverInline(self)
                             else:
                                 self._errHandler.reportMatch(self)
@@ -2404,7 +2413,7 @@ class OFLParser ( Parser ):
             self.state = 310
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==13:
+            if _la==12:
                 self.state = 309
                 self.match(OFLParser.WILDCARD)
 
@@ -2468,7 +2477,7 @@ class OFLParser ( Parser ):
                 self.state = 316
                 self.match(OFLParser.NUMBER)
                 self.state = 317
-                self.match(OFLParser.T__8)
+                self.match(OFLParser.T__7)
                 self.state = 318
                 self.match(OFLParser.NUMBER)
                 pass
@@ -2476,7 +2485,7 @@ class OFLParser ( Parser ):
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 319
-                self.match(OFLParser.T__8)
+                self.match(OFLParser.T__7)
                 self.state = 320
                 self.match(OFLParser.NUMBER)
                 pass
@@ -2486,7 +2495,7 @@ class OFLParser ( Parser ):
                 self.state = 321
                 self.match(OFLParser.NUMBER)
                 self.state = 322
-                self.match(OFLParser.T__8)
+                self.match(OFLParser.T__7)
                 pass
 
 
@@ -2551,7 +2560,7 @@ class OFLParser ( Parser ):
                     self._errHandler.reportMatch(self)
                     self.consume()
                 self.state = 326
-                self.match(OFLParser.T__8)
+                self.match(OFLParser.T__7)
                 self.state = 327
                 _la = self._input.LA(1)
                 if not(_la==29 or _la==30):
@@ -2564,7 +2573,7 @@ class OFLParser ( Parser ):
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 328
-                self.match(OFLParser.T__8)
+                self.match(OFLParser.T__7)
                 self.state = 329
                 _la = self._input.LA(1)
                 if not(_la==29 or _la==30):
@@ -2584,7 +2593,7 @@ class OFLParser ( Parser ):
                     self._errHandler.reportMatch(self)
                     self.consume()
                 self.state = 331
-                self.match(OFLParser.T__8)
+                self.match(OFLParser.T__7)
                 pass
 
 
