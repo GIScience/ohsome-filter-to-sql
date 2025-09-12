@@ -184,7 +184,6 @@ async def test_hashtag_list_match(filter):
         'natural=* and not "natürla"=*',
         "sidewalk::left=yes",
         "sidewalk:=yes",
-        "sidewalk : left = yes",  # whitespace between tokens is skipped by the lexer
         '"sidewalk : left" = yes',  # whitespace in quoted string is preserved
     ),
 )
@@ -212,6 +211,7 @@ async def test_tag_wildcard_match(filter):
     (
         "*=*",
         "natürla=*",
+        "sidewalk : left = yes",  # whitespace between tokens is invalid
     ),
 )
 async def test_tag_match_invalid(filter):
@@ -241,7 +241,6 @@ async def test_tag_list_match(filter):
         "cuisine ~ *pizza*",
         "cuisine~*pizza*",
         'name ~ *"straße"',  # quoted
-        "maxspeed ~ * mph",  # whitespace is skipped
         'maxspeed ~ *" mph"',  # whitespace is preserved
         "name ~ S*",
         'name ~ "Hotel **"',  # literal * in quoted string
@@ -260,6 +259,7 @@ async def test_tag_value_pattern_match(filter):
     (
         "key ~ *",
         "key ~ foo*bar",
+        "maxspeed ~ * mph",  # whitespace after wildcard is invalid
     ),
 )
 async def test_tag_value_pattern_match_invalid(filter):

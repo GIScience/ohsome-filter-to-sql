@@ -4,10 +4,10 @@ grammar OFL;
 root: expression? EOF;
 
 expression
-  : '(' expression ')'
-  | NOT expression
-  | expression AND expression
-  | expression OR expression
+  : po expression pc
+  | not expression
+  | expression and expression
+  | expression or expression
 
   | hashtagMatch
   | hashtagWildcardMatch
@@ -43,38 +43,38 @@ expression
   | changesetCreatedByMatch;
 
 
-tagMatch: string '=' string;
-tagWildcardMatch: string '=' WILDCARD;
-tagListMatch: string IN '(' string (',' string)* ')';
-tagNotMatch: string '!=' string;
-tagNotWildcardMatch: string '!=' WILDCARD;
-tagValuePatternMatch: string '~' valueSubString;
+tagMatch: string eq string;
+tagWildcardMatch: string eq WILDCARD;
+tagListMatch: string in po string (co string)* pc;
+tagNotMatch: string ne string;
+tagNotWildcardMatch: string ne WILDCARD;
+tagValuePatternMatch: string tl valueSubString;
 
-hashtagMatch: HASHTAG ':' string;
-hashtagWildcardMatch: HASHTAG ':' WORD WILDCARD;
-hashtagListMatch: HASHTAG ':' '(' string (',' string)* ')';
+hashtagMatch: HASHTAG cn string;
+hashtagWildcardMatch: HASHTAG cn WORD WILDCARD;
+hashtagListMatch: HASHTAG cn po string (co string)* pc;
 
-typeMatch: TYPE ':' OSMTYPE;
-idMatch: ID ':' NUMBER;
-typeIdMatch: ID ':' OSMID;
-idRangeMatch: ID ':' '(' range_int ')';
-idListMatch: ID ':' '(' NUMBER (',' NUMBER)* ')';
-typeIdListMatch: ID ':' '(' OSMID (',' OSMID)* ')';
+typeMatch: TYPE cn OSMTYPE;
+idMatch: ID cn NUMBER;
+typeIdMatch: ID cn OSMID;
+idRangeMatch: ID cn range_int;
+idListMatch: ID cn po NUMBER (co NUMBER)* pc;
+typeIdListMatch: ID cn po OSMID (co OSMID)* pc;
 
-geometryMatch: GEOMETRY ':' GEOMETRY_TYPE;
-areaRangeMatch: AREA ':' '(' range_dec ')';
-perimeterRangeMatch: PERIMETER ':' '(' range_dec ')';
-lengthRangeMatch: LENGTH ':' '(' range_dec ')';
-geometryVerticesRangeMatch: GEOMETRY_VERTICES ':' '(' range_int ')';
-geometryOutersMatch: GEOMETRY_OUTERS ':' NUMBER;
-geometryOutersRangeMatch: GEOMETRY_OUTERS ':' '(' range_int ')';
-geometryInnersMatch: GEOMETRY_INNERS ':' NUMBER;
-geometryInnersRangeMatch: GEOMETRY_INNERS ':' '(' range_int ')';
+geometryMatch: GEOMETRY cn GEOMETRY_TYPE;
+areaRangeMatch: AREA cn range_dec;
+perimeterRangeMatch: PERIMETER cn range_dec;
+lengthRangeMatch: LENGTH cn range_dec;
+geometryVerticesRangeMatch: GEOMETRY_VERTICES cn range_int;
+geometryOutersMatch: GEOMETRY_OUTERS cn NUMBER;
+geometryOutersRangeMatch: GEOMETRY_OUTERS cn range_int;
+geometryInnersMatch: GEOMETRY_INNERS cn NUMBER;
+geometryInnersRangeMatch: GEOMETRY_INNERS cn range_int;
 
-changesetMatch: CHANGESET ':' NUMBER;
-changesetListMatch: CHANGESET ':' '(' NUMBER (',' NUMBER)* ')';
-changesetRangeMatch: CHANGESET ':' '(' range_int ')';
-changesetCreatedByMatch: CHANGESET_CREATEDBY ':' string;
+changesetMatch: CHANGESET cn NUMBER;
+changesetListMatch: CHANGESET cn po NUMBER (co NUMBER)* pc;
+changesetRangeMatch: CHANGESET cn range_int;
+changesetCreatedByMatch: CHANGESET_CREATEDBY cn string;
 
 
 string
@@ -88,9 +88,23 @@ valueSubString: WILDCARD? string WILDCARD?;
 AND: 'and';
 OR: 'or';
 NOT: 'not';
+IN: 'in';
+
+and: WS? AND WS?;
+or: WS? OR WS?;
+not: WS? NOT WS?;
+in : WS? IN WS?;
+
+eq: WS? '=' WS?;
+ne: WS? '!=' WS?;
+po: WS? '(' WS?;
+pc: WS? ')' WS?;
+co: WS? ',' WS?;
+dd: WS? '..' WS?;
+cn: WS? ':' WS?;
+tl: WS? '~' WS?;
 
 WILDCARD: '*';
-IN: 'in';
 
 TYPE: 'type';
 ID: 'id';
@@ -114,10 +128,10 @@ DECIMAL: NUMERAL+ ('.' NUMERAL+)? ([Ee] NUMERAL+)?;
 WORD: LETTER+;
 QUOTED: '"' CHARACTER+ '"';
 
-range_int: NUMBER '..' NUMBER | '..' NUMBER | NUMBER '..';
-range_dec: (NUMBER | DECIMAL) '..' (NUMBER | DECIMAL) | '..' (NUMBER | DECIMAL) | (NUMBER | DECIMAL) '..';
+range_int: po (NUMBER dd NUMBER | dd NUMBER | NUMBER dd ) pc;
+range_dec: po ((NUMBER | DECIMAL) dd (NUMBER | DECIMAL) | dd (NUMBER | DECIMAL) | (NUMBER | DECIMAL) dd) pc;
 
-WHITESPACE: [ \t\r\n]+ -> skip;
+WS: [ \t\r\n]+;
 
 fragment NUMERAL: [0-9];
 fragment LETTER: [-_a-zA-Z0-9];
