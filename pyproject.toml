@@ -5,7 +5,7 @@ description = "Translate ohsome API filter to SQL WHERE clause ready to be used 
 readme = "README.md"
 license = "LGPL-3.0-only"
 authors = [{email="ohsome@heigit.org"}]
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
 ]
