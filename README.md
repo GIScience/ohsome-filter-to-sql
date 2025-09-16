@@ -14,7 +14,9 @@ tags @> '{"natural": "tree"}' AND tags @> '{"leaftype": "broadleaf"}'  # result
 uv add git+https://github.com/GIScience/ohsome-filter-to-sql.git
 ```
 
-## Usage as Python library
+## Usage
+
+### Python Library
 
 ```python
 from ohsome_filter_to_sql.main import ohsome_filter_to_sql
@@ -22,6 +24,11 @@ from ohsome_filter_to_sql.main import ohsome_filter_to_sql
 sql_query = ohsome_filter_to_sql("natural = tree")
 ```
 
+### Command Line Interface (CLI)
+
+```sh
+uv run ohsome-filter-to-sql
+```
 
 ## Development Setup
 
