@@ -673,6 +673,9 @@ async def test_strings(str, out):
 # fmt: on
 
 
+@pytest.mark.skip(
+    "Valid SQL injection, but asyncpg can only execute one query at a time."
+)
 async def test_sql_injection():
     # TODO: add example which injects even though json.dumps is used.
     filter = "\"natural';drop table contributions;SELECT 'test\"=*"
