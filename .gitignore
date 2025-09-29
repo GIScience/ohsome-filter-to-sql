@@ -11,6 +11,9 @@ wheels/
 # Virtual environments
 .venv
 
+# IDE
+.idea/
+
 # Approvaltests
 /tests/**/*.received*
 
