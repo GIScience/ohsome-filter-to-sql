@@ -33,6 +33,7 @@ dev = [
     "antlr4-tools>=0.2.2",
     "pytest-approval",
     "asyncpg-recorder",
+    "pytest-cov>=7.0.0",
 ]
 
 [tool.ruff]

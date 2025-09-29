@@ -17,6 +17,10 @@ wheels/
 # Approvaltests
 /tests/**/*.received*
 
+# test reports
+.coverage
+coverage.xml
+
 # ANTLR4
 *.interp
 *.tokens
