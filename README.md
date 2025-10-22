@@ -73,14 +73,9 @@ uv run antlr4 -Dlanguage=Python3 OFL.g4 && mv *.py ohsome_filter_to_sql/
 
 ### Release
 
-This project uses [CalVer](https://calver.org/).
+This project uses [SemVer](https://semver.org/).
 
-Format is: `YYYY.MM.DD` (E.g `2025.9.2`).
-
-In case of releasing twice on one day add a micro number starting with 1:
-`YYYY.MM.DD.micro` (E.g. `2025.9.2.1`).
-
-To make a new release run `./scripts/release.sh YYYY.MM.DD`
+To make a new release run `./scripts/release.sh <version number>`.
 
 
 ## Resources
