@@ -2,6 +2,7 @@
 
 [![Build Status](https://jenkins.heigit.org/buildStatus/icon?job=ohsome-filter/main)](https://jenkins.heigit.org/job/ohsome-filter/job/main/)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=ohsome-filter-to-sql&metric=alert_status)](https://sonarcloud.io/dashboard?id=ohsome-filter-to-sql)
+[![PyPI - Version](https://img.shields.io/pypi/v/ohsome-filter-to-sql)](https://pypi.org/project/ohsome-filter-to-sql/)
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-filter-to-sql)](COPYING)
 [![status: active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
 
