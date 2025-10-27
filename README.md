@@ -39,12 +39,8 @@ uv run ohsome-filter-to-sql
 ## Development Setup
 
 ```sh
-uv run pytest
-```
-
-To install pre-commit hooks run:
-```sh
 uv run pre-commit install
+uv run pytest
 ```
 
 To develop new features you will need a local instance of the [ohsomeDB](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/tree/main/local_setup).
