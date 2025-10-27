@@ -1,14 +1,25 @@
 [project]
 name = "ohsome-filter-to-sql"
 version = "0.1.0"
+authors = [{name="HeiGIT ohsome team", email="ohsome@heigit.org"}]
 description = "Translate ohsome API filter to SQL WHERE clause ready to be used with ohsomeDB"
 readme = "README.md"
-license = "LGPL-3.0-only"
-authors = [{email="ohsome@heigit.org"}]
 requires-python = ">=3.11"
+classifiers = []
+license = "LGPL-3.0-only"
+license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
 ]
+
+[project.urls]
+Homepage = "https://ohsome.org/"
+# TODO: update once dedicated documentation is available
+Documentation = "https://github.com/GIScience/ohsome-filter-to-sql/blob/main/README.md"
+Repository = "https://github.com/GIScience/ohsome-filter-to-sql"
+Issues = "https://github.com/GIScience/ohsome-filter-to-sql/issues"
+# TODO: create changelog
+# Changelog = "https://github.com/GIScience/ohsome-filter-to-sql/blob/main/CHANGELOG.md"
 
 [project.scripts]
 ohsome-filter-to-sql= "ohsome_filter_to_sql.main:cli"
