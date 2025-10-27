@@ -9,7 +9,7 @@
 ## Try it out
 
 ```sh
-$ uvx --from git+https://github.com/GIScience/ohsome-filter-to-sql.git ohsome-filter-to-sql
+$ uvx ohsome-filter-to-sql
 natural = tree and leaftype = broadleaf  # type in ohsome filter and hit enter
 tags @> '{"natural": "tree"}' AND tags @> '{"leaftype": "broadleaf"}'  # result
 ```
@@ -17,7 +17,7 @@ tags @> '{"natural": "tree"}' AND tags @> '{"leaftype": "broadleaf"}'  # result
 ## Installation
 
 ```sh
-uv add git+https://github.com/GIScience/ohsome-filter-to-sql.git
+uv add ohsome-filter-to-sql
 ```
 
 ## Usage
