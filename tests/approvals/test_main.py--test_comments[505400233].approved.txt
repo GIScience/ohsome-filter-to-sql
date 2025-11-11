@@ -1,0 +1,7 @@
+waterway=stream
+// full line comment
+or waterway=river
+
+tags @> '{"waterway": "stream"}' OR tags @> '{"waterway": "river"}'
+
+[<Record count=22746>]
