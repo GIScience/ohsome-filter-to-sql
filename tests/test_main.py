@@ -69,6 +69,9 @@ async def test_build_tree(filter):
         "highway in (unclassified, road /* outdated tag */, service)",
         "waterway=stream\n// full line comment\nor waterway=river",
         "waterway=stream /* inline\ncomment\nwith\nlinebreaks */ or waterway=river",
+        # TODO: It would be nice to not have to quote urls
+        "website=https://heigit.org",  # unquoted
+        "long_name=name//with//slashes",  # unquoted
     ),
 )
 async def test_comments(filter):
