@@ -1,5 +1,7 @@
 natural=* and not "natürla"=*
 
-tags ? 'natural' AND NOT tags ? 'natürla'
+tags ? $1 AND NOT tags ? $2
+
+('natural', 'natürla')
 
 [<Record count=157306>]

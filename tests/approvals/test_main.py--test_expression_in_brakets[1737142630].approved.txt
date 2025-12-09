@@ -1,5 +1,7 @@
 ("addr:housenumber"=45 and "addr:street"="Berliner Straße") or name="HeiGIT"
 
-(tags @> '{"addr:housenumber": "45"}' AND tags @> '{"addr:street": "Berliner Stra\u00dfe"}') OR tags @> '{"name": "HeiGIT"}'
+(tags @> $1 AND tags @> $2) OR tags @> $3
+
+('{"addr:housenumber": "45"}', '{"addr:street": "Berliner Stra\\u00dfe"}', '{"name": "HeiGIT"}')
 
 [<Record count=24>]

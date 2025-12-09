@@ -1,5 +1,7 @@
 oneway !=yes
 
-NOT tags @> '{"oneway": "yes"}'
+NOT tags @> $1
+
+('{"oneway": "yes"}',)
 
 [<Record count=5939848>]

@@ -1,5 +1,7 @@
 id:relation/2070281
 
-(osm_type = 'relation' AND osm_id = 2070281)
+(osm_type = $1 AND osm_id = $2)
+
+('relation', 2070281)
 
 [<Record count=1777>]

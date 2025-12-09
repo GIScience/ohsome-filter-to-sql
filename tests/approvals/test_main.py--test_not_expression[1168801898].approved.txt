@@ -1,5 +1,7 @@
 not type:node
 
-NOT osm_type = 'node'
+NOT osm_type = $1
+
+('node',)
 
 [<Record count=4546078>]

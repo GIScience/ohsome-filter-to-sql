@@ -1,5 +1,7 @@
 type:way
 
-osm_type = 'way'
+osm_type = $1
+
+('way',)
 
 [<Record count=3894678>]

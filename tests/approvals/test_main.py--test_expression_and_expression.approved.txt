@@ -1,5 +1,7 @@
 natural=tree and leaf_type=broadleaved
 
-tags @> '{"natural": "tree"}' AND tags @> '{"leaf_type": "broadleaved"}'
+tags @> $1 AND tags @> $2
+
+('{"natural": "tree"}', '{"leaf_type": "broadleaved"}')
 
 [<Record count=53934>]

@@ -1,5 +1,7 @@
 type:relation
 
-osm_type = 'relation'
+osm_type = $1
+
+('relation',)
 
 [<Record count=651400>]

@@ -1,5 +1,7 @@
 maxspeed ~ *" mph"
 
-tags ->> 'maxspeed' LIKE '% mph'
+tags ->> $1 LIKE $2
+
+('maxspeed', '% mph')
 
 [<Record count=1588>]

@@ -1,5 +1,7 @@
 length :(1.0..99.99)
 
-(length >= 1.0 AND length <= 99.99)
+(length >= $1 AND length <= $2)
+
+(1.0, 99.99)
 
 [<Record count=874417>]

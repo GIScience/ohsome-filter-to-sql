@@ -1,5 +1,7 @@
 id : (1..9999)
 
-(osm_id >= 1 AND osm_id <= 9999)
+(osm_id >= $1 AND osm_id <= $2)
+
+(1, 9999)
 
 [<Record count=7747>]

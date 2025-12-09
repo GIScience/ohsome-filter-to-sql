@@ -1,5 +1,7 @@
 id: node/4540889804
 
-(osm_type = 'node' AND osm_id = 4540889804)
+(osm_type = $1 AND osm_id = $2)
+
+('node', 4540889804)
 
 [<Record count=8>]

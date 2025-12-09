@@ -1,5 +1,7 @@
 key=in
 
-tags @> '{"key": "in"}'
+tags @> $1
+
+('{"key": "in"}',)
 
 [<Record count=0>]

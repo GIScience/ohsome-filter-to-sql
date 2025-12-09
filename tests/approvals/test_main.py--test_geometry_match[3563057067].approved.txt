@@ -2,4 +2,6 @@ geometry:polygon
 
 ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')
 
+()
+
 [<Record count=2132174>]

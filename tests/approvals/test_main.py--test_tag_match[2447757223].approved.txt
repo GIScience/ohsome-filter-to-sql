@@ -1,5 +1,7 @@
 "addr:housenumber"="45"
 
-tags @> '{"addr:housenumber": "45"}'
+tags @> $1
+
+('{"addr:housenumber": "45"}',)
 
 [<Record count=5936>]

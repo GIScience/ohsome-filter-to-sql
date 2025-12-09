@@ -1,5 +1,7 @@
 name ~ S*
 
-tags ->> 'name' LIKE 'S%'
+tags ->> $1 LIKE $2
+
+('name', 'S%')
 
 [<Record count=141732>]

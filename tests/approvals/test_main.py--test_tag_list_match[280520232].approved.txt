@@ -1,5 +1,7 @@
 highway in (residential, "other")
 
-tags -> 'highway' IN ('"residential"', '"other"')
+(tags -> $1) = ANY($2)
+
+('highway', ('"residential"', '"other"'))
 
 [<Record count=321813>]

@@ -1,5 +1,7 @@
 not natural!=tree
 
-NOT NOT tags @> '{"natural": "tree"}'
+NOT NOT tags @> $1
+
+('{"natural": "tree"}',)
 
 [<Record count=98199>]

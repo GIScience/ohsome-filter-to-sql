@@ -1,5 +1,7 @@
 area:(1.0 ..9999.0)
 
-(area >= 1.0 AND area <= 9999.0)
+(area >= $1 AND area <= $2)
+
+(1.0, 9999.0)
 
 [<Record count=1945427>]

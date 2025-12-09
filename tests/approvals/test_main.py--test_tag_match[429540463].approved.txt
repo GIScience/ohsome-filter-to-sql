@@ -1,5 +1,7 @@
 addr:housenumber=*
 
-tags ? 'addr:housenumber'
+tags ? $1
+
+('addr:housenumber',)
 
 [<Record count=1118053>]

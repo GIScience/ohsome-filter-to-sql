@@ -1,1 +1,7 @@
-SELECT COUNT(*) FROM contributions WHERE tags ? 'natural';drop table contributions;SELECT 'test'
+"natural';drop table contributions;SELECT 'test"=*
+
+tags ? $1
+
+("natural';drop table contributions;SELECT 'test",)
+
+[<Record count=0>]

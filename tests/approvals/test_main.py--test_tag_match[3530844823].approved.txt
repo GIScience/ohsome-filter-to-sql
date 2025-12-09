@@ -1,5 +1,7 @@
 "sidewalk : left" = yes
 
-tags @> '{"sidewalk : left": "yes"}'
+tags @> $1
+
+('{"sidewalk : left": "yes"}',)
 
 [<Record count=0>]

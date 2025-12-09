@@ -1,5 +1,7 @@
 cuisine~*pizza*
 
-tags ->> 'cuisine' LIKE '%pizza%'
+tags ->> $1 LIKE $2
+
+('cuisine', '%pizza%')
 
 [<Record count=1761>]
