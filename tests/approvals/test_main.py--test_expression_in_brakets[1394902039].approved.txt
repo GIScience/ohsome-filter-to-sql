@@ -1,5 +1,7 @@
 ((natural=tree))
 
-((tags @> '{"natural": "tree"}'))
+((tags @> $1))
+
+('{"natural": "tree"}',)
 
 [<Record count=98199>]

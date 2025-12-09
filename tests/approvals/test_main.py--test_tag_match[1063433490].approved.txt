@@ -1,5 +1,0 @@
-sidewalk : left = yes
-
-tags @> '{"sidewalk:left": "yes"}'
-
-[<Record count=412>]

@@ -1,5 +1,7 @@
 building=* and building!=no and geometry:polygon
 
-tags ? 'building' AND NOT tags @> '{"building": "no"}' AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')
+tags ? $1 AND NOT tags @> $2 AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')
+
+('building', '{"building": "no"}')
 
 [<Record count=1617498>]

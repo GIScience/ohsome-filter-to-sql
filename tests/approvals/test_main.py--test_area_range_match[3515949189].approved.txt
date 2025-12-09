@@ -1,5 +1,7 @@
 area:(1..)
 
-area >= 1
+area >= $1
+
+(1.0,)
 
 [<Record count=2110613>]

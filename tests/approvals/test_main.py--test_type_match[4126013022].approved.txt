@@ -1,5 +1,7 @@
 type: node
 
-osm_type = 'node'
+osm_type = $1
+
+('node',)
 
 [<Record count=1629017>]

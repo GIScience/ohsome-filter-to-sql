@@ -1,5 +1,7 @@
 type:way and highway=residential and name!=* and noname!=yes
 
-osm_type = 'way' AND tags @> '{"highway": "residential"}' AND NOT tags ? 'name' AND NOT tags @> '{"noname": "yes"}'
+osm_type = $1 AND tags @> $2 AND NOT tags ? $3 AND NOT tags @> $4
+
+('way', '{"highway": "residential"}', 'name', '{"noname": "yes"}')
 
 [<Record count=26268>]

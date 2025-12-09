@@ -1,5 +1,7 @@
 building=other
 
-tags @> '{"building": "other"}'
+tags @> $1
+
+('{"building": "other"}',)
 
 [<Record count=0>]

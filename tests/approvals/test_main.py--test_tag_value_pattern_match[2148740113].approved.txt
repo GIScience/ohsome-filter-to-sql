@@ -1,5 +1,7 @@
 name ~ "foo'bar"
 
-tags ->> 'name' LIKE 'foo''bar'
+tags ->> $1 LIKE $2
+
+('name', "foo''bar")
 
 [<Record count=0>]

@@ -1,5 +1,7 @@
 "*"!=*
 
-NOT tags ? '*'
+NOT tags ? $1
+
+('*',)
 
 [<Record count=6175095>]

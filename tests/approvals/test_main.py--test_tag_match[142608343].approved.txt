@@ -1,5 +1,7 @@
 maxspeed=30
 
-tags @> '{"maxspeed": "30"}'
+tags @> $1
+
+('{"maxspeed": "30"}',)
 
 [<Record count=191079>]

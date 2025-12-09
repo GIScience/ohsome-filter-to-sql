@@ -1,5 +1,7 @@
 "*"=*
 
-tags ? '*'
+tags ? $1
+
+('*',)
 
 [<Record count=0>]

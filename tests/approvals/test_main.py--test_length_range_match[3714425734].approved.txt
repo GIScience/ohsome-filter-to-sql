@@ -1,5 +1,7 @@
 length:( .. 10.0)
 
-length <= 10.0
+length <= $1
+
+(10.0,)
 
 [<Record count=4483765>]

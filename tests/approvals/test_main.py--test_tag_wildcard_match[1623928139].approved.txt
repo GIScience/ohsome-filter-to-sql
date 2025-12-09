@@ -1,5 +1,7 @@
 name!=*
 
-NOT tags ? 'name'
+NOT tags ? $1
+
+('name',)
 
 [<Record count=4654635>]

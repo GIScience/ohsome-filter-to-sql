@@ -1,1 +1,1 @@
-{"3288776040": {"results": [{"count": 102104}], "query": "SELECT COUNT(*) FROM contributions WHERE tags @> '{\"natural\": \"tree\"}' OR tags @> '{\"leaf_type\": \"broadleaved\"}'", "args": [], "limit": 0, "timeout": null, "record_class": null}}
+{"1186579172": {"results": [{"count": 102104}], "query": "SELECT COUNT(*) FROM contributions WHERE tags @> $1 OR tags @> $2", "args": ["{\"natural\": \"tree\"}", "{\"leaf_type\": \"broadleaved\"}"], "limit": 0, "timeout": null, "record_class": null}}

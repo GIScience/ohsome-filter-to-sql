@@ -2,4 +2,6 @@ geometry:line
 
 (status_geom_type).geom_type = 'LineString'
 
+()
+
 [<Record count=1817830>]

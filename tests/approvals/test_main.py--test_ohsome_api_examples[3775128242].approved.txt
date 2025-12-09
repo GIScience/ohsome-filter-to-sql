@@ -1,5 +1,7 @@
 (landuse=forest or natural=wood) and geometry:polygon
 
-(tags @> '{"landuse": "forest"}' OR tags @> '{"natural": "wood"}') AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')
+(tags @> $1 OR tags @> $2) AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')
+
+('{"landuse": "forest"}', '{"natural": "wood"}')
 
 [<Record count=35450>]

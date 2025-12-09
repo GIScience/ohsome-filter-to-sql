@@ -1,5 +1,7 @@
 id:(1..9999) or id:4540889804
 
-(osm_id >= 1 AND osm_id <= 9999) OR osm_id = 4540889804
+(osm_id >= $1 AND osm_id <= $2) OR osm_id = $3
+
+(1, 9999, 4540889804)
 
 [<Record count=7755>]

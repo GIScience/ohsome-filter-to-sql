@@ -1,5 +1,7 @@
 natural=*
 
-tags ? 'natural'
+tags ? $1
+
+('natural',)
 
 [<Record count=157306>]
