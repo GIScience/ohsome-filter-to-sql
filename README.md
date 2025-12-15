@@ -9,9 +9,11 @@
 ## Try it out
 
 ```sh
+# USAGE:
+#   after running ohsome-filter-to-sql type in ohsome filter and hit enter
 $ uvx ohsome-filter-to-sql
-natural = tree and leaftype = broadleaf  # type in ohsome filter and hit enter
-tags @> '{"natural": "tree"}' AND tags @> '{"leaftype": "broadleaf"}'  # result
+natural = tree and leaftype = broadleaf
+('tags @> $1 AND tags @> $2', ('{"natural": "tree"}', '{"leaftype": "broadleaf"}'))
 ```
 
 ## Installation
@@ -27,7 +29,7 @@ uv add ohsome-filter-to-sql
 ```python
 from ohsome_filter_to_sql.main import ohsome_filter_to_sql
 
-sql_query = ohsome_filter_to_sql("natural = tree")
+query, query_args = ohsome_filter_to_sql("natural = tree")
 ```
 
 ### Command Line Interface (CLI)
