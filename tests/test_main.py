@@ -30,7 +30,6 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter: 
     """
     query = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause
     results: list[Record] = await execute_query(query, *query_args)
-    # TODO: Pretty print list through json
     text = "\n\n".join([filter, sql_where_clause, str(query_args), str(results)])
     return verify(text)
 
