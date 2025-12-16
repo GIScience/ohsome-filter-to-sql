@@ -1,6 +1,6 @@
 [project]
 name = "ohsome-filter-to-sql"
-version = "0.1.0"
+version = "0.2.0"
 authors = [{name="HeiGIT ohsome team", email="ohsome@heigit.org"}]
 description = "Translate ohsome API filter to SQL WHERE clause ready to be used with ohsomeDB"
 readme = "README.md"
@@ -20,6 +20,7 @@ license = "LGPL-3.0-only"
 license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
+    "pytest-sugar>=1.1.1",
 ]
 
 [project.urls]
@@ -59,6 +60,7 @@ dev = [
     "pytest-approval",
     "asyncpg-recorder",
     "pytest-cov>=7.0.0",
+    "pytest-sugar>=1.1.1",
 ]
 
 [tool.ruff]
