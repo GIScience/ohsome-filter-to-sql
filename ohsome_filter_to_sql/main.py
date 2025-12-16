@@ -92,7 +92,7 @@ class OFLToSql(OFLListener):
 
     def exitHashtagListMatch(self, ctx: ParserRuleContext):
         values = []
-        children = list(child.getText() for child in ctx.getChildren())
+        children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "hashtag:(" and last part closing list with ")"
         # and skip commas in list in between brackets (every second child)
         for child in children[3:-1:2]:
@@ -150,7 +150,7 @@ class OFLToSql(OFLListener):
 
     def exitTagListMatch(self, ctx: ParserRuleContext):
         values = []
-        children = list(child.getText() for child in ctx.getChildren())
+        children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "key in (" as well as last part closing list with ")"
         # and skip commas in list in between brackets
         for child in children[3:-1:2]:
@@ -170,22 +170,22 @@ class OFLToSql(OFLListener):
         self.stack.append(f"osm_type = ${len(self.args)}")
 
     def exitIdMatch(self, ctx: ParserRuleContext):
-        id = ctx.getChild(2).getText()
-        self.args.append(int(id))
+        id_ = ctx.getChild(2).getText()
+        self.args.append(int(id_))
         self.stack.append(f"osm_id = ${len(self.args)}")
 
     def exitTypeIdMatch(self, ctx: ParserRuleContext):
-        type_, id = ctx.getChild(2).getText().split("/")
+        type_, id_ = ctx.getChild(2).getText().split("/")
         self.args.append(type_)
-        self.args.append(int(id))
+        self.args.append(int(id_))
         self.stack.append(
             f"(osm_type = ${len(self.args) - 1} AND osm_id = ${len(self.args)})"
         )
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
-        range = self.stack.pop()
+        range_ = self.stack.pop()
         lower_bound, upper_bound = [
-            int(n.strip()) if n else None for n in range.split("..")
+            int(n.strip()) if n else None for n in range_.split("..")
         ]
         if lower_bound and upper_bound:
             if lower_bound > upper_bound:
@@ -205,7 +205,7 @@ class OFLToSql(OFLListener):
     def exitIdListMatch(self, ctx: ParserRuleContext):
         # differs from TagListMatch insofar that no STRING needs to be popped from stack
         values = []
-        children = list(child.getText() for child in ctx.getChildren())
+        children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "id:(" as well as last part closing list with ")"
         # and skip commas in list in between brackets
         values = list(children[3:-1:2])
@@ -215,12 +215,12 @@ class OFLToSql(OFLListener):
     def exitTypeIdListMatch(self, ctx: ParserRuleContext):
         # TODO
         values = []
-        children = list(child.getText() for child in ctx.getChildren())
+        children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "id:(" as well as last part closing list with ")"
         # and skip commas in list in between brackets
         for child in children[3:-1:2]:
-            type_, id = child.split("/")
-            self.args.append(int(id))
+            type_, id_ = child.split("/")
+            self.args.append(int(id_))
             self.args.append(type_)
             values.append(
                 f"(osm_id = ${len(self.args) - 1} AND osm_type = ${len(self.args)})"
@@ -248,9 +248,9 @@ class OFLToSql(OFLListener):
                 self.stack.append("(status_geom_type).geom_type = 'GeometryCollection'")
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):
-        range = self.stack.pop()
+        range_ = self.stack.pop()
         lower_bound, upper_bound = [
-            float(n.strip()) if n else None for n in range.split("..")
+            float(n.strip()) if n else None for n in range_.split("..")
         ]
         if lower_bound and upper_bound:
             if lower_bound > upper_bound:
@@ -268,9 +268,9 @@ class OFLToSql(OFLListener):
             self.stack.append(f"area <= ${len(self.args)}")
 
     def exitLengthRangeMatch(self, ctx: ParserRuleContext):
-        range = self.stack.pop()
+        range_ = self.stack.pop()
         lower_bound, upper_bound = [
-            float(n.strip()) if n else None for n in range.split("..")
+            float(n.strip()) if n else None for n in range_.split("..")
         ]
         if lower_bound and upper_bound:
             if lower_bound > upper_bound:
@@ -310,21 +310,21 @@ class OFLToSql(OFLListener):
     # ---
     #
     def exitChangesetMatch(self, ctx: ParserRuleContext):
-        id = int(ctx.getChild(2).getText())
-        self.args.append(id)
+        id_ = int(ctx.getChild(2).getText())
+        self.args.append(id_)
         self.stack.append(f"changeset_id = ${len(self.args)}")
 
     def exitChangesetListMatch(self, ctx: ParserRuleContext):
-        children = list(child.getText() for child in ctx.getChildren())
+        children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "id:(" as well as last part closing list with ")"
         # and skip commas in list in between brackets
         self.args.append(tuple([int(i) for i in children[3:-1:2]]))
         self.stack.append(f"changeset_id = ANY(${len(self.args)})")
 
     def exitChangesetRangeMatch(self, ctx: ParserRuleContext):
-        range = self.stack.pop()
+        range_ = self.stack.pop()
         lower_bound, upper_bound = [
-            int(n.strip()) if n else None for n in range.split("..")
+            int(n.strip()) if n else None for n in range_.split("..")
         ]
         if lower_bound and upper_bound:
             self.args.append(lower_bound)
@@ -360,10 +360,10 @@ def unescape(string: str):
 
 
 def ohsome_filter_to_sql(
-    filter: str,
+    filter_: str,
 ) -> tuple[str, tuple[str | int | float | tuple, ...]]:
     listener = OFLToSql()
-    tree = build_tree(filter)
+    tree = build_tree(filter_)
     result = walk_tree(tree, listener)
     query = " ".join(result.stack)
     query_args = tuple(result.args)
@@ -374,12 +374,12 @@ def cli():
     print(ohsome_filter_to_sql(input()))
 
 
-def build_tree(filter: str) -> ParserRuleContext:
+def build_tree(filter_: str) -> ParserRuleContext:
     """Build a antlr4 parse tree.
 
     https://github.com/antlr/antlr4/blob/master/doc/listeners.md
     """
-    input_stream = InputStream(filter)
+    input_stream = InputStream(filter_)
     lexer = OFLLexer(input_stream)
     lexer.removeErrorListeners()
     lexer.addErrorListener(OFLLexerErrorListener())

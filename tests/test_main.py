@@ -21,7 +21,7 @@ from ohsome_filter_to_sql.main import (
 pytestmark = pytest.mark.asyncio  # mark all tests
 
 
-async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter: str):
+async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_: str):
     """Validate query and verify results.
 
     Build SQL query from given WHERE Clause.
@@ -30,7 +30,7 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter: 
     """
     query = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause
     results: list[Record] = await execute_query(query, *query_args)
-    text = "\n\n".join([filter, sql_where_clause, str(query_args), str(results)])
+    text = "\n\n".join([filter_, sql_where_clause, str(query_args), str(results)])
     return verify(text)
 
 
@@ -46,15 +46,15 @@ async def execute_query(query: str, *query_args) -> list[Record]:
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "natural=tree",
         "type:node and natural=tree",
         "id:(node/1, way/2) and type:way",
     ),
 )
-async def test_build_tree(filter):
-    tree = build_tree(filter).toStringTree()
+async def test_build_tree(filter_):
+    tree = build_tree(filter_).toStringTree()
     assert tree != ""
 
 
@@ -63,19 +63,19 @@ async def test_build_tree(filter):
 
 
 async def test_expression_and_expression():
-    filter = "natural=tree and leaf_type=broadleaved"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    filter_ = "natural=tree and leaf_type=broadleaved"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 async def test_expression_or_expression():
-    filter = "natural=tree or leaf_type=broadleaved"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    filter_ = "natural=tree or leaf_type=broadleaved"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "not natural=tree",
         "not natural!=tree",
@@ -88,13 +88,13 @@ async def test_expression_or_expression():
         "not length:(1.0..99.99)",
     ),
 )
-async def test_not_expression(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_not_expression(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filters",
+    "filter_s",
     (
         ("not natural=tree", "natural!=tree"),
         ("natural=tree", "not natural!=tree"),
@@ -109,9 +109,9 @@ async def test_not_expression(filter):
         ("not length:(..1e6)", "length:(1e6..)"),
     ),
 )
-async def test_not_expression_comparison(filters):
-    sql_where_clause_1, query_args_1 = ohsome_filter_to_sql(filters[0])
-    sql_where_clause_2, query_args_2 = ohsome_filter_to_sql(filters[1])
+async def test_not_expression_comparison(filter_s):
+    sql_where_clause_1, query_args_1 = ohsome_filter_to_sql(filter_s[0])
+    sql_where_clause_2, query_args_2 = ohsome_filter_to_sql(filter_s[1])
     sql_1 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_1
     sql_2 = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause_2
     results_1: list[Record] = await execute_query(sql_1, *query_args_1)
@@ -120,7 +120,7 @@ async def test_not_expression_comparison(filters):
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "(natural=tree)",
         "((natural=tree))",
@@ -129,35 +129,35 @@ async def test_not_expression_comparison(filters):
         "(not natural=tree)",
     ),
 )
-async def test_expression_in_brakets(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_expression_in_brakets(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.skip("Not implemented yet.")
 async def test_hashtag_match():
-    filter = "hashtag:missingmaps"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    filter_ = "hashtag:missingmaps"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "hashtag:(missingmaps)",
         "hashtag:(missingmaps, type, other)",
     ),
 )
-async def test_hashtag_list_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_hashtag_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 # TODO
 # add tests for all grammar keywords like number, geometry, id, ...
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "natural=tree",
         "natural = tree",
@@ -187,13 +187,13 @@ async def test_hashtag_list_match(filter):
         '"sidewalk : left" = yes',  # whitespace in quoted string is preserved
     ),
 )
-async def test_tag_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_tag_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "natural=*",
         "name!=*",
@@ -201,27 +201,27 @@ async def test_tag_match(filter):
         '"*"!=*',
     ),
 )
-async def test_tag_wildcard_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_tag_wildcard_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "*=*",
         "natürla=*",
         "sidewalk : left = yes",  # whitespace between tokens is invalid
     ),
 )
-async def test_tag_match_invalid(filter):
+async def test_tag_match_invalid(filter_):
     with pytest.raises((LexerValueError, ParserValueError)) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "highway in (residential, living_street)",
         "highway in ( residential,living_street )",
@@ -230,13 +230,13 @@ async def test_tag_match_invalid(filter):
         "natural in (water)",  #                w/keyword with single value
     ),
 )
-async def test_tag_list_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_tag_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "cuisine ~ *pizza*",
         "cuisine~*pizza*",
@@ -249,27 +249,27 @@ async def test_tag_list_match(filter):
         "name ~ *_*",  # literal _ needs to be escaped
     ),
 )
-async def test_tag_value_pattern_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_tag_value_pattern_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "key ~ *",
         "key ~ foo*bar",
         "maxspeed ~ * mph",  # whitespace after wildcard is invalid
     ),
 )
-async def test_tag_value_pattern_match_invalid(filter):
+async def test_tag_value_pattern_match_invalid(filter_):
     with pytest.raises((LexerValueError, ParserValueError)) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "type:node",
         "type :node",
@@ -279,40 +279,40 @@ async def test_tag_value_pattern_match_invalid(filter):
         "type:relation",
     ),
 )
-async def test_type_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_type_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 async def test_type_match_invalid():
-    filter = "type:foo"
+    filter_ = "type:foo"
     with pytest.raises((LexerValueError, ParserValueError)) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 async def test_id_match():
-    filter = "id:4540889804"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    filter_ = "id:4540889804"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:",
         "id:foo",
         "id:1.0",
     ),
 )
-async def test_id_match_invalid(filter):
+async def test_id_match_invalid(filter_):
     with pytest.raises((LexerValueError, ParserValueError)) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:node/4540889804",
         "id :node/4540889804",
@@ -322,27 +322,27 @@ async def test_id_match_invalid(filter):
         "id:relation/2070281",
     ),
 )
-async def test_type_id_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_type_id_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:node/ 4540889804",
         "id:node /4540889804",
         "id:node / 4540889804",
     ),
 )
-async def test_type_id_match_invalid(filter):
+async def test_type_id_match_invalid(filter_):
     with pytest.raises((LexerValueError, ParserValueError)) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:(1..9999)",
         "id :(1..9999)",
@@ -358,26 +358,26 @@ async def test_type_id_match_invalid(filter):
         "id:(1 ..)",
     ),
 )
-async def test_id_range_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_id_range_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:(1..",
         "id:(999..1",
     ),
 )
-async def test_id_range_match_invalid(filter):
+async def test_id_range_match_invalid(filter_):
     with pytest.raises(ValueError) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:(4540889804)",
         "id: (4540889804)",
@@ -387,13 +387,13 @@ async def test_id_range_match_invalid(filter):
         "id:( 1136431018,4540889804,2070281 )",
     ),
 )
-async def test_id_list_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_id_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:(1 ..2",
         "id:(1, 2",
@@ -402,14 +402,14 @@ async def test_id_list_match(filter):
         "id:(, )",
     ),
 )
-async def test_id_list_match_invalid(filter):
+async def test_id_list_match_invalid(filter_):
     with pytest.raises(ValueError) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:(node/4540889804)",
         "id :(node/4540889804)",
@@ -420,26 +420,26 @@ async def test_id_list_match_invalid(filter):
         "id:(node/4540889804, relation/2070281) or id:way/1136431018",
     ),
 )
-async def test_type_id_list_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_type_id_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "id:(node/4540889804, way/1136431018",
         "id:(node/4540889804, way/1136431018, )",
     ),
 )
-async def test_type_id_list_match_invalid(filter):
+async def test_type_id_list_match_invalid(filter_):
     with pytest.raises(ValueError) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "geometry:point",
         "geometry :point",
@@ -450,34 +450,34 @@ async def test_type_id_list_match_invalid(filter):
         "geometry:other",
     ),
 )
-async def test_geometry_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_geometry_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.skip("Not implemented yet.")
-async def test_geometry_match_other(filter):
-    filter = "geometry:other"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_geometry_match_other(filter_):
+    filter_ = "geometry:other"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "geometry:",
         "geometry:foo",
         "geometry:1",
     ),
 )
-async def test_gemoetry_match_invalid(filter):
+async def test_gemoetry_match_invalid(filter_):
     with pytest.raises(ValueError) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "area:(1.0..1E6)",
         "area :(1.0..1E6)",
@@ -498,14 +498,14 @@ async def test_gemoetry_match_invalid(filter):
         "area:(1.0 ..)",
     ),
 )
-async def test_area_range_match(filter):
+async def test_area_range_match(filter_):
     # TODO: ValueError: not enough values to unpack (expected 2, got 1)
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "area:(-1.0..)",
         "area:(1.0..-200)",
@@ -513,14 +513,14 @@ async def test_area_range_match(filter):
         "area:(200..1)",
     ),
 )
-async def test_area_range_invalid(filter):
+async def test_area_range_invalid(filter_):
     with pytest.raises(ValueError) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "length:(1.0..99.99)",
         "length :(1.0..99.99)",
@@ -541,13 +541,13 @@ async def test_area_range_invalid(filter):
         "length:(10.0 .. 100.0)",
     ),
 )
-async def test_length_range_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_length_range_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "length:(-1..)",
         "length:(3.0..-200.0)",
@@ -555,22 +555,22 @@ async def test_length_range_match(filter):
         "length:(200..1)",
     ),
 )
-async def test_length_range_invalid(filter):
+async def test_length_range_invalid(filter_):
     with pytest.raises(ValueError) as e:
-        ohsome_filter_to_sql(filter)
-    verify(filter + "\n\n" + str(e.value))
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
 
 
 @pytest.mark.skip("Not implemented yet.")
 async def test_changeset_match():
-    filter = "changeset:1"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    filter_ = "changeset:1"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "changeset:1",
         "changeset :1",
@@ -581,14 +581,14 @@ async def test_changeset_match():
         "changeset:( 1,300,4264 )",
     ),
 )
-async def test_changeset_list_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_changeset_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "changeset:(1..999)",
         "changeset :(1..999)",
@@ -600,14 +600,14 @@ async def test_changeset_list_match(filter):
         "changeset:(50..999) or changeset:(..10)",
     ),
 )
-async def test_changeset_range_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_changeset_range_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "changeset.created_by:Potlatch",
         'changeset.created_by:"Go Map!! 4.3.0"',
@@ -615,13 +615,13 @@ async def test_changeset_range_match(filter):
         'changeset.created_by:"JOSM/1.5 (19253 en_GB)"',
     ),
 )
-async def test_changeset_created_by_match(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_changeset_created_by_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "(landuse=forest or natural=wood) and geometry:polygon",
         "leisure=park and geometry:polygon or amenity=bench and (geometry:point or geometry:line)",  # noqa
@@ -636,14 +636,14 @@ async def test_changeset_created_by_match(filter):
         "geometry:polygon and building=* and building!=no and area:(1E6..)",
     ),
 )
-async def test_ohsome_api_examples(filter):
-    # https://docs.ohsome.org/ohsome-api/v1/filter.html#examples
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_ohsome_api_examples(filter_):
+    # https://docs.ohsome.org/ohsome-api/v1/filter_.html#examples
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 @pytest.mark.parametrize(
-    "filter",
+    "filter_",
     (
         "geometry:line and  (highway=* or railway=platform) and not "
         + '(cycleway=separate or "cycleway:both"=separate or '
@@ -654,14 +654,14 @@ async def test_ohsome_api_examples(filter):
         + "or (sidewalk=* and highway!=motorway) or (foot=yes)) and geometry:line)",
     ),
 )
-async def test_climate_action_navigator_examples(filter):
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+async def test_climate_action_navigator_examples(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
 
 
 # fmt: off
 @pytest.mark.parametrize(
-    "str, out",
+    "string, out",
     [
         ("foo", "foo"),
         ("\"foo\"", "foo"),  # noqa: Q003
@@ -671,16 +671,16 @@ async def test_climate_action_navigator_examples(filter):
         ("\"foo\\\r\nbar\"", "foo\r\nbar"), # noqa: Q003
     ],
 )
-async def test_strings(str, out):
-    assert unescape(str) == out
+async def test_strings(string, out):
+    assert unescape(string) == out
 # fmt: on
 
 
 async def test_sql_injection():
     # TODO: add example which injects even though json.dumps is used.
-    filter = "\"natural';drop table contributions;SELECT 'test\"=*"
-    query, query_args = ohsome_filter_to_sql(filter)
-    assert await validate_and_verify(query, query_args, filter)
+    filter_ = "\"natural';drop table contributions;SELECT 'test\"=*"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
     result = await execute_query(
         "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' "
         + "AND tablename  = 'contributions');"
