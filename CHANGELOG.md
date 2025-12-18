@@ -1,5 +1,12 @@
 # Changelog
 
+## Current Main
+
+### Feature
+
+- add validation function (`validate_filter`) and a type alias using validation
+  function via pydantic validator pattern (`OhsomeFilter`) (d6894f3)
+
 ## 0.2.0
 
 ### Breaking Changes
