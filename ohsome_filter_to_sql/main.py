@@ -1,9 +1,12 @@
 import json
 import sys
 from collections import deque
+from typing import Annotated
 
 from antlr4 import CommonTokenStream, InputStream, ParserRuleContext, ParseTreeWalker
 from antlr4.error.ErrorListener import ErrorListener
+from pydantic import AfterValidator
+from typing_extensions import TypeAliasType
 
 from ohsome_filter_to_sql.OFLLexer import OFLLexer
 from ohsome_filter_to_sql.OFLListener import OFLListener
@@ -359,6 +362,13 @@ def unescape(string: str):
     return string
 
 
+def validate_filter(filter_: str) -> str:
+    listener = OFLToSql()
+    tree = build_tree(filter_)
+    walk_tree(tree, listener)
+    return filter_
+
+
 def ohsome_filter_to_sql(
     filter_: str,
 ) -> tuple[str, tuple[str | int | float | tuple, ...]]:
@@ -395,6 +405,12 @@ def walk_tree(tree: ParserRuleContext, listener: OFLToSql) -> OFLToSql:
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
     return listener
+
+
+OhsomeFilter = TypeAliasType(
+    "OhsomeFilter",
+    Annotated[str, AfterValidator(validate_filter)],
+)
 
 
 if __name__ == "__main__":
