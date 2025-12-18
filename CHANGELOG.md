@@ -1,6 +1,6 @@
 # Changelog
 
-## Current Main
+## 0.3.0
 
 ### Feature
 
