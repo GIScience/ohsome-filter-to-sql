@@ -20,7 +20,7 @@ license = "LGPL-3.0-only"
 license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
-    "pytest-sugar>=1.1.1",
+    "pydantic>=2.12.5",
 ]
 
 [project.urls]
