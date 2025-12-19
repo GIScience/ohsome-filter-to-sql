@@ -1,7 +1,7 @@
 grammar OFL;
 
 
-root: expression? EOF;
+root: WS* expression? WS* EOF;
 
 expression
   : po expression pc
@@ -90,19 +90,19 @@ OR: 'or';
 NOT: 'not';
 IN: 'in';
 
-and: WS? AND WS?;
-or: WS? OR WS?;
-not: WS? NOT WS?;
-in : WS? IN WS?;
+and: WS* AND WS*;
+or: WS* OR WS*;
+not: WS* NOT WS*;
+in : WS* IN WS*;
 
-eq: WS? '=' WS?;
-ne: WS? '!=' WS?;
-po: WS? '(' WS?;
-pc: WS? ')' WS?;
-co: WS? ',' WS?;
-dd: WS? '..' WS?;
-cn: WS? ':' WS?;
-tl: WS? '~' WS?;
+eq: WS* '=' WS*;
+ne: WS* '!=' WS*;
+po: WS* '(' WS*;
+pc: WS* ')' WS*;
+co: WS* ',' WS*;
+dd: WS* '..' WS*;
+cn: WS* ':' WS*;
+tl: WS* '~' WS*;
 
 WILDCARD: '*';
 
@@ -131,10 +131,11 @@ QUOTED: '"' CHARACTER+ '"';
 range_int: po (NUMBER dd NUMBER | dd NUMBER | NUMBER dd ) pc;
 range_dec: po ((NUMBER | DECIMAL) dd (NUMBER | DECIMAL) | dd (NUMBER | DECIMAL) | (NUMBER | DECIMAL) dd) pc;
 
-WS: [ \t\r\n]+;
+COMMENT: '/*' .*? '*/' -> skip;
+LINE_COMMENT: '//' ~[\n\r]* ('\r'? '\n' | EOF) -> skip;
+WS: [ \t\r\n];
 
 fragment NUMERAL: [0-9];
 fragment LETTER: [-_a-zA-Z0-9];
-fragment CHARACTER: ~["\\\r\n] | EscapeSequence;
-fragment EscapeSequence: '\\' ["rn\\];
-
+fragment CHARACTER: ~["\\\r\n] | ESCAPE_SEQUENCE;
+fragment ESCAPE_SEQUENCE: '\\' ["rn\\];

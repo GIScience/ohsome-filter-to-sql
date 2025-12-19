@@ -1,0 +1,8 @@
+waterway=stream /* inline
+comment
+with
+linebreaks */ or waterway=river
+
+tags @> '{"waterway": "stream"}' OR tags @> '{"waterway": "river"}'
+
+[<Record count=22746>]

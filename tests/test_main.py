@@ -62,6 +62,36 @@ async def test_build_tree(filter_):
 #
 
 
+@pytest.mark.parametrize(
+    "filter",
+    (
+        "natural=tree // this is a tree",
+        "highway in (unclassified, road /* outdated tag */, service)",
+        "waterway=stream\n// full line comment\nor waterway=river",
+        "waterway=stream /* inline\ncomment\nwith\nlinebreaks */ or waterway=river",
+        # TODO: It would be nice to not have to quote urls
+        "website=https://heigit.org",  # unquoted
+        "long_name=name//with//slashes",  # unquoted
+    ),
+)
+async def test_comments(filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(sql, filter)
+
+
+@pytest.mark.parametrize(
+    "filter",
+    (
+        " natural=tree ",
+        " natural=tree",
+        "natural=tree ",
+    ),
+)
+async def test_untrimmed_whitespace(filter):
+    sql = ohsome_filter_to_sql(filter)
+    assert await validate_and_verify(sql, filter)
+
+
 async def test_expression_and_expression():
     filter_ = "natural=tree and leaf_type=broadleaved"
     query, query_args = ohsome_filter_to_sql(filter_)
