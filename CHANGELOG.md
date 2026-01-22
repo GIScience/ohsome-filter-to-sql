@@ -6,6 +6,8 @@
 
 - Introduce parameter to shift numbered query args by desired int (#f903e97)
     - args_shift: Integer by which to shift numbered query arguments: $n + arg_shift
+- Make public function directly importable from ohsome_filter_to_sql instead of
+  ohsome_filter_to_sql.main (#469d024)
 
 ## 0.3.0
 
