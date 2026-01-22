@@ -2,12 +2,12 @@
 # tests fixtures used by the ohsome dashboard for ohsome filter syntax highlighting:
 # - https://docs.ohsome.org/ohsome-api/v1/filter.html
 # - https://github.com/GIScience/ohsome-dashboard/blob/main/src/prism-language-ohsome-filter.ts
-
 import asyncpg
 import asyncpg_recorder
 import pytest
 from asyncpg import Record
 from asyncpg.connection import Connection
+from pydantic import ValidationError
 from pytest_approval import verify
 
 from ohsome_filter_to_sql.main import (
@@ -686,3 +686,20 @@ async def test_sql_injection():
         + "AND tablename  = 'contributions');"
     )
     assert result[0][0]
+
+
+async def test_args_shift():
+    filter_ = "(landuse=forest or natural=wood) and geometry:polygon"
+    query, query_args = ohsome_filter_to_sql(filter_, args_shift=2)
+    assert len(query_args) == 2
+    assert "$1" not in query
+    assert "$2" not in query
+    assert "$3" in query
+    assert "$4" in query
+    assert "$5" not in query
+
+
+async def test_args_shift_invalid_negative_shift():
+    filter_ = "(landuse=forest or natural=wood) and geometry:polygon"
+    with pytest.raises(ValidationError):
+        ohsome_filter_to_sql(filter_, args_shift=-1)
