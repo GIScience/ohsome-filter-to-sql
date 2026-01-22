@@ -5,7 +5,7 @@ from typing import Annotated
 
 from antlr4 import CommonTokenStream, InputStream, ParserRuleContext, ParseTreeWalker
 from antlr4.error.ErrorListener import ErrorListener
-from pydantic import AfterValidator
+from pydantic import AfterValidator, Field, validate_call
 from typing_extensions import TypeAliasType
 
 from ohsome_filter_to_sql.OFLLexer import OFLLexer
@@ -46,7 +46,8 @@ class OFLToSql(OFLListener):
         self.args: deque[str | int | float | tuple] = deque()
         self.args_shift: int = args_shift
 
-    def lengthArgs(self) -> int:
+    @property
+    def args_len(self) -> int:
         return len(self.args) + self.args_shift
 
     def exitString(self, ctx: ParserRuleContext):
@@ -91,7 +92,7 @@ class OFLToSql(OFLListener):
     def exitHashtagMatch(self, ctx: ParserRuleContext):
         hashtag = self.stack.pop()
         self.args.append(hashtag)
-        self.stack.append(f"${self.lengthArgs()} = any(changeset_hashtags) ")
+        self.stack.append(f"${self.args_len} = any(changeset_hashtags) ")
 
     def exitHashtagWildcardMatch(self, ctx: ParserRuleContext):
         # TODO
@@ -109,7 +110,7 @@ class OFLToSql(OFLListener):
         values_as_string = "array['" + "', '".join(values) + "']"
         # anyarray && anyarray → boolean (Do the arrays overlap?)
         self.args.append(values_as_string)
-        self.stack.append(f"${self.lengthArgs()} && changeset_hashtags")
+        self.stack.append(f"${self.args_len} && changeset_hashtags")
 
     # ---
     #
@@ -119,7 +120,7 @@ class OFLToSql(OFLListener):
         j = json.dumps({key: value})
         # @> Does the first JSON value contain the second?
         self.args.append(j)
-        self.stack.append(f"tags @> ${self.lengthArgs()}")
+        self.stack.append(f"tags @> ${self.args_len}")
 
     def exitTagValuePatternMatch(self, ctx):
         value = (
@@ -136,24 +137,24 @@ class OFLToSql(OFLListener):
 
         self.args.append(key)
         self.args.append(value)
-        self.stack.append(f"tags ->> ${self.lengthArgs() - 1} LIKE ${self.lengthArgs()}")
+        self.stack.append(f"tags ->> ${self.args_len - 1} LIKE ${self.args_len}")
 
     def exitTagWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
         self.args.append(key)
-        self.stack.append(f"tags ? ${self.lengthArgs()}")
+        self.stack.append(f"tags ? ${self.args_len}")
 
     def exitTagNotMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
         j = json.dumps({key: value})
         self.args.append(j)
-        self.stack.append(f"NOT tags @> ${self.lengthArgs()}")
+        self.stack.append(f"NOT tags @> ${self.args_len}")
 
     def exitTagNotWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
         self.args.append(key)
-        self.stack.append(f"NOT tags ? ${self.lengthArgs()}")
+        self.stack.append(f"NOT tags ? ${self.args_len}")
 
     def exitTagListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -167,26 +168,26 @@ class OFLToSql(OFLListener):
         key = self.stack.pop()
         self.args.append(key)
         self.args.append(tuple(values))
-        self.stack.append(f"(tags -> ${self.lengthArgs() - 1}) = ANY(${self.lengthArgs()})")
+        self.stack.append(f"(tags -> ${self.args_len - 1}) = ANY(${self.args_len})")
 
     # ---
     #
     def exitTypeMatch(self, ctx: ParserRuleContext):
         type_ = ctx.getChild(2).getText()  # NODE, WAY, RELATION
         self.args.append(type_)
-        self.stack.append(f"osm_type = ${self.lengthArgs()}")
+        self.stack.append(f"osm_type = ${self.args_len}")
 
     def exitIdMatch(self, ctx: ParserRuleContext):
         id_ = ctx.getChild(2).getText()
         self.args.append(int(id_))
-        self.stack.append(f"osm_id = ${self.lengthArgs()}")
+        self.stack.append(f"osm_id = ${self.args_len}")
 
     def exitTypeIdMatch(self, ctx: ParserRuleContext):
         type_, id_ = ctx.getChild(2).getText().split("/")
         self.args.append(type_)
         self.args.append(int(id_))
         self.stack.append(
-            f"(osm_type = ${self.lengthArgs() - 1} AND osm_id = ${self.lengthArgs()})"
+            f"(osm_type = ${self.args_len - 1} AND osm_id = ${self.args_len})"
         )
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
@@ -200,14 +201,14 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(osm_id >= ${self.lengthArgs() - 1} AND osm_id <= ${self.lengthArgs()})"
+                f"(osm_id >= ${self.args_len - 1} AND osm_id <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"osm_id >= ${self.lengthArgs()}")
+            self.stack.append(f"osm_id >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"osm_id <= ${self.lengthArgs()}")
+            self.stack.append(f"osm_id <= ${self.args_len}")
 
     def exitIdListMatch(self, ctx: ParserRuleContext):
         # differs from TagListMatch insofar that no STRING needs to be popped from stack
@@ -217,7 +218,7 @@ class OFLToSql(OFLListener):
         # and skip commas in list in between brackets
         values = list(children[3:-1:2])
         self.args.append(tuple([int(v) for v in values]))
-        self.stack.append(f"osm_id = ANY(${self.lengthArgs()})")
+        self.stack.append(f"osm_id = ANY(${self.args_len})")
 
     def exitTypeIdListMatch(self, ctx: ParserRuleContext):
         # TODO
@@ -230,7 +231,7 @@ class OFLToSql(OFLListener):
             self.args.append(int(id_))
             self.args.append(type_)
             values.append(
-                f"(osm_id = ${self.lengthArgs() - 1} AND osm_type = ${self.lengthArgs()})"
+                f"(osm_id = ${self.args_len - 1} AND osm_type = ${self.args_len})"
             )
         if len(values) > 1:
             self.stack.append("(" + " OR ".join(values) + ")")
@@ -265,14 +266,14 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(area >= ${self.lengthArgs() - 1} AND area <= ${self.lengthArgs()})"
+                f"(area >= ${self.args_len - 1} AND area <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"area >= ${self.lengthArgs()}")
+            self.stack.append(f"area >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"area <= ${self.lengthArgs()}")
+            self.stack.append(f"area <= ${self.args_len}")
 
     def exitLengthRangeMatch(self, ctx: ParserRuleContext):
         range_ = self.stack.pop()
@@ -285,14 +286,14 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(length >= ${self.lengthArgs() - 1} AND length <= ${self.lengthArgs()})"
+                f"(length >= ${self.args_len - 1} AND length <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"length >= ${self.lengthArgs()}")
+            self.stack.append(f"length >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"length <= ${self.lengthArgs()}")
+            self.stack.append(f"length <= ${self.args_len}")
 
     def exitGeometryVerticesRangeMatch(self, ctx: ParserRuleContext):
         # TODO
@@ -319,14 +320,14 @@ class OFLToSql(OFLListener):
     def exitChangesetMatch(self, ctx: ParserRuleContext):
         id_ = int(ctx.getChild(2).getText())
         self.args.append(id_)
-        self.stack.append(f"changeset_id = ${self.lengthArgs()}")
+        self.stack.append(f"changeset_id = ${self.args_len}")
 
     def exitChangesetListMatch(self, ctx: ParserRuleContext):
         children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "id:(" as well as last part closing list with ")"
         # and skip commas in list in between brackets
         self.args.append(tuple([int(i) for i in children[3:-1:2]]))
-        self.stack.append(f"changeset_id = ANY(${self.lengthArgs()})")
+        self.stack.append(f"changeset_id = ANY(${self.args_len})")
 
     def exitChangesetRangeMatch(self, ctx: ParserRuleContext):
         range_ = self.stack.pop()
@@ -337,21 +338,21 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(lower_bound)
             self.stack.append(
-                f"(changeset_id >= ${self.lengthArgs() - 1} "
-                f"AND changeset_id <= ${self.lengthArgs()})"
+                f"(changeset_id >= ${self.args_len - 1} "
+                f"AND changeset_id <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"changeset_id >= ${self.lengthArgs()}")
+            self.stack.append(f"changeset_id >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"changeset_id <= ${self.lengthArgs()}")
+            self.stack.append(f"changeset_id <= ${self.args_len}")
 
     def exitChangesetCreatedByMatch(self, ctx: ParserRuleContext):
         editor = self.stack.pop()
         j = json.dumps({"created_by": editor})
         self.args.append(j)
-        self.stack.append(f"changeset_tags @> ${self.lengthArgs()}")
+        self.stack.append(f"changeset_tags @> ${self.args_len}")
 
 
 def unescape(string: str):
@@ -373,10 +374,21 @@ def validate_filter(filter_: str) -> str:
     return filter_
 
 
+@validate_call
 def ohsome_filter_to_sql(
     filter_: str,
-    args_shift: int = 0,
-) -> tuple[str, tuple[str | int | float | tuple, ...], int]:
+    args_shift: Annotated[int, Field(ge=0, default=0)] = 0,
+) -> tuple[str, tuple[str | int | float | tuple, ...]]:
+    """Translate ohsome filter into a SQL WHERE clause for ohsome DB.
+
+    Args:
+        filter_: Ohsome filter
+        args_shift: Integer by which to shift numbered query arguments: $n + arg_shift
+
+    Returns:
+        The SQL WHERE clause in native PostgreSQL syntax for query arguments: $n.
+        The query arguments.
+    """
     listener = OFLToSql(args_shift)
     tree = build_tree(filter_)
     result = walk_tree(tree, listener)
