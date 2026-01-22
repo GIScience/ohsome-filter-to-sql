@@ -1,11 +1,18 @@
 # Changelog
 
+## 0.4.0
+
+### Feature
+
+- Introduce parameter to shift numbered query args by desired int (#f903e97)
+    - args_shift: Integer by which to shift numbered query arguments: $n + arg_shift
+
 ## 0.3.0
 
 ### Feature
 
 - add validation function (`validate_filter`) and a type alias using validation
-  function via pydantic validator pattern (`OhsomeFilter`) (d6894f3)
+  function via pydantic validator pattern (`OhsomeFilter`) (#d6894f3)
 
 ## 0.2.0
 
