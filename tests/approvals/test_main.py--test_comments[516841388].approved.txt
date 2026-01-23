@@ -1,0 +1,5 @@
+natural=tree // this is a tree
+
+tags @> '{"natural": "tree"}'
+
+[<Record count=98199>]
