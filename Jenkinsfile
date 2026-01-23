@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script {
                     // run pytest
-                    sh 'pytest --cov=ohsome_filter_to_sql --cov-report=xml tests'
+                    sh 'pytest --cov=ohsome_filter_to_sql --cov-report=xml --maxfail=1 tests'
                     // run static analysis with sonar-scanner
                     def scannerHome = tool 'SonarScanner 4'
                     withSonarQubeEnv('sonarcloud GIScience/ohsome') {
