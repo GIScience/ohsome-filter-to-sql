@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- build: run uv sync --upgrade to upgrade dependencies (#52a4d21)
+
 ## 0.4.0
 
 ### Feature
