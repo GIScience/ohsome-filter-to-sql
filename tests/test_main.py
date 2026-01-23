@@ -34,7 +34,6 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_:
     return verify(text)
 
 
-@asyncpg_recorder.use_cassette
 async def execute_query(query: str, *query_args) -> list[Record]:
     con: Connection = await asyncpg.connect(
         user="postgres",
@@ -62,18 +61,21 @@ async def test_build_tree(filter_):
 #
 
 
+@asyncpg_recorder.use_cassette
 async def test_expression_and_expression():
     filter_ = "natural=tree and leaf_type=broadleaved"
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 async def test_expression_or_expression():
     filter_ = "natural=tree or leaf_type=broadleaved"
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -93,6 +95,7 @@ async def test_not_expression(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_s",
     (
@@ -119,6 +122,7 @@ async def test_not_expression_comparison(filter_s):
     assert results_1 == results_2
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -134,6 +138,7 @@ async def test_expression_in_brakets(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 async def test_hashtag_match():
     filter_ = "hashtag:missingmaps"
@@ -141,6 +146,7 @@ async def test_hashtag_match():
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
     "filter_",
@@ -156,6 +162,7 @@ async def test_hashtag_list_match(filter_):
 
 # TODO
 # add tests for all grammar keywords like number, geometry, id, ...
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -192,6 +199,7 @@ async def test_tag_match(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -220,6 +228,7 @@ async def test_tag_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -235,6 +244,7 @@ async def test_tag_list_match(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -268,6 +278,7 @@ async def test_tag_value_pattern_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -291,6 +302,7 @@ async def test_type_match_invalid():
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 async def test_id_match():
     filter_ = "id:4540889804"
     query, query_args = ohsome_filter_to_sql(filter_)
@@ -311,6 +323,7 @@ async def test_id_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -341,6 +354,7 @@ async def test_type_id_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -376,6 +390,7 @@ async def test_id_range_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -408,6 +423,7 @@ async def test_id_list_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -438,6 +454,7 @@ async def test_type_id_list_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -455,6 +472,7 @@ async def test_geometry_match(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 async def test_geometry_match_other(filter_):
     filter_ = "geometry:other"
@@ -476,6 +494,7 @@ async def test_gemoetry_match_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -519,6 +538,7 @@ async def test_area_range_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -561,6 +581,7 @@ async def test_length_range_invalid(filter_):
     verify(filter_ + "\n\n" + str(e.value))
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 async def test_changeset_match():
     filter_ = "changeset:1"
@@ -568,6 +589,7 @@ async def test_changeset_match():
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
     "filter_",
@@ -586,6 +608,7 @@ async def test_changeset_list_match(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
     "filter_",
@@ -605,6 +628,7 @@ async def test_changeset_range_match(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
     "filter_",
@@ -620,6 +644,7 @@ async def test_changeset_created_by_match(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -642,6 +667,7 @@ async def test_ohsome_api_examples(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -676,6 +702,7 @@ async def test_strings(string, out):
 # fmt: on
 
 
+@asyncpg_recorder.use_cassette
 async def test_sql_injection():
     # TODO: add example which injects even though json.dumps is used.
     filter_ = "\"natural';drop table contributions;SELECT 'test\"=*"
