@@ -21,6 +21,7 @@ license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
     "pydantic>=2.12.5",
+    "pytest-randomly>=4.0.1",
 ]
 
 [project.urls]
