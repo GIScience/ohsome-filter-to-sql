@@ -41,7 +41,7 @@ uv run ohsome-filter-to-sql
 ## Development Setup
 
 ```sh
-uv run pre-commit install
+uv run prek install  # pre-commit hooks
 uv run pytest
 ```
 
