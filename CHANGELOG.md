@@ -1,5 +1,9 @@
 # Changelog
 
+## Current Main
+
+* build/tests: add pytest-randomly to run tests in random order (#033de35)
+
 ## 0.5.0
 
 - build: run uv sync --upgrade to upgrade dependencies (#52a4d21)
