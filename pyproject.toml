@@ -62,6 +62,7 @@ dev = [
     "pytest-cov>=7.0.0",
     "pytest-sugar>=1.1.1",
     "prek>=0.3.0",
+    "ty>=0.0.24",
 ]
 
 [tool.ruff]
@@ -94,6 +95,9 @@ select = [
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = ["S101", "S608"]  # S101 usage of asserts; S608 possible SQL injection
 "ohsome_filter_to_sql/main.py" = ["N802", "N803"]  # N802 function name should be lowercase
+
+[tool.ty.src]
+exclude = ["ohsome_filter_to_sql/OFLLexer.py", "ohsome_filter_to_sql/OFLListener.py", "ohsome_filter_to_sql/OFLParser.py"]
 
 [tool.pytest]
 addopts = ["-s"]
