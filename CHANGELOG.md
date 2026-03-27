@@ -1,6 +1,6 @@
 # Changelog
 
-## Current Main
+## Release 0.8.0
 
 ### Feature
 
