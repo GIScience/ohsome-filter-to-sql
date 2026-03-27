@@ -4,7 +4,7 @@ version = "0.7.0"
 authors = [{name="HeiGIT ohsome team", email="ohsome@heigit.org"}]
 description = "Translate ohsome API filter to SQL WHERE clause ready to be used with ohsomeDB"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
@@ -13,6 +13,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -20,6 +21,7 @@ license = "LGPL-3.0-only"
 license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
+    "asyncpg-recorder>=0.7.0",
     "pydantic>=2.12.5",
     "pytest-randomly>=4.0.1",
 ]
@@ -48,17 +50,15 @@ module-root = ""  # use ohsome-filter-to-sql/ as root instead the default src/oh
 
 [tool.uv.sources]
 pytest-approval = { git = "https://github.com/GIScience/pytest-approval.git" }
-asyncpg-recorder = { git = "https://github.com/GIScience/asyncpg-recorder.git" }
 
 [dependency-groups]
 dev = [
     "pytest>=8.4.1",
     "ruff>=0.12.4",
-    "asyncpg>=0.30.0",
+    "asyncpg>=0.31.0",
     "pytest-asyncio>=1.1.0",
     "antlr4-tools>=0.2.2",
     "pytest-approval",
-    "asyncpg-recorder",
     "pytest-cov>=7.0.0",
     "pytest-sugar>=1.1.1",
     "prek>=0.3.0",
