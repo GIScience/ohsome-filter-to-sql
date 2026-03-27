@@ -27,7 +27,7 @@ uv add ohsome-filter-to-sql
 ### Python Library
 
 ```python
-from ohsome_filter_to_sql.main import ohsome_filter_to_sql
+from ohsome_filter_to_sql import ohsome_filter_to_sql
 
 query, query_args = ohsome_filter_to_sql("natural = tree")
 ```
