@@ -2,6 +2,16 @@
 
 ## Current Main
 
+### Feature
+
+* support python version 3.14 (c794c02)
+
+### Development
+
+* tests: recreate cassettes and approvals after bump of python version (dcd665d)
+* build(ci): run tests against two python versions (current and 3.11) (7896cfa)
+* build(ci): separate static analysis stage from test stage (e070f0b)
+* build: add ty as static type checker for development (e705144)
 * build/tests: add pytest-randomly to run tests in random order (#033de35)
 * build: migrate pre-commit hooks to prek (9f3ded3)
 
