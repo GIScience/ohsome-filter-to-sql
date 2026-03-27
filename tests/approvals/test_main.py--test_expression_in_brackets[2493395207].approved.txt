@@ -4,4 +4,4 @@ NOT (tags @> $1 AND tags @> $2) OR tags @> $3
 
 ('{"addr:housenumber": "45"}', '{"addr:street": "Berliner Stra\\u00dfe"}', '{"name": "HeiGIT"}')
 
-[<Record count=6175072>]
+[<Record count=13169327>]

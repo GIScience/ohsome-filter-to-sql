@@ -133,7 +133,7 @@ async def test_not_expression_comparison(filter_s):
         "(not natural=tree)",
     ),
 )
-async def test_expression_in_brakets(filter_):
+async def test_expression_in_brackets(filter_):
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 
@@ -488,7 +488,7 @@ async def test_geometry_match_other(filter_):
         "geometry:1",
     ),
 )
-async def test_gemoetry_match_invalid(filter_):
+async def test_geometry_match_invalid(filter_):
     with pytest.raises(ValueError) as e:
         ohsome_filter_to_sql(filter_)
     verify(filter_ + "\n\n" + str(e.value))
