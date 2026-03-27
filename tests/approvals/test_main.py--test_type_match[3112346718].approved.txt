@@ -4,4 +4,4 @@ osm_type = $1
 
 ('relation',)
 
-[<Record count=651400>]
+[<Record count=1240998>]

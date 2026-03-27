@@ -4,4 +4,4 @@ osm_type = $1 AND tags @> $2 AND NOT tags ? $3 AND NOT tags @> $4
 
 ('way', '{"highway": "residential"}', 'name', '{"noname": "yes"}')
 
-[<Record count=26268>]
+[<Record count=43815>]

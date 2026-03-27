@@ -4,4 +4,4 @@ geometry:line and  (highway=* or railway=platform) and not (cycleway=separate or
 
 ('highway', '{"railway": "platform"}', '{"cycleway": "separate"}', '{"cycleway:both": "separate"}', '{"cycleway:right": "separate"}', '{"cycleway:left": "separate"}', '{"indoor": "yes"}', '{"indoor": "corridor"}')
 
-[<Record count=1499517>]
+[<Record count=3307745>]

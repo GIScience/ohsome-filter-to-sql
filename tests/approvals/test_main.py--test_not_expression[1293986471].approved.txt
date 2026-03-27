@@ -4,4 +4,4 @@ NOT (status_geom_type).geom_type = 'Point'
 
 ()
 
-[<Record count=4544016>]
+[<Record count=9334017>]

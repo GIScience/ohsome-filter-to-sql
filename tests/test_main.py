@@ -709,7 +709,7 @@ async def test_sql_injection():
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
     result = await execute_query(
-        "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' "
+        "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'current' "
         + "AND tablename  = 'contributions');"
     )
     assert result[0][0]

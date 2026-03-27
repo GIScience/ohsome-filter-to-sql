@@ -4,4 +4,4 @@ tags ? $1 AND NOT tags @> $2 AND ((status_geom_type).geom_type = 'Polygon' OR (s
 
 ('building', '{"building": "no"}')
 
-[<Record count=1617498>]
+[<Record count=3127677>]

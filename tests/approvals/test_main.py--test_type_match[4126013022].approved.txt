@@ -4,4 +4,4 @@ osm_type = $1
 
 ('node',)
 
-[<Record count=1629017>]
+[<Record count=3824771>]

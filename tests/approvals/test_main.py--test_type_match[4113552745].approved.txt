@@ -4,4 +4,4 @@ osm_type = $1
 
 ('way',)
 
-[<Record count=3894678>]
+[<Record count=8103586>]

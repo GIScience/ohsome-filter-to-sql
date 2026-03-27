@@ -4,4 +4,4 @@ NOT (tags -> $1) = ANY($2)
 
 ('highway', ('"residential"', '"living_street"'))
 
-[<Record count=1295483>]
+[<Record count=2890279>]

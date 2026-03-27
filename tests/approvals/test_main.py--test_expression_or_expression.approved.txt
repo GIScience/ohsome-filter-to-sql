@@ -4,4 +4,4 @@ tags @> $1 OR tags @> $2
 
 ('{"natural": "tree"}', '{"leaf_type": "broadleaved"}')
 
-[<Record count=102104>]
+[<Record count=231809>]

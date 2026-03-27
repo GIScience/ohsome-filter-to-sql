@@ -4,4 +4,4 @@ tags @> $1 AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).g
 
 ('{"leisure": "park"}', '{"amenity": "bench"}')
 
-[<Record count=33096>]
+[<Record count=77282>]

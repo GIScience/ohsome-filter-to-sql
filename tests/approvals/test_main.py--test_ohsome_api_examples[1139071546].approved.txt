@@ -4,4 +4,4 @@ geometry:polygon and building=* and building!=no and area:(1E6..)
 
 ('building', '{"building": "no"}', 1000000.0)
 
-[<Record count=14>]
+[<Record count=20>]
