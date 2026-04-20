@@ -1,6 +1,6 @@
 # Changelog
 
-## Main
+## Release 0.9.0
 
 * build: upgrade pytest to 9.x (f7410de)
 * build: upgrade dependencies (15f9694)
