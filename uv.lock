@@ -372,21 +372,21 @@ version = "0.8.0"
 source = { editable = "." }
 dependencies = [
     { name = "antlr4-python3-runtime" },
-    { name = "asyncpg-recorder" },
     { name = "pydantic" },
-    { name = "pytest-randomly" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "antlr4-tools" },
     { name = "asyncpg" },
+    { name = "asyncpg-recorder" },
     { name = "prek" },
     { name = "pytest" },
     { name = "pytest-approval" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
     { name = "pytest-markdown-docs" },
+    { name = "pytest-randomly" },
     { name = "pytest-sugar" },
     { name = "ruff" },
     { name = "ty" },
@@ -395,21 +395,21 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "antlr4-python3-runtime", specifier = ">=4.13.2" },
-    { name = "asyncpg-recorder", specifier = ">=0.7.0" },
     { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "pytest-randomly", specifier = ">=4.0.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "antlr4-tools", specifier = ">=0.2.2" },
     { name = "asyncpg", specifier = ">=0.31.0" },
+    { name = "asyncpg-recorder", specifier = ">=0.8.0" },
     { name = "prek", specifier = ">=0.3.0" },
     { name = "pytest", specifier = ">=8.4.1" },
     { name = "pytest-approval", git = "https://github.com/GIScience/pytest-approval.git" },
     { name = "pytest-asyncio", specifier = ">=1.1.0" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-markdown-docs", specifier = ">=0.9.2" },
+    { name = "pytest-randomly", specifier = ">=4.0.1" },
     { name = "pytest-sugar", specifier = ">=1.1.1" },
     { name = "ruff", specifier = ">=0.12.4" },
     { name = "ty", specifier = ">=0.0.24" },
