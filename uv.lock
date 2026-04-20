@@ -404,7 +404,7 @@ dev = [
     { name = "asyncpg", specifier = ">=0.31.0" },
     { name = "asyncpg-recorder", specifier = ">=0.8.0" },
     { name = "prek", specifier = ">=0.3.0" },
-    { name = "pytest", specifier = ">=8.4.1" },
+    { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-approval", git = "https://github.com/GIScience/pytest-approval.git" },
     { name = "pytest-asyncio", specifier = ">=1.1.0" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
