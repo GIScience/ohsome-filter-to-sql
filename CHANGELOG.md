@@ -1,5 +1,13 @@
 # Changelog
 
+## Main
+
+* build: upgrade pytest to 9.x (f7410de)
+* build: upgrade dependencies (15f9694)
+* build: remove deprecated license classifier (a409fe4)
+* build: bump uv_build to <0.12 (f9d8325)
+* build: move dependencies which are only used for test to dev group (d27c796)
+
 ## Release 0.8.0
 
 ### Feature
