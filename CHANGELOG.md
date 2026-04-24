@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.10.0
+
+* build: upgrade dependencies with uv sync --upgrade (82901c1)
+* tests: re-create asyncpg cassettes after update of asyncpg-recorder (82901c1)
+
 ## Release 0.9.0
 
 * build: upgrade pytest to 9.x (f7410de)
