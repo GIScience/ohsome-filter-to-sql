@@ -1,0 +1,1 @@
+{"674181771": {"results": [{"count": 0}], "query": "SELECT COUNT(*) FROM contributions WHERE tags ->> $1 LIKE $2", "args": ["name", "\\%"], "limit": 0, "timeout": null, "record_class": null}}

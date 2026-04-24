@@ -1,0 +1,1 @@
+{"2852013484": {"results": [{"count": 0}], "query": "SELECT COUNT(*) FROM contributions WHERE tags @> $1 OR tags @> $2", "args": ["{\"natural*^what\\ud83d\\ude48\": \"\\ud83d\\ude48ohno != erf = and or\"}", "{\"natural or *^what\\ud83d\\ude48\": \"\\ud83d\\ude48ohno != erf = and or\"}"], "limit": 0, "timeout": null, "record_class": null}}

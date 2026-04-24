@@ -1,0 +1,1 @@
+{"140883335": {"results": [{"count": 2638}], "query": "SELECT COUNT(*) FROM contributions WHERE ((osm_id = $1 AND osm_type = $2) OR (osm_id = $3 AND osm_type = $4) OR (osm_id = $5 AND osm_type = $6))", "args": [4540889804, "node", 1136431018, "way", 2070281, "relation"], "limit": 0, "timeout": null, "record_class": null}}

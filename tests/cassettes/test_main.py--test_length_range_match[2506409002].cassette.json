@@ -1,0 +1,1 @@
+{"996852219": {"results": [{"count": 266105}], "query": "SELECT COUNT(*) FROM contributions WHERE (length >= $1 AND length <= $2)", "args": [1.0, 10.0], "limit": 0, "timeout": null, "record_class": null}}

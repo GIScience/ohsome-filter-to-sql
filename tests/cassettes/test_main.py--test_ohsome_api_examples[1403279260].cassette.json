@@ -1,0 +1,1 @@
+{"3189158210": {"results": [{"count": 43815}], "query": "SELECT COUNT(*) FROM contributions WHERE osm_type = $1 AND tags @> $2 AND NOT tags ? $3 AND NOT tags @> $4", "args": ["way", "{\"highway\": \"residential\"}", "name", "{\"noname\": \"yes\"}"], "limit": 0, "timeout": null, "record_class": null}}

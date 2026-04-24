@@ -1,0 +1,1 @@
+{"3169998973": {"results": [{"count": 3976707}], "query": "SELECT COUNT(*) FROM contributions WHERE (status_geom_type).geom_type = 'LineString'", "args": [], "limit": 0, "timeout": null, "record_class": null}}

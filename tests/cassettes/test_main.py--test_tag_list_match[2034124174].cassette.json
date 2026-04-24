@@ -1,0 +1,1 @@
+{"2143265293": {"results": [{"count": 710278}], "query": "SELECT COUNT(*) FROM contributions WHERE (tags -> $1) = ANY($2)", "args": ["highway", ["\"residential\"", "\"living_street\""]], "limit": 0, "timeout": null, "record_class": null}}

@@ -21,6 +21,7 @@ license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
     "pydantic>=2.12.5",
+    "pytest-approval>=0.16.1",
 ]
 
 [project.urls]
@@ -46,7 +47,7 @@ package = true
 module-root = ""  # use ohsome-filter-to-sql/ as root instead the default src/ohsome-filter-to-sql
 
 [tool.uv.sources]
-pytest-approval = { git = "https://github.com/GIScience/pytest-approval.git" }
+pytest-nodeid-to-filepath = { git = "https://github.com/GIScience/pytest-nodeid-to-filepath.git" }
 
 [dependency-groups]
 dev = [
@@ -54,7 +55,6 @@ dev = [
     "asyncpg>=0.31.0",
     "pytest-asyncio>=1.1.0",
     "antlr4-tools>=0.2.2",
-    "pytest-approval",
     "pytest-cov>=7.0.0",
     "pytest-sugar>=1.1.1",
     "prek>=0.3.0",
@@ -63,6 +63,7 @@ dev = [
     "pytest-randomly>=4.0.1",
     "asyncpg-recorder>=0.8.0",
     "pytest>=9.0.3",
+    "pytest-nodeid-to-filepath",
 ]
 
 [tool.ruff]

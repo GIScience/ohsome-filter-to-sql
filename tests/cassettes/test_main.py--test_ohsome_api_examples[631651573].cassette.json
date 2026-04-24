@@ -1,0 +1,1 @@
+{"2048037892": {"results": [{"count": 3127677}], "query": "SELECT COUNT(*) FROM contributions WHERE tags ? $1 AND NOT tags @> $2 AND ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon')", "args": ["building", "{\"building\": \"no\"}"], "limit": 0, "timeout": null, "record_class": null}}

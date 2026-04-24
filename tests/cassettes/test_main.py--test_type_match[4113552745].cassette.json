@@ -1,0 +1,1 @@
+{"4039062915": {"results": [{"count": 8103586}], "query": "SELECT COUNT(*) FROM contributions WHERE osm_type = $1", "args": ["way"], "limit": 0, "timeout": null, "record_class": null}}

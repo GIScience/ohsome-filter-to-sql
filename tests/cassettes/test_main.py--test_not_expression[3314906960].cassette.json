@@ -1,0 +1,1 @@
+{"3106665762": {"results": [{"count": 12946225}], "query": "SELECT COUNT(*) FROM contributions WHERE NOT tags @> $1", "args": ["{\"natural\": \"tree\"}"], "limit": 0, "timeout": null, "record_class": null}}

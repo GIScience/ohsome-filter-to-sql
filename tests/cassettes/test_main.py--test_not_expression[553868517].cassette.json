@@ -1,0 +1,1 @@
+{"958355305": {"results": [{"count": 13169347}], "query": "SELECT COUNT(*) FROM contributions WHERE NOT (osm_type = $1 AND osm_id = $2)", "args": ["node", 4540889804], "limit": 0, "timeout": null, "record_class": null}}

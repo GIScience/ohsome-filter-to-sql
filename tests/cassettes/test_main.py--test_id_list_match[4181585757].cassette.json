@@ -1,0 +1,1 @@
+{"612260713": {"results": [{"count": 8}], "query": "SELECT COUNT(*) FROM contributions WHERE osm_id = ANY($1)", "args": [[4540889804]], "limit": 0, "timeout": null, "record_class": null}}

@@ -1,0 +1,1 @@
+{"388069747": {"results": [{"count": 113427}], "query": "SELECT COUNT(*) FROM contributions WHERE area >= $1", "args": [1000000.0], "limit": 0, "timeout": null, "record_class": null}}
