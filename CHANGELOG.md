@@ -3,7 +3,7 @@
 ## Release 0.10.0
 
 * build: upgrade dependencies with uv sync --upgrade (82901c1)
-* tests: re-create asyncpg cassettes after update of asyncpg-recorder (82901c1)
+* tests: re-create asyncpg cassettes after update of asyncpg-recorder (82901c1, 88ae143)
 
 ## Release 0.9.0
 
