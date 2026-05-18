@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.10.1
+
+* build: upgrade deps via uv sync --upgrade (96801fc, 364a617)
+
 ## Release 0.10.0
 
 * build: upgrade dependencies with uv sync --upgrade (82901c1)
