@@ -21,7 +21,6 @@ license-files = ["COPYING*"]
 dependencies = [
     "antlr4-python3-runtime>=4.13.2",
     "pydantic>=2.12.5",
-    "pytest-approval>=0.16.1",
 ]
 
 [project.urls]
@@ -64,6 +63,7 @@ dev = [
     "asyncpg-recorder>=0.8.0",
     "pytest>=9.0.3",
     "pytest-nodeid-to-filepath",
+    "pytest-approval>=0.16.2",
 ]
 
 [tool.ruff]
