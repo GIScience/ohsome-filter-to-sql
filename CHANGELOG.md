@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.10.2
+
+* build: move pytest-approval to development dependency group (4c245fe)
+
 ## Release 0.10.1
 
 * build: upgrade deps via uv sync --upgrade (96801fc, 364a617)
