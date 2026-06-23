@@ -45,9 +45,6 @@ package = true
 [tool.uv.build-backend]
 module-root = ""  # use ohsome-filter-to-sql/ as root instead the default src/ohsome-filter-to-sql
 
-[tool.uv.sources]
-pytest-nodeid-to-filepath = { git = "https://github.com/GIScience/pytest-nodeid-to-filepath.git" }
-
 [dependency-groups]
 dev = [
     "ruff>=0.12.4",
@@ -62,8 +59,8 @@ dev = [
     "pytest-randomly>=4.0.1",
     "asyncpg-recorder>=0.8.0",
     "pytest>=9.0.3",
-    "pytest-nodeid-to-filepath",
     "pytest-approval>=0.16.2",
+    "pytest-nodeid-to-filepath>=0.1.0",
 ]
 
 [tool.ruff]
