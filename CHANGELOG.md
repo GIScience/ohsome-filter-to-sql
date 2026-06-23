@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.11.0
+
+Publish to PyPI.
+
+* build: change source of pytest-nodeid-to-filepath to pypi (26724f1)
+
 ## Release 0.10.2
 
 * build: move pytest-approval to development dependency group (4c245fe)

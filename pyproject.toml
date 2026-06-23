@@ -1,6 +1,6 @@
 [project]
 name = "ohsome-filter-to-sql"
-version = "0.10.2"
+version = "0.11.0"
 authors = [{name="HeiGIT ohsome team", email="ohsome@heigit.org"}]
 description = "Translate ohsome API filter to SQL WHERE clause ready to be used with ohsomeDB"
 readme = "README.md"
