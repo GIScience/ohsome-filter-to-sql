@@ -376,7 +376,7 @@ def validate_filter(filter_: str) -> str:
 
 @validate_call
 def ohsome_filter_to_sql(
-    filter_: str,
+    filter_: Annotated[str, Field(min_length=1)],
     args_shift: Annotated[int, Field(ge=0, default=0)] = 0,
 ) -> tuple[str, tuple[str | int | float | tuple, ...]]:
     """Translate ohsome filter into a SQL WHERE clause for ohsome DB.
@@ -389,6 +389,8 @@ def ohsome_filter_to_sql(
         The SQL WHERE clause in native PostgreSQL syntax for query arguments: $n.
         The query arguments.
     """
+    if filter_ == "*":
+        return ("1=1", tuple())
     listener = OFLToSql(args_shift)
     tree = build_tree(filter_)
     result = walk_tree(tree, listener)
