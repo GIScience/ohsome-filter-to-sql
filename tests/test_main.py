@@ -1,7 +1,9 @@
 # Test fixtures cover examples of the ohsome API filter documentation and
-# tests fixtures used by the ohsome dashboard for ohsome filter syntax highlighting:
+# the ohsome dashboard for ohsome filter syntax highlighting:
 # - https://docs.ohsome.org/ohsome-api/v1/filter.html
 # - https://github.com/GIScience/ohsome-dashboard/blob/main/src/prism-language-ohsome-filter.ts
+import os
+
 import asyncpg
 import asyncpg_recorder
 import pytest
@@ -35,11 +37,17 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_:
 
 
 async def execute_query(query: str, *query_args) -> list[Record]:
+    server_settings = {
+        "application_name": "ohsome-filter-to-sql-tests",
+        "search_path": os.environ["OHSOME_FILTER_TO_SQL_SCHEMA"],
+    }
     con: Connection = await asyncpg.connect(
-        user="postgres",
-        password="mylocalpassword",  # noqa: S106
-        host="localhost",
-        port=5432,
+        database=os.environ["OHSOME_FILTER_TO_SQL_DATABASE"],
+        user=os.environ["OHSOME_FILTER_TO_SQL_USER"],
+        password=os.environ["OHSOME_FILTER_TO_SQL_PASSWORD"],
+        host=os.environ["OHSOME_FILTER_TO_SQL_HOST"],
+        port=os.environ["OHSOME_FILTER_TO_SQL_PORT"],
+        server_settings=server_settings,
     )
     return await con.fetch(query, *query_args)
 

@@ -42,6 +42,13 @@ uv run ohsome-filter-to-sql
 
 ```sh
 uv run prek install  # pre-commit hooks
+
+export OHSOME_FILTER_TO_SQL_SCHEMA=""
+export OHSOME_FILTER_TO_SQL_DATABASE=""
+export OHSOME_FILTER_TO_SQL_USER=""
+export OHSOME_FILTER_TO_SQL_PASSWORD=""
+export OHSOME_FILTER_TO_SQL_HOST="localhost"
+export OHSOME_FILTER_TO_SQL_PORT="5432"
 uv run pytest
 ```
 
