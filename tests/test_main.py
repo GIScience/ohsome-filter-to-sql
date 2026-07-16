@@ -39,14 +39,14 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_:
 async def execute_query(query: str, *query_args) -> list[Record]:
     server_settings = {
         "application_name": "ohsome-filter-to-sql-tests",
-        "search_path": os.environ["OHSOME_FILTER_TO_SQL_SCHEMA"],
+        "search_path": os.environ.get("OHSOME_FILTER_TO_SQL_SCHEMA", ""),
     }
     con: Connection = await asyncpg.connect(
-        database=os.environ["OHSOME_FILTER_TO_SQL_DATABASE"],
-        user=os.environ["OHSOME_FILTER_TO_SQL_USER"],
-        password=os.environ["OHSOME_FILTER_TO_SQL_PASSWORD"],
-        host=os.environ["OHSOME_FILTER_TO_SQL_HOST"],
-        port=os.environ["OHSOME_FILTER_TO_SQL_PORT"],
+        database=os.environ.get("OHSOME_FILTER_TO_SQL_DATABASE", ""),
+        user=os.environ.get("OHSOME_FILTER_TO_SQL_USER", ""),
+        password=os.environ.get("OHSOME_FILTER_TO_SQL_PASSWORD", ""),
+        host=os.environ.get("OHSOME_FILTER_TO_SQL_HOST", ""),
+        port=os.environ.get("OHSOME_FILTER_TO_SQL_PORT", ""),
         server_settings=server_settings,
     )
     return await con.fetch(query, *query_args)
