@@ -68,6 +68,12 @@ pipeline {
             environment {
                 VIRTUAL_ENV="${WORKSPACE}/.venv"
                 PATH="${VIRTUAL_ENV}/bin:${PATH}"
+				OHSOME_FILTER_TO_SQL_SCHEMA=""
+				OHSOME_FILTER_TO_SQL_DATABASE=""
+				OHSOME_FILTER_TO_SQL_USER=""
+				OHSOME_FILTER_TO_SQL_PASSWORD=""
+				OHSOME_FILTER_TO_SQL_HOST=""
+				OHSOME_FILTER_TO_SQL_PORT=""
             }
             steps {
                 script {
