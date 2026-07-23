@@ -1,0 +1,7 @@
+changeset:(1..) and natural=tree
+
+changeset_id >= $1 AND tags @> $2
+
+(1, '{"natural": "tree"}')
+
+[<Record count=45719234>]

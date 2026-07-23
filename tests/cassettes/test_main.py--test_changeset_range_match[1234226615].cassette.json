@@ -1,0 +1,1 @@
+{"2478748927": {"results": [{"count": 4270718847}], "query": "SELECT COUNT(*) FROM contributions WHERE changeset_id >= $1", "args": [1], "limit": 0, "timeout": null, "record_class": null}}
