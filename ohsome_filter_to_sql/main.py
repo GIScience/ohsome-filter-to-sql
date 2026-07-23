@@ -89,31 +89,6 @@ class OFLToSql(OFLListener):
 
     # ---
     #
-    def exitHashtagMatch(self, ctx: ParserRuleContext):
-        hashtag = self.stack.pop()
-        self.args.append(hashtag)
-        self.stack.append(f"${self.args_len} = any(changeset_hashtags) ")
-
-    def exitHashtagWildcardMatch(self, ctx: ParserRuleContext):
-        # TODO
-        raise NotImplementedError()
-
-    def exitHashtagListMatch(self, ctx: ParserRuleContext):
-        values = []
-        children = [child.getText() for child in ctx.getChildren()]
-        # skip first part denoting "hashtag:(" and last part closing list with ")"
-        # and skip commas in list in between brackets (every second child)
-        for child in children[3:-1:2]:
-            # remove STRING from stack
-            self.stack.pop()
-            values.append(child)
-        values_as_string = "array['" + "', '".join(values) + "']"
-        # anyarray && anyarray → boolean (Do the arrays overlap?)
-        self.args.append(values_as_string)
-        self.stack.append(f"${self.args_len} && changeset_hashtags")
-
-    # ---
-    #
     def exitTagMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
@@ -346,12 +321,6 @@ class OFLToSql(OFLListener):
         elif upper_bound:
             self.args.append(upper_bound)
             self.stack.append(f"changeset_id <= ${self.args_len}")
-
-    def exitChangesetCreatedByMatch(self, ctx: ParserRuleContext):
-        editor = self.stack.pop()
-        j = json.dumps({"created_by": editor})
-        self.args.append(j)
-        self.stack.append(f"changeset_tags @> ${self.args_len}")
 
 
 def unescape(string: str):
