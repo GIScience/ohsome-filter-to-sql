@@ -76,6 +76,7 @@ pipeline {
                     sh 'pytest --markdown-docs -m markdown-docs README.md'
                     sh 'uv run --python 3.11 pytest --maxfail=1 tests'
                 }
+                recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'coverage.xml']])
             }
             post {
                 failure {
