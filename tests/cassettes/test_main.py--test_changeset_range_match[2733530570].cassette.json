@@ -1,0 +1,1 @@
+{"3549568640": {"results": [{"count": 45719234}], "query": "SELECT COUNT(*) FROM contributions WHERE changeset_id >= $1 AND tags @> $2", "args": [1, "{\"natural\": \"tree\"}"], "limit": 0, "timeout": null, "record_class": null}}

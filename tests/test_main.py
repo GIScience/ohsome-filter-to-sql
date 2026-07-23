@@ -585,15 +585,6 @@ async def test_length_range_invalid(filter_):
 
 
 @asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
-async def test_changeset_match():
-    filter_ = "changeset:1"
-    query, query_args = ohsome_filter_to_sql(filter_)
-    assert await validate_and_verify(query, query_args, filter_)
-
-
-@asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -601,6 +592,17 @@ async def test_changeset_match():
         "changeset :1",
         "changeset: 1",
         "changeset : 1",
+    ),
+)
+async def test_changeset_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
+
+
+@asyncpg_recorder.use_cassette
+@pytest.mark.parametrize(
+    "filter_",
+    (
         "changeset:(1)",
         "changeset:(1, 300, 4264)",
         "changeset:( 1,300,4264 )",
@@ -612,7 +614,6 @@ async def test_changeset_list_match(filter_):
 
 
 @asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
 @pytest.mark.parametrize(
     "filter_",
     (
@@ -621,7 +622,7 @@ async def test_changeset_list_match(filter_):
         "changeset: (1..999)",
         "changeset : (1..999)",
         "changeset:( 1..999 )",
-        "changeset:(1..)",
+        "changeset:(1..) and changeset:(..999)",
         "changeset:(..999)",
         "changeset:(50..999) or changeset:(..10)",
     ),
