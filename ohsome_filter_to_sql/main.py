@@ -335,7 +335,7 @@ class OFLToSql(OFLListener):
         ]
         if lower_bound and upper_bound:
             self.args.append(lower_bound)
-            self.args.append(lower_bound)
+            self.args.append(upper_bound)
             self.stack.append(
                 f"(changeset_id >= ${self.args_len - 1} "
                 f"AND changeset_id <= ${self.args_len})"
