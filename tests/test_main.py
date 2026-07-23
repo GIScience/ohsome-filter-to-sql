@@ -115,7 +115,10 @@ async def test_not_expression(filter_):
             "highway=* and highway!=residential and highway!=living_street",
         ),
         ("not type:node", "type:way or type:relation"),
-        ("not geometry:point", "geometry:line or geometry:polygon or geometry:other"),
+        (
+            "not geometry:point",
+            "geometry:line or geometry:polygon or geometry:collection",
+        ),
         ("not length:(..99.99)", "length:(99.99..)"),
         ("not length:(..1e6)", "length:(1e6..)"),
     ),
@@ -160,7 +163,7 @@ async def test_hashtag_match():
     "filter_",
     (
         "hashtag:(missingmaps)",
-        "hashtag:(missingmaps, type, other)",
+        "hashtag:(missingmaps, type)",
     ),
 )
 async def test_hashtag_list_match(filter_):
@@ -181,7 +184,7 @@ async def test_hashtag_list_match(filter_):
         "natural=Tree",  # case sensitive
         '"addr:housenumber"="45"',
         "type=boundary",  # w/ keyword as key
-        "building=other",  # w/ keyword as value
+        "building=collection",  # w/ keyword as value
         "key=in",  # allow "in" keyword as value
         "addr:housenumber=*",  # key with colon
         '"natüröa"="yes"',  # quoting string should always work and will be escaped
@@ -243,7 +246,7 @@ async def test_tag_match_invalid(filter_):
         "highway in (residential, living_street)",
         "highway in ( residential,living_street )",
         '"type" in (boundary, route)',  #       w/keyword as key
-        'highway in (residential, "other")',  # w/keyword quoted as value
+        'highway in (residential, "collection")',  # w/keyword quoted as value
         "natural in (water)",  #                w/keyword with single value
     ),
 )
@@ -472,18 +475,10 @@ async def test_type_id_list_match_invalid(filter_):
         "geometry : point",
         "geometry:line",
         "geometry:polygon",
-        "geometry:other",
+        "geometry:collection",
     ),
 )
 async def test_geometry_match(filter_):
-    query, query_args = ohsome_filter_to_sql(filter_)
-    assert await validate_and_verify(query, query_args, filter_)
-
-
-@asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
-async def test_geometry_match_other(filter_):
-    filter_ = "geometry:other"
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 

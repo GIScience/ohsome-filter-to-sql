@@ -221,7 +221,6 @@ class OFLToSql(OFLListener):
         self.stack.append(f"osm_id = ANY(${self.args_len})")
 
     def exitTypeIdListMatch(self, ctx: ParserRuleContext):
-        # TODO
         values = []
         children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "id:(" as well as last part closing list with ")"
@@ -252,7 +251,7 @@ class OFLToSql(OFLListener):
                     "((status_geom_type).geom_type = 'Polygon' "
                     + "OR (status_geom_type).geom_type = 'MultiPolygon')"
                 )
-            case "other":
+            case "collection":
                 self.stack.append("(status_geom_type).geom_type = 'GeometryCollection'")
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):

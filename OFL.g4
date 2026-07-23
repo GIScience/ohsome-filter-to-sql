@@ -121,7 +121,7 @@ HASHTAG: 'hashtag';
 
 OSMTYPE: 'node' | 'way' | 'relation';
 OSMID: OSMTYPE '/' NUMBER;
-GEOMETRY_TYPE: 'point' | 'line' | 'polygon' | 'other';
+GEOMETRY_TYPE: 'point' | 'line' | 'polygon' | 'collection';
 
 NUMBER: NUMERAL+;
 DECIMAL: NUMERAL+ ('.' NUMERAL+)? ([Ee] NUMERAL+)?;
