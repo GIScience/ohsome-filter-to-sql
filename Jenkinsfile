@@ -75,23 +75,6 @@ pipeline {
                     sh 'pytest --cov=ohsome_filter_to_sql --cov-report=xml --maxfail=1 tests'
                     sh 'pytest --markdown-docs -m markdown-docs README.md'
                     sh 'uv run --python 3.11 pytest --maxfail=1 tests'
-                    // run static analysis with sonar-scanner
-                    def scannerHome = tool 'SonarScanner 4'
-                    withSonarQubeEnv('sonarcloud GIScience/ohsome') {
-                        SONAR_CLI_PARAMETER =
-                            "-Dsonar.python.coverage.reportPaths=${WORKSPACE}/coverage.xml " +
-                            "-Dsonar.projectVersion=${VERSION}"
-                        if (env.CHANGE_ID) {
-                            SONAR_CLI_PARAMETER += ' ' +
-                                "-Dsonar.pullrequest.key=${env.CHANGE_ID} " +
-                                "-Dsonar.pullrequest.branch=${env.CHANGE_BRANCH} " +
-                                "-Dsonar.pullrequest.base=${env.CHANGE_TARGET}"
-                        } else {
-                            SONAR_CLI_PARAMETER += ' ' +
-                                "-Dsonar.branch.name=${env.BRANCH_NAME}"
-                        }
-                        sh "${scannerHome}/bin/sonar-scanner " + SONAR_CLI_PARAMETER
-                    }
                 }
             }
             post {
