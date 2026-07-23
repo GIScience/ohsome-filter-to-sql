@@ -9,10 +9,6 @@ expression
   | expression and expression
   | expression or expression
 
-  | hashtagMatch
-  | hashtagWildcardMatch
-  | hashtagListMatch
-
   | tagMatch
   | tagWildcardMatch
   | tagNotMatch
@@ -39,8 +35,7 @@ expression
 
   | changesetMatch
   | changesetListMatch
-  | changesetRangeMatch
-  | changesetCreatedByMatch;
+  | changesetRangeMatch;
 
 
 tagMatch: string eq string;
@@ -49,10 +44,6 @@ tagListMatch: string in po string (co string)* pc;
 tagNotMatch: string ne string;
 tagNotWildcardMatch: string ne WILDCARD;
 tagValuePatternMatch: string tl valueSubString;
-
-hashtagMatch: HASHTAG cn string;
-hashtagWildcardMatch: HASHTAG cn WORD WILDCARD;
-hashtagListMatch: HASHTAG cn po string (co string)* pc;
 
 typeMatch: TYPE cn OSMTYPE;
 idMatch: ID cn NUMBER;
@@ -74,14 +65,13 @@ geometryInnersRangeMatch: GEOMETRY_INNERS cn range_int;
 changesetMatch: CHANGESET cn NUMBER;
 changesetListMatch: CHANGESET cn po NUMBER (co NUMBER)* pc;
 changesetRangeMatch: CHANGESET cn range_int;
-changesetCreatedByMatch: CHANGESET_CREATEDBY cn string;
 
 
 string
   : QUOTED
   | NUMBER
-  | (    (WORD | AND | OR | NOT | IN | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)
-    (':' (WORD | AND | OR | NOT | IN | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | CHANGESET_CREATEDBY | HASHTAG | OSMTYPE | GEOMETRY_TYPE)?)*);
+  | (    (WORD | AND | OR | NOT | IN | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | OSMTYPE | GEOMETRY_TYPE)
+    (':' (WORD | AND | OR | NOT | IN | TYPE | ID | GEOMETRY | AREA | PERIMETER | LENGTH | GEOMETRY_VERTICES | GEOMETRY_OUTERS | GEOMETRY_INNERS | CHANGESET | OSMTYPE | GEOMETRY_TYPE)?)*);
 valueSubString: WILDCARD? string WILDCARD?;
 
 
@@ -116,8 +106,6 @@ GEOMETRY_VERTICES: 'geometry.vertices';
 GEOMETRY_OUTERS: 'geometry.outers';
 GEOMETRY_INNERS: 'geometry.inners';
 CHANGESET: 'changeset';
-CHANGESET_CREATEDBY: 'changeset.created_by';
-HASHTAG: 'hashtag';
 
 OSMTYPE: 'node' | 'way' | 'relation';
 OSMID: OSMTYPE '/' NUMBER;

@@ -149,28 +149,6 @@ async def test_expression_in_brackets(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
-@asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
-async def test_hashtag_match():
-    filter_ = "hashtag:missingmaps"
-    query, query_args = ohsome_filter_to_sql(filter_)
-    assert await validate_and_verify(query, query_args, filter_)
-
-
-@asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
-@pytest.mark.parametrize(
-    "filter_",
-    (
-        "hashtag:(missingmaps)",
-        "hashtag:(missingmaps, type)",
-    ),
-)
-async def test_hashtag_list_match(filter_):
-    query, query_args = ohsome_filter_to_sql(filter_)
-    assert await validate_and_verify(query, query_args, filter_)
-
-
 # TODO
 # add tests for all grammar keywords like number, geometry, id, ...
 @asyncpg_recorder.use_cassette
@@ -628,22 +606,6 @@ async def test_changeset_list_match(filter_):
     ),
 )
 async def test_changeset_range_match(filter_):
-    query, query_args = ohsome_filter_to_sql(filter_)
-    assert await validate_and_verify(query, query_args, filter_)
-
-
-@asyncpg_recorder.use_cassette
-@pytest.mark.skip("Not implemented yet.")
-@pytest.mark.parametrize(
-    "filter_",
-    (
-        "changeset.created_by:Potlatch",
-        'changeset.created_by:"Go Map!! 4.3.0"',
-        'changeset.created_by:"bulk_upload.py"',
-        'changeset.created_by:"JOSM/1.5 (19253 en_GB)"',
-    ),
-)
-async def test_changeset_created_by_match(filter_):
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 
