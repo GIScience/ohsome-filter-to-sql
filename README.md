@@ -69,7 +69,7 @@ buildings=yes
 
 ### How to generating parser code?
 
-When the grammar file has change generate new Python code with `antlr4` and move genrated files to `ohsome_filter_to_sql/`.
+When the grammar file has changed generate new Python code with `antlr4` and move generated files to `ohsome_filter_to_sql/`.
 
 ```sh
 uv run antlr4 -Dlanguage=Python3 OFL.g4 && mv *.py ohsome_filter_to_sql/

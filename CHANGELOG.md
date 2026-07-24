@@ -1,5 +1,15 @@
 # Changelog
 
+## Release 0.12.0
+
+* drop not implemented filter clauses (c052c95)
+* fix setting of upper bound of changeset id range filter (dbfe50a)
+* rename geometry type value from "other" to "collection" (fd2263a)
+* build(ci): record coverage stats in jenkins (b167354)
+* build(ci): drop sonarcloud checks (080f4d1)
+* build(deps): upgrade with uv sync --upgrade (048bec6)
+* build(deps): upgrade pytest-approval and asyncpg-recorder dependencies (b0fa5bc)
+
 ## Release 0.11.0
 
 Publish to PyPI.
