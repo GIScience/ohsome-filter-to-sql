@@ -65,6 +65,20 @@ async def test_build_tree(filter_):
     assert tree != ""
 
 
+@asyncpg_recorder.use_cassette
+async def test_empty_filter():
+    filter_ = ""
+    with pytest.raises(ValidationError):
+        ohsome_filter_to_sql(filter_)
+
+
+@asyncpg_recorder.use_cassette
+async def test_star_filter():
+    filter_ = "*"
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
+
+
 # -- Tests are sorted in the same order as rules in OFL.g4
 #
 
