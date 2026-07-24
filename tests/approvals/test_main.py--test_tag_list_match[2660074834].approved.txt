@@ -1,0 +1,7 @@
+highway in ("collection")
+
+(tags -> $1) = ANY($2)
+
+('highway', ('"collection"',))
+
+[<Record count=0>]

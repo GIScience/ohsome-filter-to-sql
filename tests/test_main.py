@@ -159,10 +159,10 @@ async def test_expression_in_brackets(filter_):
         "natural = tree",
         "natural= tree",
         "natural =tree",
-        "natural=Tree",  # case sensitive
+        "natural=Tree",  # case-sensitive
         '"addr:housenumber"="45"',
-        "type=boundary",  # w/ keyword as key
-        "building=collection",  # w/ keyword as value
+        "type=boundary",  # with keyword as key
+        "building=collection",  # with keyword as value
         "key=in",  # allow "in" keyword as value
         "addr:housenumber=*",  # key with colon
         '"natüröa"="yes"',  # quoting string should always work and will be escaped
@@ -223,9 +223,9 @@ async def test_tag_match_invalid(filter_):
     (
         "highway in (residential, living_street)",
         "highway in ( residential,living_street )",
-        '"type" in (boundary, route)',  #       w/keyword as key
-        'highway in (residential, "collection")',  # w/keyword quoted as value
-        "natural in (water)",  #                w/keyword with single value
+        '"type" in (boundary, route)',  #       with keyword as key
+        'highway in ("collection")',  #         with keyword quoted as value
+        "natural in (water)",  #                with keyword with single value
     ),
 )
 async def test_tag_list_match(filter_):
@@ -243,7 +243,7 @@ async def test_tag_list_match(filter_):
         'maxspeed ~ *" mph"',  # whitespace is preserved
         "name ~ S*",
         'name ~ "Hotel **"',  # literal * in quoted string
-        'name ~ "foo\'bar"',  # potential sql injection vector
+        'name ~ "foo\'bar"',  # potential SQL injection vector
         'name ~ "%"',  # literal % needs to be escaped
         "name ~ *_*",  # literal _ needs to be escaped
     ),
