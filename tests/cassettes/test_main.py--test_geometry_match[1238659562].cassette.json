@@ -1,0 +1,1 @@
+{"2585375718": {"results": [{"count": 116219229}], "query": "SELECT COUNT(*) FROM contributions WHERE (status_geom_type).geom_type = 'GeometryCollection'", "args": [], "limit": 0, "timeout": null, "record_class": null}}

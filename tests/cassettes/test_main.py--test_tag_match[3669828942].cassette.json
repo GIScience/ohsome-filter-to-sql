@@ -1,0 +1,1 @@
+{"2271328352": {"results": [{"count": 0}], "query": "SELECT COUNT(*) FROM contributions WHERE tags @> $1", "args": ["{\"building\": \"collection\"}"], "limit": 0, "timeout": null, "record_class": null}}

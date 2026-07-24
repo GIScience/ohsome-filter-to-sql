@@ -1,0 +1,1 @@
+{"1869001492": {"results": [{"count": 3721}], "query": "SELECT COUNT(*) FROM contributions WHERE (status_geom_type).geom_type = 'GeometryCollection' AND (osm_type = $1 AND osm_id = $2)", "args": ["relation", 2070281], "limit": 0, "timeout": null, "record_class": null}}

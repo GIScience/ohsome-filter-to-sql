@@ -1,0 +1,7 @@
+geometry:collection
+
+(status_geom_type).geom_type = 'GeometryCollection'
+
+()
+
+[<Record count=116219229>]

@@ -1,0 +1,7 @@
+geometry:collection and id:relation/2070281
+
+(status_geom_type).geom_type = 'GeometryCollection' AND (osm_type = $1 AND osm_id = $2)
+
+('relation', 2070281)
+
+[<Record count=3721>]

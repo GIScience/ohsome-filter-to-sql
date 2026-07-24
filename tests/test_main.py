@@ -475,7 +475,7 @@ async def test_type_id_list_match_invalid(filter_):
         "geometry : point",
         "geometry:line",
         "geometry:polygon",
-        "geometry:collection",
+        "geometry:collection and id:relation/2070281",
     ),
 )
 async def test_geometry_match(filter_):

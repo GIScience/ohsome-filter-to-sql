@@ -1,0 +1,7 @@
+highway in (residential, "collection")
+
+(tags -> $1) = ANY($2)
+
+('highway', ('"residential"', '"collection"'))
+
+[<Record count=321538625>]

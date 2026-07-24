@@ -1,0 +1,7 @@
+building=collection
+
+tags @> $1
+
+('{"building": "collection"}',)
+
+[<Record count=0>]
