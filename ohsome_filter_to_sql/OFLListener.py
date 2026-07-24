@@ -80,33 +80,6 @@ class OFLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by OFLParser#hashtagMatch.
-    def enterHashtagMatch(self, ctx:OFLParser.HashtagMatchContext):
-        pass
-
-    # Exit a parse tree produced by OFLParser#hashtagMatch.
-    def exitHashtagMatch(self, ctx:OFLParser.HashtagMatchContext):
-        pass
-
-
-    # Enter a parse tree produced by OFLParser#hashtagWildcardMatch.
-    def enterHashtagWildcardMatch(self, ctx:OFLParser.HashtagWildcardMatchContext):
-        pass
-
-    # Exit a parse tree produced by OFLParser#hashtagWildcardMatch.
-    def exitHashtagWildcardMatch(self, ctx:OFLParser.HashtagWildcardMatchContext):
-        pass
-
-
-    # Enter a parse tree produced by OFLParser#hashtagListMatch.
-    def enterHashtagListMatch(self, ctx:OFLParser.HashtagListMatchContext):
-        pass
-
-    # Exit a parse tree produced by OFLParser#hashtagListMatch.
-    def exitHashtagListMatch(self, ctx:OFLParser.HashtagListMatchContext):
-        pass
-
-
     # Enter a parse tree produced by OFLParser#typeMatch.
     def enterTypeMatch(self, ctx:OFLParser.TypeMatchContext):
         pass
@@ -266,15 +239,6 @@ class OFLListener(ParseTreeListener):
 
     # Exit a parse tree produced by OFLParser#changesetRangeMatch.
     def exitChangesetRangeMatch(self, ctx:OFLParser.ChangesetRangeMatchContext):
-        pass
-
-
-    # Enter a parse tree produced by OFLParser#changesetCreatedByMatch.
-    def enterChangesetCreatedByMatch(self, ctx:OFLParser.ChangesetCreatedByMatchContext):
-        pass
-
-    # Exit a parse tree produced by OFLParser#changesetCreatedByMatch.
-    def exitChangesetCreatedByMatch(self, ctx:OFLParser.ChangesetCreatedByMatchContext):
         pass
 
 
