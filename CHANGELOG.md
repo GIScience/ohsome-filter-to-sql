@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.13.0
+
+* allow lone wildcard as valid filter
+* and explicitly disallow filters with no expression in grammar
+
 ## Release 0.12.0
 
 * drop not implemented filter clauses (c052c95)
