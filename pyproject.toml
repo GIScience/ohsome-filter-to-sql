@@ -25,12 +25,10 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://ohsome.org/"
-# TODO: update once dedicated documentation is available
-Documentation = "https://github.com/GIScience/ohsome-filter-to-sql/blob/main/README.md"
+Documentation = "https://docs.ohsome.org/ohsome-api/v2"
 Repository = "https://github.com/GIScience/ohsome-filter-to-sql"
 Issues = "https://github.com/GIScience/ohsome-filter-to-sql/issues"
-# TODO: create changelog
-# Changelog = "https://github.com/GIScience/ohsome-filter-to-sql/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/GIScience/ohsome-filter-to-sql/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["uv_build>=0.9.5,<0.12.0"]
