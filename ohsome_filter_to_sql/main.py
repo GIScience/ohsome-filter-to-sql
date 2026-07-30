@@ -112,7 +112,10 @@ class OFLToSql(OFLListener):
 
         self.args.append(key)
         self.args.append(value)
-        self.stack.append(f"tags ->> ${self.args_len - 1} LIKE ${self.args_len}")
+        self.stack.append(
+            f"((tags->>${self.args_len - 1}) IS NOT NULL "
+            f"AND (tags->>${self.args_len - 1}) LIKE ${self.args_len})"
+        )
 
     def exitTagWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
@@ -143,7 +146,10 @@ class OFLToSql(OFLListener):
         key = self.stack.pop()
         self.args.append(key)
         self.args.append(tuple(values))
-        self.stack.append(f"(tags -> ${self.args_len - 1}) = ANY(${self.args_len})")
+        self.stack.append(
+            f"((tags->${self.args_len - 1}) IS NOT NULL "
+            f"AND (tags->${self.args_len - 1}) = ANY(${self.args_len}))"
+        )
 
     # ---
     #
