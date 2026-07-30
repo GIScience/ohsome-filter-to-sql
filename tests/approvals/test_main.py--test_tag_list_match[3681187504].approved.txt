@@ -1,7 +1,7 @@
 natural in (water)
 
-(tags -> $1) = ANY($2)
+((tags->$1) IS NOT NULL AND (tags->$1) = ANY($2))
 
 ('natural', ('"water"',))
 
-[<Record count=18812>]
+[<Record count=35480046>]

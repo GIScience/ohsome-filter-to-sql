@@ -1,7 +1,7 @@
 name ~ *_*
 
-tags ->> $1 LIKE $2
+((tags->>$1) IS NOT NULL AND (tags->>$1) LIKE $2)
 
 ('name', '%\\_%')
 
-[<Record count=9078>]
+[<Record count=895189>]

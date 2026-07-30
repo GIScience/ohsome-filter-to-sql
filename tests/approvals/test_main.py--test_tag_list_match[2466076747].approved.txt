@@ -1,7 +1,7 @@
 "type" in (boundary, route)
 
-(tags -> $1) = ANY($2)
+((tags->$1) IS NOT NULL AND (tags->$1) = ANY($2))
 
 ('type', ('"boundary"', '"route"'))
 
-[<Record count=932603>]
+[<Record count=95486100>]
