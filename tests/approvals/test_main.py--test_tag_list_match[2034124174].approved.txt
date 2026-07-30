@@ -1,7 +1,7 @@
 highway in (residential, living_street)
 
-(tags -> $1) = ANY($2)
+((tags->$1) IS NOT NULL AND (tags->$1) = ANY($2))
 
 ('highway', ('"residential"', '"living_street"'))
 
-[<Record count=710278>]
+[<Record count=331525168>]

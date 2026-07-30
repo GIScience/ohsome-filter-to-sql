@@ -1,7 +1,7 @@
 maxspeed ~ *" mph"
 
-tags ->> $1 LIKE $2
+((tags->>$1) IS NOT NULL AND (tags->>$1) LIKE $2)
 
 ('maxspeed', '% mph')
 
-[<Record count=4235>]
+[<Record count=22601363>]
