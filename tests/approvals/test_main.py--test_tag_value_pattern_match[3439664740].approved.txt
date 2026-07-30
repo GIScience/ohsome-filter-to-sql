@@ -1,6 +1,6 @@
 name ~ *"straße"
 
-tags ->> $1 LIKE $2
+((tags->>$1) IS NOT NULL AND (tags->>$1) LIKE $2)
 
 ('name', '%straße')
 
