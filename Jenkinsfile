@@ -74,7 +74,7 @@ pipeline {
                     // run pytest
                     sh 'pytest --cov=ohsome_filter_to_sql --cov-report=xml --maxfail=1 tests'
                     sh 'pytest --markdown-docs -m markdown-docs README.md'
-                    sh 'uv run --python 3.11 pytest --maxfail=1 tests'
+                    sh 'uv run --python 3.13 pytest --maxfail=1 tests'
                 }
                 recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'coverage.xml']])
             }
