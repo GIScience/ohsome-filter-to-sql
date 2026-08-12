@@ -1,7 +1,7 @@
-natural=tree and leaf_type=broadleaved
+natural=tree and leaf_type=*
 
-tags @> $1 AND tags @> $2
+tags @> $1 AND tags ? $2
 
-('{"natural": "tree"}', '{"leaf_type": "broadleaved"}')
+('{"natural": "tree"}', 'leaf_type')
 
-[<Record count=84567>]
+[<Record count=35402>]

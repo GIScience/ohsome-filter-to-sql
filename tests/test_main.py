@@ -28,9 +28,22 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_:
 
     Build SQL query from given WHERE Clause.
     Run SQL query against a real database.
+    Restrict SQL query spatially and temporally
     Verify SQL query results through approval testing.
     """
-    query = "SELECT COUNT(*) FROM contributions WHERE " + sql_where_clause
+
+    # https://wktmap.com/?b61f57a7
+    bbox = "POLYGON ((8.407288 49.346599, 8.839874 49.346599, 8.839874 49.532339, 8.407288 49.532339, 8.407288 49.346599))"  # noqa
+
+    query = f"""
+        SELECT COUNT(*)
+        FROM contributions
+        WHERE 1=1
+        AND ST_Intersects(geom, ST_GeomFromText('{bbox}', 4326))
+        AND valid_to > '2026-01-01'::timestamptz
+        AND {sql_where_clause};
+    """
+
     results: list[Record] = await execute_query(query, *query_args)
     text = "\n\n".join([filter_, sql_where_clause, str(query_args), str(results)])
     return verify(text)
@@ -39,7 +52,7 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_:
 async def execute_query(query: str, *query_args) -> list[Record]:
     server_settings = {
         "application_name": "ohsome-filter-to-sql-tests",
-        "search_path": os.environ.get("OHSOME_FILTER_TO_SQL_SCHEMA", ""),
+        "search_path": os.environ.get("OHSOME_FILTER_TO_SQL_SCHEMA", "") + ",public",
     }
     con: Connection = await asyncpg.connect(
         database=os.environ.get("OHSOME_FILTER_TO_SQL_DATABASE", ""),
@@ -85,14 +98,14 @@ async def test_star_filter():
 
 @asyncpg_recorder.use_cassette
 async def test_expression_and_expression():
-    filter_ = "natural=tree and leaf_type=broadleaved"
+    filter_ = "natural=tree and leaf_type=*"
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 
 
 @asyncpg_recorder.use_cassette
 async def test_expression_or_expression():
-    filter_ = "natural=tree or leaf_type=broadleaved"
+    filter_ = "natural=tree or natural=tree_row"
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
 
@@ -580,10 +593,10 @@ async def test_length_range_invalid(filter_):
 @pytest.mark.parametrize(
     "filter_",
     (
-        "changeset:1",
-        "changeset :1",
-        "changeset: 1",
-        "changeset : 1",
+        "changeset:183567413",
+        "changeset :183567413",
+        "changeset: 183567413",
+        "changeset : 183567413",
     ),
 )
 async def test_changeset_match(filter_):
@@ -595,9 +608,9 @@ async def test_changeset_match(filter_):
 @pytest.mark.parametrize(
     "filter_",
     (
-        "changeset:(1)",
-        "changeset:(1, 300, 4264)",
-        "changeset:( 1,300,4264 )",
+        "changeset:(183567413)",
+        "changeset:(183567413, 25795658)",
+        "changeset:( 183567413,25795658)",
     ),
 )
 async def test_changeset_list_match(filter_):
@@ -609,14 +622,14 @@ async def test_changeset_list_match(filter_):
 @pytest.mark.parametrize(
     "filter_",
     (
-        "changeset:(1..999)",
-        "changeset :(1..999)",
-        "changeset: (1..999)",
-        "changeset : (1..999)",
-        "changeset:( 1..999 )",
-        "changeset:(1..) and changeset:(..999)",
-        "changeset:(..999)",
-        "changeset:(50..999) or changeset:(..10)",
+        "changeset:(1..9999)",
+        "changeset :(1..9999)",
+        "changeset: (1..9999)",
+        "changeset : (1..9999)",
+        "changeset:( 1..9999 )",
+        "changeset:(1..) and changeset:(..9999)",
+        "changeset:(..9999)",
+        "changeset:(50..9999) or changeset:(..10)",
     ),
 )
 async def test_changeset_range_match(filter_):
@@ -638,7 +651,7 @@ async def test_changeset_range_match(filter_):
             + "or (highway=service and service=alley))"
         ),
         "type:way and highway=residential and name!=* and noname!=yes",
-        "geometry:polygon and building=* and building!=no and area:(1E6..)",
+        "geometry:polygon and building=* and building!=no and area:(..1E6)",
     ),
 )
 async def test_ohsome_api_examples(filter_):
@@ -685,14 +698,12 @@ async def test_strings(string, out):
 @asyncpg_recorder.use_cassette
 async def test_sql_injection():
     # TODO: add example which injects even though json.dumps is used.
-    filter_ = "\"natural';drop table contributions;SELECT 'test\"=*"
+    filter_ = "\"natural';drop table contributions;SELECT 'test\"=tree"
     query, query_args = ohsome_filter_to_sql(filter_)
     assert await validate_and_verify(query, query_args, filter_)
-    result = await execute_query(
-        "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'current' "
-        + "AND tablename  = 'contributions');"
-    )
-    assert result[0][0]
+    # Should not raise error that relation could not be found.
+    result = await execute_query("SELECT 'foo' FROM contributions LIMIT 1")
+    assert result[0][0] == "foo"
 
 
 async def test_args_shift():

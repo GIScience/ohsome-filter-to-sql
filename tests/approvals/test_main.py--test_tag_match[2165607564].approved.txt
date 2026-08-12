@@ -4,4 +4,4 @@ tags @> $1
 
 ('{"type": "boundary"}',)
 
-[<Record count=59366>]
+[<Record count=1300>]

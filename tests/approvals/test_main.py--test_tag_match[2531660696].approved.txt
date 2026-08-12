@@ -4,4 +4,4 @@ NOT tags @> $1
 
 ('{"oneway": "yes"}',)
 
-[<Record count=12796076>]
+[<Record count=908800>]

@@ -1,7 +1,7 @@
-"natural';drop table contributions;SELECT 'test"=*
+"natural';drop table contributions;SELECT 'test"=tree
 
-tags ? $1
+tags @> $1
 
-("natural';drop table contributions;SELECT 'test",)
+('{"natural\';drop table contributions;SELECT \'test": "tree"}',)
 
 [<Record count=0>]

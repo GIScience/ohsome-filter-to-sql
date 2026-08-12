@@ -4,4 +4,4 @@ geometry:collection and id:relation/2070281
 
 ('relation', 2070281)
 
-[<Record count=3721>]
+[<Record count=141>]

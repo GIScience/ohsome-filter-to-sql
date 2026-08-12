@@ -4,4 +4,4 @@ tags ->> $1 LIKE $2
 
 ('name', '%straße')
 
-[<Record count=531739>]
+[<Record count=15632>]

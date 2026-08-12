@@ -4,4 +4,4 @@
 
 ('{"addr:housenumber": "45"}', '{"addr:street": "Berliner Stra\\u00dfe"}', '{"name": "HeiGIT"}')
 
-[<Record count=29>]
+[<Record count=14>]

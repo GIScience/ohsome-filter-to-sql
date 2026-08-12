@@ -4,4 +4,4 @@ NOT tags ? $1
 
 ('natural',)
 
-[<Record count=12808773>]
+[<Record count=872110>]

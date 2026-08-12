@@ -1,7 +1,7 @@
-natural=tree or leaf_type=broadleaved
+natural=tree or natural=tree_row
 
 tags @> $1 OR tags @> $2
 
-('{"natural": "tree"}', '{"leaf_type": "broadleaved"}')
+('{"natural": "tree"}', '{"natural": "tree_row"}')
 
-[<Record count=231809>]
+[<Record count=561406>]

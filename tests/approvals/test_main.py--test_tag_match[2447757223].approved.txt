@@ -4,4 +4,4 @@ tags @> $1
 
 ('{"addr:housenumber": "45"}',)
 
-[<Record count=10413>]
+[<Record count=1059>]
