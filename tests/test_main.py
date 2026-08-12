@@ -138,7 +138,7 @@ async def test_not_expression(filter_):
         ("natural=tree", "not natural!=tree"),
         ("natural=tree", "not not natural=tree"),
         (
-            "not highway in (residential, living_street)",
+            "highway=* and not highway in (residential, living_street)",
             "highway=* and highway!=residential and highway!=living_street",
         ),
         ("not type:node", "type:way or type:relation"),
