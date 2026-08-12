@@ -1,5 +1,9 @@
 # Changelog
 
+## Main
+
+* dependencies: discontinue support for Python 3.12
+
 ## Release 0.13.0
 
 * allow lone wildcard as valid filter
