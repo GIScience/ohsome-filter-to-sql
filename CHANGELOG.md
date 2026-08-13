@@ -3,7 +3,7 @@
 ## Main
 
 * dependencies: discontinue support for Python 3.12
-* fix filters that can have intermediate null values (c08be54)
+* fix filters that can have intermediate null values (58aaf49)
 
 ## Release 0.13.0
 
