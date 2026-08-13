@@ -28,7 +28,7 @@ async def validate_and_verify(sql_where_clause: str, query_args: tuple, filter_:
 
     Build SQL query from given WHERE Clause.
     Run SQL query against a real database.
-    Restrict SQL query spatially and temporally
+    Restrict SQL query spatially and temporally.
     Verify SQL query results through approval testing.
     """
 
