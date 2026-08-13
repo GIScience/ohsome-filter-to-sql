@@ -1,6 +1,6 @@
 # Changelog
 
-## Main
+## Release 0.14.0
 
 * dependencies: discontinue support for Python 3.12
 * fix filters that can have intermediate null values (58aaf49)
