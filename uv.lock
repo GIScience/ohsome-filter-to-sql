@@ -298,7 +298,7 @@ wheels = [
 
 [[package]]
 name = "ohsome-filter-to-sql"
-version = "0.14.0"
+version = "0.15.0"
 source = { editable = "." }
 dependencies = [
     { name = "antlr4-python3-runtime" },

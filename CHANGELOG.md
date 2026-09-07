@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.15.0
+
+* support whitespace around expressions in particular at the beginning and end (b07a415)
+
 ## Release 0.14.0
 
 * dependencies: discontinue support for Python 3.12
