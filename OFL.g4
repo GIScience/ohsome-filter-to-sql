@@ -1,7 +1,7 @@
 grammar OFL;
 
 
-root: (expression | WILDCARD) EOF;
+root: WS? (expression | WILDCARD) WS? EOF;
 
 expression
   : po expression pc

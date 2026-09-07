@@ -678,6 +678,23 @@ async def test_climate_action_navigator_examples(filter_):
     assert await validate_and_verify(query, query_args, filter_)
 
 
+@asyncpg_recorder.use_cassette
+@pytest.mark.parametrize(
+    "filter_",
+    (
+        """
+        geometry:line
+        and railway=platform
+        """,
+        "    geometry:line and  railway=platform    ",
+        "	geometry:line and	railway=platform	",
+    ),
+)
+async def test_new_line(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
+
+
 # fmt: off
 @pytest.mark.parametrize(
     "string, out",

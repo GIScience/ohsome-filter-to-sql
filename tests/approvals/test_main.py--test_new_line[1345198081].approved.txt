@@ -1,0 +1,7 @@
+	geometry:line and	railway=platform	
+
+(status_geom_type).geom_type = 'LineString' AND tags @> $1
+
+('{"railway": "platform"}',)
+
+[<Record count=355>]
