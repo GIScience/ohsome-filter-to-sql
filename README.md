@@ -5,6 +5,10 @@
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-filter-to-sql)](COPYING)
 [![status: active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
 
+## Documentation
+
+Please see the section on the [ohsome filter](https://docs.ohsome.org/ohsome-api/v2-rc/reference/filter.html) in the ohsome API documentation.
+
 ## Try it out
 
 ```sh
@@ -25,10 +29,34 @@ uv add ohsome-filter-to-sql
 
 ### Python Library
 
+To generate the SQL WHERE clause (`query`) alongside its query arguments:
+
 ```python
 from ohsome_filter_to_sql import ohsome_filter_to_sql
 
 query, query_args = ohsome_filter_to_sql("natural = tree")
+```
+
+The generated SQL WHERE clause contains native PostgresSQL syntax for query arguments: `$n`.
+
+`ohsome-filter-to-sql` can also be used to validate a give ohsome filter in Python:
+
+```python
+from ohsome_filter_to_sql import validate_filter
+
+vaidate_filter("natural = tree")
+vaidate_filter("geometry:foo")  # will raise an Error
+```
+
+Alternatively, ohsome filter can be validated during runtime with Pydantic:
+
+```python
+from ohsome_filter_to_sql import OhsomeFilter
+from pydantic import validate_call
+
+@validate_call
+def request(ohsome_filter: OhsomeFilter):
+    pass
 ```
 
 ### Command Line Interface (CLI)
@@ -51,7 +79,7 @@ export OHSOME_FILTER_TO_SQL_PORT="5432"
 uv run pytest
 ```
 
-To develop new features you will need a local instance of the [ohsomeDB](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/tree/main/local_setup).
+To develop new features you will need access to the ohsomeDB in production or a local instance of the [ohsomeDB](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/tree/main/local_setup).
 
 
 ### How to play around with the grammar?
@@ -67,14 +95,14 @@ buildings=yes
 [ANTLR Lab](http://lab.antlr.org/) can also be used to try out the grammar.
 
 
-### How to generating parser code?
+### How to generate the parser code?
 
 When the grammar file has changed generate new Python code with `antlr4` and move generated files to `ohsome_filter_to_sql/`.
 
 ```sh
+export ANTLR4_TOOLS_ANTLR_VERSION=$(uv pip show antlr4-python3-runtime | awk '/^Version:/{print $2}')
 uv run antlr4 -Dlanguage=Python3 OFL.g4 && mv *.py ohsome_filter_to_sql/
 ```
-
 
 ### Release
 
@@ -85,7 +113,7 @@ To make a new release run `./scripts/release.sh <version number>`.
 
 ## Resources
 
-- [ohsome filter documentation](https://docs.ohsome.org/ohsome-api/v1/filter.html) and [oshdb-filter](https://github.com/GIScience/oshdb/tree/main/oshdb-filter)
+- [ohsome filter documentation](https://docs.ohsome.org/ohsome-api)
 - [ANTLR with Python - Introduction](https://yetanotherprogrammingblog.medium.com/antlr-with-python-974c756bdb1b)
 - [ANTLR Listeners](https://github.com/antlr/antlr4/blob/master/doc/listeners.md)
 - [ohsomeDB schema](https://gitlab.heigit.org/giscience/big-data/ohsome/ohsomedb/ohsomedb/-/blob/main/create-schema.sql)
