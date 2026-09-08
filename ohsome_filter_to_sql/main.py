@@ -222,18 +222,16 @@ class OFLToSql(OFLListener):
     #
     def exitGeometryMatch(self, ctx: ParserRuleContext):
         geom_type = ctx.getChild(2).getText()
-        match geom_type:
-            case "point":
-                self.stack.append("(status_geom_type).geom_type = 'Point'")
-            case "line":
-                self.stack.append("(status_geom_type).geom_type = 'LineString'")
-            case "polygon":
-                self.stack.append(
-                    "((status_geom_type).geom_type = 'Polygon' "
-                    + "OR (status_geom_type).geom_type = 'MultiPolygon')"
-                )
-            case "collection":
-                self.stack.append("(status_geom_type).geom_type = 'GeometryCollection'")
+        self.stack.append(match_geom_type(geom_type))
+
+    def exitGeometryListMatch(self, ctx: ParserRuleContext):
+        # differs from TagListMatch insofar that no STRING needs to be popped from stack
+        children = [child.getText() for child in ctx.getChildren()]
+        # skip first part denoting "geometry:(" and the last part closing list with ")"
+        # and skip commas in list in between brackets
+        values = tuple(children[3:-1:2])
+        geom_type_filter_parts = [match_geom_type(geom_type) for geom_type in values]
+        self.stack.append("(" + " OR ".join(geom_type_filter_parts) + ")")
 
     def exitAreaRangeMatch(self, ctx: ParserRuleContext):
         range_ = self.stack.pop()
@@ -327,6 +325,23 @@ class OFLToSql(OFLListener):
         elif upper_bound:
             self.args.append(upper_bound)
             self.stack.append(f"changeset_id <= ${self.args_len}")
+
+
+def match_geom_type(geom_type: str) -> str:
+    match geom_type:
+        case "point":
+            return "(status_geom_type).geom_type = 'Point'"
+        case "line":
+            return "(status_geom_type).geom_type = 'LineString'"
+        case "polygon":
+            return (
+                "((status_geom_type).geom_type = 'Polygon' "
+                + "OR (status_geom_type).geom_type = 'MultiPolygon')"
+            )
+        case "collection":
+            return "(status_geom_type).geom_type = 'GeometryCollection'"
+        case _:
+            raise ValueError("Invalid Geom Type")
 
 
 def unescape(string: str):

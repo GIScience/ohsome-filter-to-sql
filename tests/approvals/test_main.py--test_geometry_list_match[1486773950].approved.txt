@@ -1,0 +1,7 @@
+geometry:(line,point)
+
+((status_geom_type).geom_type = 'LineString' OR (status_geom_type).geom_type = 'Point')
+
+()
+
+[<Record count=545918>]

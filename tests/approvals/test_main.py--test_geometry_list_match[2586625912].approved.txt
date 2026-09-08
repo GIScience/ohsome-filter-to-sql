@@ -1,0 +1,7 @@
+geometry:(point,line,polygon,collection)
+
+((status_geom_type).geom_type = 'Point' OR (status_geom_type).geom_type = 'LineString' OR ((status_geom_type).geom_type = 'Polygon' OR (status_geom_type).geom_type = 'MultiPolygon') OR (status_geom_type).geom_type = 'GeometryCollection')
+
+()
+
+[<Record count=965822>]

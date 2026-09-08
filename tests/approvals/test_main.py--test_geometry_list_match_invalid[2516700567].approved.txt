@@ -1,0 +1,3 @@
+geometry:(other, polygon)
+
+line 1:10 mismatched input 'other' expecting GEOMETRY_TYPE

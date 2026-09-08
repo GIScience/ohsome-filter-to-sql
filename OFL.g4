@@ -24,6 +24,7 @@ expression
   | typeIdListMatch
 
   | geometryMatch
+  | geometryListMatch
   | areaRangeMatch
   | perimeterRangeMatch
   | lengthRangeMatch
@@ -53,6 +54,7 @@ idListMatch: ID cn po NUMBER (co NUMBER)* pc;
 typeIdListMatch: ID cn po OSMID (co OSMID)* pc;
 
 geometryMatch: GEOMETRY cn GEOMETRY_TYPE;
+geometryListMatch: GEOMETRY cn po GEOMETRY_TYPE (co GEOMETRY_TYPE)* pc;
 areaRangeMatch: AREA cn range_dec;
 perimeterRangeMatch: PERIMETER cn range_dec;
 lengthRangeMatch: LENGTH cn range_dec;

@@ -1,0 +1,3 @@
+geometry:(point, line
+
+line 1:21 extraneous input '<EOF>' expecting {')', ',', WS}

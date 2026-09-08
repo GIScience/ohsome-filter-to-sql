@@ -143,6 +143,15 @@ class OFLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by OFLParser#geometryListMatch.
+    def enterGeometryListMatch(self, ctx:OFLParser.GeometryListMatchContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#geometryListMatch.
+    def exitGeometryListMatch(self, ctx:OFLParser.GeometryListMatchContext):
+        pass
+
+
     # Enter a parse tree produced by OFLParser#areaRangeMatch.
     def enterAreaRangeMatch(self, ctx:OFLParser.AreaRangeMatchContext):
         pass

@@ -506,6 +506,39 @@ async def test_geometry_match_invalid(filter_):
 @pytest.mark.parametrize(
     "filter_",
     (
+        "geometry:(point,line)",
+        "geometry:( point, line)",
+        "geometry :(point,line)",
+        "geometry: (point,line)",
+        "geometry : (point,line)",
+        "geometry:(point)",
+        "geometry:(line,point)",
+        "geometry:(point,line,polygon,collection)",
+    ),
+)
+async def test_geometry_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
+
+
+@pytest.mark.parametrize(
+    "filter_",
+    (
+        "geometry:(point, line",
+        "geometry:(collection, polygon, )",
+        "geometry:(other, polygon)",
+    ),
+)
+async def test_geometry_list_match_invalid(filter_):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
+
+
+@asyncpg_recorder.use_cassette
+@pytest.mark.parametrize(
+    "filter_",
+    (
         "area:(1.0..1E6)",
         "area :(1.0..1E6)",
         "area: (1.0..1E6)",

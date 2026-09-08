@@ -1,0 +1,7 @@
+geometry:(point)
+
+((status_geom_type).geom_type = 'Point')
+
+()
+
+[<Record count=328407>]
