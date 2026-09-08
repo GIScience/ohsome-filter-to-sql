@@ -4,4 +4,4 @@ geometry:(point,line,polygon,collection)
 
 ()
 
-[<Record count=965822>]
+[<Record count=930148>]

@@ -4,4 +4,4 @@ osm_type = ANY($1)
 
 (('node', 'way', 'relation'),)
 
-[<Record count=965846>]
+[<Record count=930148>]

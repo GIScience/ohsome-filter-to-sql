@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.16.0
+
+* docs: update various parts of the readme (e508f92)
+* feat: support OSM type list in filter (8492c6d)
+* feat: support geometry type list in filter (d797345 )
+
 ## Release 0.15.0
 
 * support whitespace around expressions in particular at the beginning and end (b07a415)
