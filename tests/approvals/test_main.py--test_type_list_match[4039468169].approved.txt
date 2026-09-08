@@ -1,0 +1,7 @@
+type:(node)
+
+osm_type = ANY($1)
+
+(('node',),)
+
+[<Record count=327819>]

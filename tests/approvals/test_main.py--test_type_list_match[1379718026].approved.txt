@@ -1,0 +1,7 @@
+type:(way,node)
+
+osm_type = ANY($1)
+
+(('way', 'node'),)
+
+[<Record count=909605>]

@@ -158,6 +158,15 @@ class OFLToSql(OFLListener):
         self.args.append(type_)
         self.stack.append(f"osm_type = ${self.args_len}")
 
+    def exitTypeListMatch(self, ctx: ParserRuleContext):
+        # differs from TagListMatch insofar that no STRING needs to be popped from stack
+        children = [child.getText() for child in ctx.getChildren()]
+        # skip first part denoting "type:(" as well as last part closing list with ")"
+        # and skip commas in list in between brackets
+        values = list(children[3:-1:2])
+        self.args.append(tuple(values))
+        self.stack.append(f"osm_type = ANY(${self.args_len})")
+
     def exitIdMatch(self, ctx: ParserRuleContext):
         id_ = ctx.getChild(2).getText()
         self.args.append(int(id_))

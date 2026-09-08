@@ -89,6 +89,15 @@ class OFLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by OFLParser#typeListMatch.
+    def enterTypeListMatch(self, ctx:OFLParser.TypeListMatchContext):
+        pass
+
+    # Exit a parse tree produced by OFLParser#typeListMatch.
+    def exitTypeListMatch(self, ctx:OFLParser.TypeListMatchContext):
+        pass
+
+
     # Enter a parse tree produced by OFLParser#idMatch.
     def enterIdMatch(self, ctx:OFLParser.IdMatchContext):
         pass

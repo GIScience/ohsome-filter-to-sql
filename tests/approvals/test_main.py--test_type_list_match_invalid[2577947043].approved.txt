@@ -1,0 +1,3 @@
+type:(node, way
+
+line 1:15 extraneous input '<EOF>' expecting {')', ',', WS}

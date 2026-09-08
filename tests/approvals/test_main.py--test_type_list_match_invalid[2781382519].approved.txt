@@ -1,0 +1,3 @@
+type:(foo, node)
+
+line 1:6 mismatched input 'foo' expecting OSMTYPE

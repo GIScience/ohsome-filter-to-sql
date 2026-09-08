@@ -1,0 +1,3 @@
+type:(relation, way, )
+
+line 1:21 missing OSMTYPE at ')'

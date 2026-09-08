@@ -17,6 +17,7 @@ expression
   | tagValuePatternMatch
 
   | typeMatch
+  | typeListMatch
   | idMatch
   | typeIdMatch
   | idRangeMatch
@@ -47,6 +48,7 @@ tagNotWildcardMatch: string ne WILDCARD;
 tagValuePatternMatch: string tl valueSubString;
 
 typeMatch: TYPE cn OSMTYPE;
+typeListMatch: TYPE cn po OSMTYPE (co OSMTYPE)* pc;
 idMatch: ID cn NUMBER;
 typeIdMatch: ID cn OSMID;
 idRangeMatch: ID cn range_int;

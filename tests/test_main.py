@@ -319,6 +319,39 @@ async def test_type_match_invalid():
 
 
 @asyncpg_recorder.use_cassette
+@pytest.mark.parametrize(
+    "filter_",
+    (
+        "type:(node,way)",
+        "type:( node, way)",
+        "type :(node,way)",
+        "type: (node,way)",
+        "type : (node,way)",
+        "type:(node)",
+        "type:(way,node)",
+        "type:(node,way,relation)",
+    ),
+)
+async def test_type_list_match(filter_):
+    query, query_args = ohsome_filter_to_sql(filter_)
+    assert await validate_and_verify(query, query_args, filter_)
+
+
+@pytest.mark.parametrize(
+    "filter_",
+    (
+        "type:(node, way",
+        "type:(relation, way, )",
+        "type:(foo, node)",
+    ),
+)
+async def test_type_list_match_invalid(filter_):
+    with pytest.raises(ValueError) as e:
+        ohsome_filter_to_sql(filter_)
+    verify(filter_ + "\n\n" + str(e.value))
+
+
+@asyncpg_recorder.use_cassette
 async def test_id_match():
     filter_ = "id:4540889804"
     query, query_args = ohsome_filter_to_sql(filter_)
