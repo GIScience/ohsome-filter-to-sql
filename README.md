@@ -42,10 +42,13 @@ The generated SQL WHERE clause contains native PostgresSQL syntax for query argu
 `ohsome-filter-to-sql` can also be used to validate a give ohsome filter in Python:
 
 ```python
-from ohsome_filter_to_sql import validate_filter
+from ohsome_filter_to_sql import validate_filter, ParserValueError
 
-vaidate_filter("natural = tree")
-vaidate_filter("geometry:foo")  # will raise an Error
+validate_filter("natural = tree")
+try:
+    validate_filter("geometry:foo")
+except ParserValueError:
+    pass
 ```
 
 Alternatively, ohsome filter can be validated during runtime with Pydantic:
