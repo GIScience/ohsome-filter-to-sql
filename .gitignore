@@ -25,3 +25,7 @@ coverage.xml
 *.interp
 *.tokens
 .antlr
+
+# env files
+.env
+.envrc
