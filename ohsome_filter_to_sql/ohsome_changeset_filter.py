@@ -155,3 +155,12 @@ class OFLCToSql(OFLCListener):
         values = list(children[3:-1:2])
         self.args.append(tuple([int(v) for v in values]))
         self.stack.append(f"changesets.id = ANY(${self.args_len})")
+
+    # ---
+    #
+    def exitHashtagMatch(self, ctx: ParserRuleContext):
+        hashtag = ctx.getChild(2).getText()
+        self.args.append(hashtag)
+        self.stack.append(
+            f"${self.args_len} = ANY(STRING_TO_ARRAY(c.tags->hashtags, ';'))"
+        )

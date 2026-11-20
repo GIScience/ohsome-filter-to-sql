@@ -18,7 +18,9 @@ expression
 
   | idMatch
   | idRangeMatch
-  | idListMatch;
+  | idListMatch
+
+  | hashtagMatch;
 
 
 tagMatch: string eq string;
@@ -32,14 +34,19 @@ idMatch: ID cn NUMBER;
 idRangeMatch: ID cn range_int;
 idListMatch: ID cn po NUMBER (co NUMBER)* pc;
 
+hashtagMatch: HASHTAG cn hashtagString;
 
 
 string
   : QUOTED
   | NUMBER
-  | (    (WORD | AND | OR | NOT | IN | ID )
-    (':' (WORD | AND | OR | NOT | IN | ID )?)*);
+  | (    (WORD | AND | OR | NOT | IN | ID | HASHTAG )
+    (':' (WORD | AND | OR | NOT | IN | ID | HASHTAG )?)*);
 valueSubString: WILDCARD? string WILDCARD?;
+
+hashtagString
+  : '#' WORD
+  | string;
 
 
 AND: 'and';
@@ -64,6 +71,7 @@ tl: WS? '~' WS?;
 WILDCARD: '*';
 
 ID: 'id';
+HASHTAG: 'hashtag';
 
 NUMBER: NUMERAL+;
 DECIMAL: NUMERAL+ ('.' NUMERAL+)? ([Ee] NUMERAL+)?;
