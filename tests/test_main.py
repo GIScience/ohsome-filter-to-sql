@@ -17,8 +17,8 @@ from ohsome_filter_to_sql.main import (
     ParserValueError,
     build_tree,
     ohsome_filter_to_sql,
-    unescape,
 )
+from ohsome_filter_to_sql.ohsome_filter import unescape
 
 pytestmark = pytest.mark.asyncio  # mark all tests
 

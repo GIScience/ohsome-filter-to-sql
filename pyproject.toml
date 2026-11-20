@@ -63,7 +63,10 @@ dev = [
 extend-exclude = [
     "ohsome_filter_to_sql/OFLLexer.py",
     "ohsome_filter_to_sql/OFLListener.py",
-    "ohsome_filter_to_sql/OFLParser.py"
+    "ohsome_filter_to_sql/OFLParser.py",
+    "ohsome_filter_to_sql/OFLCLexer.py",
+    "ohsome_filter_to_sql/OFLCListener.py",
+    "ohsome_filter_to_sql/OFLCParser.py"
 ]
 
 [tool.ruff.lint]
@@ -88,10 +91,23 @@ select = [
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = ["S101", "S608"]  # S101 usage of asserts; S608 possible SQL injection
-"ohsome_filter_to_sql/main.py" = ["N802", "N803", "TRY003"]  # N802 function name should be lowercase
+"ohsome_filter_to_sql/main.py" = [
+    "N802",   # N802 function name should not be camelcase
+    "N803",   # M803 argument name should not be camelcase
+    "TRY003"  # TRY003 long exception messages
+]
+"ohsome_filter_to_sql/ohsome_filter.py" = ["N802", "N803", "TRY003"]
+"ohsome_filter_to_sql/ohsome_changeset_filter.py" = ["N802", "N803", "TRY003"]
 
 [tool.ty.src]
-exclude = ["ohsome_filter_to_sql/OFLLexer.py", "ohsome_filter_to_sql/OFLListener.py", "ohsome_filter_to_sql/OFLParser.py"]
+exclude = [
+    "ohsome_filter_to_sql/OFLLexer.py",
+    "ohsome_filter_to_sql/OFLListener.py",
+    "ohsome_filter_to_sql/OFLParser.py",
+    "ohsome_filter_to_sql/OFLCLexer.py",
+    "ohsome_filter_to_sql/OFLCListener.py",
+    "ohsome_filter_to_sql/OFLCParser.py"
+]
 
 [tool.pytest]
 addopts = ["-s"]
