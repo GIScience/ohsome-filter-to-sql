@@ -26,6 +26,10 @@ class OFLCToSql(OFLCListener):
                 result += child.getText()
             self.stack.append(result)
 
+    def exitHashtagString(self, ctx: ParserRuleContext):
+        if ctx.getChildCount() == 2:
+            self.stack.append("#" + ctx.getChild(1).getText())
+
     def exitRange_int(self, ctx):
         """Remove range brackets."""
         self.stack.append(ctx.getText().strip()[1:-1].strip())
@@ -159,8 +163,9 @@ class OFLCToSql(OFLCListener):
     # ---
     #
     def exitHashtagMatch(self, ctx: ParserRuleContext):
-        hashtag = ctx.getChild(2).getText()
+        hashtag = self.stack.pop()
         self.args.append(hashtag)
         self.stack.append(
-            f"${self.args_len} = ANY(STRING_TO_ARRAY(c.tags->hashtags, ';'))"
+            f"${self.args_len} = "
+            "ANY(STRING_TO_ARRAY(changesets.tags->>'hashtags', ';'))"
         )
