@@ -27,10 +27,10 @@ def validate_filter(
     match filter_type:
         case FilterType.OHSOME_FILTER:
             listener = OFLToSql()
-            tree = build_tree(filter_)
+            tree = build_tree(filter_, filter_type)
         case FilterType.CHANGESET_FILTER:
             listener = OFLCToSql()
-            tree = build_tree(filter_)
+            tree = build_tree(filter_, filter_type)
     walk_tree(tree, listener)
     return filter_
 
