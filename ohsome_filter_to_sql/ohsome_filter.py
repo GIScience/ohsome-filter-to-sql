@@ -69,7 +69,7 @@ class OFLToSql(OFLListener):
         j = json.dumps({key: value})
         # @> Does the first JSON value contain the second?
         self.args.append(j)
-        self.stack.append(f"tags @> ${self.args_len}")
+        self.stack.append(f"c.tags @> ${self.args_len}")
 
     def exitTagValuePatternMatch(self, ctx):
         value = (
@@ -87,26 +87,26 @@ class OFLToSql(OFLListener):
         self.args.append(key)
         self.args.append(value)
         self.stack.append(
-            f"((tags->>${self.args_len - 1}) IS NOT NULL "
-            f"AND (tags->>${self.args_len - 1}) LIKE ${self.args_len})"
+            f"((c.tags->>${self.args_len - 1}) IS NOT NULL "
+            f"AND (c.tags->>${self.args_len - 1}) LIKE ${self.args_len})"
         )
 
     def exitTagWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
         self.args.append(key)
-        self.stack.append(f"tags ? ${self.args_len}")
+        self.stack.append(f"c.tags ? ${self.args_len}")
 
     def exitTagNotMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
         j = json.dumps({key: value})
         self.args.append(j)
-        self.stack.append(f"NOT tags @> ${self.args_len}")
+        self.stack.append(f"NOT c.tags @> ${self.args_len}")
 
     def exitTagNotWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
         self.args.append(key)
-        self.stack.append(f"NOT tags ? ${self.args_len}")
+        self.stack.append(f"NOT c.tags ? ${self.args_len}")
 
     def exitTagListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -121,8 +121,8 @@ class OFLToSql(OFLListener):
         self.args.append(key)
         self.args.append(tuple(values))
         self.stack.append(
-            f"((tags->${self.args_len - 1}) IS NOT NULL "
-            f"AND (tags->${self.args_len - 1}) = ANY(${self.args_len}))"
+            f"((c.tags->${self.args_len - 1}) IS NOT NULL "
+            f"AND (c.tags->${self.args_len - 1}) = ANY(${self.args_len}))"
         )
 
     # ---
@@ -227,14 +227,14 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(area >= ${self.args_len - 1} AND area <= ${self.args_len})"
+                f"(c.area >= ${self.args_len - 1} AND c.area <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"area >= ${self.args_len}")
+            self.stack.append(f"c.area >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"area <= ${self.args_len}")
+            self.stack.append(f"c.area <= ${self.args_len}")
 
     def exitLengthRangeMatch(self, ctx: ParserRuleContext):
         range_ = self.stack.pop()
@@ -247,14 +247,14 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(length >= ${self.args_len - 1} AND length <= ${self.args_len})"
+                f"(c.length >= ${self.args_len - 1} AND c.length <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"length >= ${self.args_len}")
+            self.stack.append(f"c.length >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"length <= ${self.args_len}")
+            self.stack.append(f"c.length <= ${self.args_len}")
 
     def exitGeometryVerticesRangeMatch(self, ctx: ParserRuleContext):
         # TODO
@@ -281,14 +281,14 @@ class OFLToSql(OFLListener):
     def exitChangesetMatch(self, ctx: ParserRuleContext):
         id_ = int(ctx.getChild(2).getText())
         self.args.append(id_)
-        self.stack.append(f"changeset_id = ${self.args_len}")
+        self.stack.append(f"c.changeset_id = ${self.args_len}")
 
     def exitChangesetListMatch(self, ctx: ParserRuleContext):
         children = [child.getText() for child in ctx.getChildren()]
         # skip first part denoting "id:(" as well as last part closing list with ")"
         # and skip commas in list in between brackets
         self.args.append(tuple([int(i) for i in children[3:-1:2]]))
-        self.stack.append(f"changeset_id = ANY(${self.args_len})")
+        self.stack.append(f"c.changeset_id = ANY(${self.args_len})")
 
     def exitChangesetRangeMatch(self, ctx: ParserRuleContext):
         range_ = self.stack.pop()
@@ -299,30 +299,30 @@ class OFLToSql(OFLListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(changeset_id >= ${self.args_len - 1} "
-                f"AND changeset_id <= ${self.args_len})"
+                f"(c.changeset_id >= ${self.args_len - 1} "
+                f"AND c.changeset_id <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"changeset_id >= ${self.args_len}")
+            self.stack.append(f"c.changeset_id >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"changeset_id <= ${self.args_len}")
+            self.stack.append(f"c.changeset_id <= ${self.args_len}")
 
 
 def match_geom_type(geom_type: str) -> str:
     match geom_type:
         case "point":
-            return "(status_geom_type).geom_type = 'Point'"
+            return "(c.status_geom_type).geom_type = 'Point'"
         case "line":
-            return "(status_geom_type).geom_type = 'LineString'"
+            return "(c.status_geom_type).geom_type = 'LineString'"
         case "polygon":
             return (
-                "((status_geom_type).geom_type = 'Polygon' "
-                + "OR (status_geom_type).geom_type = 'MultiPolygon')"
+                "((c.status_geom_type).geom_type = 'Polygon' "
+                + "OR (c.status_geom_type).geom_type = 'MultiPolygon')"
             )
         case "collection":
-            return "(status_geom_type).geom_type = 'GeometryCollection'"
+            return "(c.status_geom_type).geom_type = 'GeometryCollection'"
         case _:
             raise ValueError("Invalid Geom Type")
 

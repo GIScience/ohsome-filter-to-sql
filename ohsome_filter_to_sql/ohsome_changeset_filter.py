@@ -62,7 +62,7 @@ class OFLCToSql(OFLCListener):
         j = json.dumps({key: value})
         # @> Does the first JSON value contain the second?
         self.args.append(j)
-        self.stack.append(f"c.tags @> ${self.args_len}")
+        self.stack.append(f"changesets.tags @> ${self.args_len}")
 
     def exitTagValuePatternMatch(self, ctx):
         value = (
@@ -80,26 +80,26 @@ class OFLCToSql(OFLCListener):
         self.args.append(key)
         self.args.append(value)
         self.stack.append(
-            f"((c.tags->>${self.args_len - 1}) IS NOT NULL "
-            f"AND (c.tags->>${self.args_len - 1}) LIKE ${self.args_len})"
+            f"((changesets.tags->>${self.args_len - 1}) IS NOT NULL "
+            f"AND (changesets.tags->>${self.args_len - 1}) LIKE ${self.args_len})"
         )
 
     def exitTagWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
         self.args.append(key)
-        self.stack.append(f"c.tags ? ${self.args_len}")
+        self.stack.append(f"changesets.tags ? ${self.args_len}")
 
     def exitTagNotMatch(self, ctx: ParserRuleContext):
         value = self.stack.pop()
         key = self.stack.pop()
         j = json.dumps({key: value})
         self.args.append(j)
-        self.stack.append(f"NOT c.tags @> ${self.args_len}")
+        self.stack.append(f"NOT changesets.tags @> ${self.args_len}")
 
     def exitTagNotWildcardMatch(self, ctx: ParserRuleContext):
         key = self.stack.pop()
         self.args.append(key)
-        self.stack.append(f"NOT c.tags ? ${self.args_len}")
+        self.stack.append(f"NOT changesets.tags ? ${self.args_len}")
 
     def exitTagListMatch(self, ctx: ParserRuleContext):
         values = []
@@ -114,8 +114,8 @@ class OFLCToSql(OFLCListener):
         self.args.append(key)
         self.args.append(tuple(values))
         self.stack.append(
-            f"((c.tags->${self.args_len - 1}) IS NOT NULL "
-            f"AND (c.tags->${self.args_len - 1}) = ANY(${self.args_len}))"
+            f"((changesets.tags->${self.args_len - 1}) IS NOT NULL "
+            f"AND (changesets.tags->${self.args_len - 1}) = ANY(${self.args_len}))"
         )
 
     # ---
@@ -123,7 +123,7 @@ class OFLCToSql(OFLCListener):
     def exitIdMatch(self, ctx: ParserRuleContext):
         id_ = ctx.getChild(2).getText()
         self.args.append(int(id_))
-        self.stack.append(f"c.id = ${self.args_len}")
+        self.stack.append(f"changesets.id = ${self.args_len}")
 
     def exitIdRangeMatch(self, ctx: ParserRuleContext):
         range_ = self.stack.pop()
@@ -136,14 +136,15 @@ class OFLCToSql(OFLCListener):
             self.args.append(lower_bound)
             self.args.append(upper_bound)
             self.stack.append(
-                f"(c.id >= ${self.args_len - 1} AND c.id <= ${self.args_len})"
+                f"(changesets.id >= ${self.args_len - 1} "
+                f"AND changesets.id <= ${self.args_len})"
             )
         elif lower_bound:
             self.args.append(lower_bound)
-            self.stack.append(f"c.id >= ${self.args_len}")
+            self.stack.append(f"changesets.id >= ${self.args_len}")
         elif upper_bound:
             self.args.append(upper_bound)
-            self.stack.append(f"c.id <= ${self.args_len}")
+            self.stack.append(f"changesets.id <= ${self.args_len}")
 
     def exitIdListMatch(self, ctx: ParserRuleContext):
         # differs from TagListMatch insofar that no STRING needs to be popped from stack
@@ -153,4 +154,4 @@ class OFLCToSql(OFLCListener):
         # and skip commas in list in between brackets
         values = list(children[3:-1:2])
         self.args.append(tuple([int(v) for v in values]))
-        self.stack.append(f"c.id = ANY(${self.args_len})")
+        self.stack.append(f"changesets.id = ANY(${self.args_len})")
