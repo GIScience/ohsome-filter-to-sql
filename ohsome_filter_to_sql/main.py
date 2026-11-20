@@ -35,6 +35,14 @@ def validate_filter(
     return filter_
 
 
+def validate_ohsome_filter(filter_: str) -> str:
+    return validate_filter(filter_, FilterType.OHSOME_FILTER)
+
+
+def validate_changeset_filter(filter_: str) -> str:
+    return validate_filter(filter_, FilterType.CHANGESET_FILTER)
+
+
 class ParserValueError(ValueError):
     pass
 
@@ -124,7 +132,12 @@ def cli():
 
 OhsomeFilter = TypeAliasType(
     "OhsomeFilter",
-    Annotated[str, AfterValidator(validate_filter)],
+    Annotated[str, AfterValidator(validate_ohsome_filter)],
+)
+
+ChangesetFilter = TypeAliasType(
+    "ChangesetFilter",
+    Annotated[str, AfterValidator(validate_changeset_filter)],
 )
 
 
